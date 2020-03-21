@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<meta charset="UTF-8">
+	<title>CanDIC</title>
+</head>
+<body>
+	<h2>CanDIC dev0.0.0</h2>
+	<p class="SystemInfo">
+		We are using node 
+		<script>document.write(process.versions.node)</script><br>
+		Chrome 
+		<script>document.write(process.versions.chrome)</script><br>
+		and Electron 
+		<script>document.write(process.versions.electron)</script><br>
+	</p>
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	JQuery、なぜか機能しないのよね--->
+	<div id="dictionary" class="dictionary">
+		<p>ここに辞書データが表示されます</p>
+	</div>
+
+	<input id="button_1" type="button" value="Reset" onclick="Reset()"/>
+	<input id="button_2" type="button" value="ReLoad" ondblclick="dblclick1()"/>
+	<br>
+	<form id="form_1" method="get">
+
+		<input name="myfile" type="file" /><br>
+		<input name="Search" type ="text"/>
+		<input type="Submit" value="検索" onclick="return check()" />
+<!--		<textarea name="output" cols="40" rows="10"></textarea> -->
+
+	</form>
+	<link rel="stylesheet" href="./style.css">
+	<script src="js/jquery-1.12.4.min.js"></script>
+	<script src = "js/module1.js"></script>
+</body>
+</html>

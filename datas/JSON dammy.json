@@ -1,0 +1,72 @@
+{
+  "words" : [ {
+    "entry" : {
+      "id" : 1,
+      "form" : "1a"
+    },
+    "translations" : [ {
+      "title" : "2",
+      "forms" : [ "3" ]
+    } ],
+    "tags" : [ "4" ],
+    "contents" : [ {
+      "title" : "5",
+      "text" : "6"
+    } ],
+    "variations" : [ {
+      "title" : "7",
+      "form" : "8"
+    } ],
+    "relations" : [ ]
+  }, {
+    "entry" : {
+      "id" : 2,
+      "form" : "a"
+    },
+    "translations" : [ {
+      "title" : "b",
+      "forms" : [ "c" ]
+    } ],
+    "tags" : [ "d" ],
+    "contents" : [ {
+      "title" : "e",
+      "text" : "f"
+    } ],
+    "variations" : [ {
+      "title" : "g",
+      "form" : "h"
+    } ],
+    "relations" : [ ]
+  } ],
+  "zpdic" : {
+    "alphabetOrder" : "",
+    "wordOrderType" : "UNICODE",
+    "punctuations" : [ ",", "、" ],
+    "ignoredTranslationRegex" : "",
+    "pronunciationTitle" : null,
+    "plainInformationTitles" : [ ],
+    "informationTitleOrder" : null,
+    "formFontFamily" : null,
+    "defaultWord" : {
+      "entry" : {
+        "id" : -1,
+        "form" : ""
+      },
+      "translations" : [ ],
+      "tags" : [ ],
+      "contents" : [ ],
+      "variations" : [ ],
+      "relations" : [ ]
+    }
+  },
+  "snoj" : null,
+  "CanDIC" : [ {
+    "id" : 1,
+    "charactar" : 1,
+    "reading" : "Ho:"
+  }, {
+    "id" : 2,
+    "charactar" : 2,
+    "reading" : "Yit"
+  } ]
+}
