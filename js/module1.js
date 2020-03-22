@@ -1,5 +1,4 @@
 //form要素の取得
-//旧var form = document.forms.myform;
 var form=		document.getElementById("form_1");
 //dictionary要素の取得
 var dictionary=	document.getElementById("dictionary");
@@ -62,10 +61,6 @@ function addElement(json,i){
 	
 	dictionary.appendChild(word_column);
 }
-
-// function Select(){
-// 	console.log("クリック認識！")
-// }
 
 function Search(){
 //	参考:https://qiita.com/1mada/items/9a48f7053a6016b5fd5a
