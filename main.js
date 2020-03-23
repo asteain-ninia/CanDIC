@@ -8,7 +8,8 @@ function createWindow() {
   win = new BrowserWindow
   ({
     width: 1200+500,
-    height: 800
+    height: 800,
+    useContentSize: true,
   });
 
   win.loadURL(`file://${__dirname}/index.html`);

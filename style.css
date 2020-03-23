@@ -1,6 +1,7 @@
-body{
+html,body{
 	background-color: lightgray;
-	max-width: width 1200px;;
+	height: 100vh;
+	overflow: hidden;
 }
 
 .container {
@@ -8,7 +9,7 @@ body{
     display: grid;
 	grid-template-columns: 2fr 3fr;
 	grid-template-rows: auto;
-	
+	height: 98.5%;
 }
 
 .editor{
