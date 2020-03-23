@@ -1,7 +1,16 @@
+body{
+	background-color: lightgray;
+	max-width: width 1200px;;
+}
+
+.container {
+	background-color: whitesmoke;
+    display: grid;
+	grid-template-columns: 2fr 3fr;
+	grid-template-rows: auto;
+	
+}
+
 .editor{
 	border-left :solid 1px gray;
-}
-.container {
-    display: grid;
-    grid-template-columns: 200px 200px;
 }
