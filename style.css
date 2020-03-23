@@ -2,16 +2,23 @@ html,body{
 	background-color: lightgray;
 	height: 100vh;
 	overflow: hidden;
+
+}
+
+.menu{
+	background-color: white;
 }
 
 .container {
-	background-color: whitesmoke;
     display: grid;
 	grid-template-columns: 2fr 3fr;
-	grid-template-rows: auto;
-	height: 98.5%;
+	height: 94%;
+	gap: 10px;
 }
 
 .editor{
-	border-left :solid 1px gray;
+	background-color: whitesmoke;
+}
+.viewer{
+	background-color: whitesmoke;
 }
