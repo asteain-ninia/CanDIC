@@ -24,10 +24,7 @@ function createWindow() {
 
   win.webContents.openDevTools();
   
-
-  win.on('closed', () => {
-    win = null;
-  });
+  win.on('closed', () => {win = null;});
 }
 
 app.on('ready', createWindow);
@@ -49,49 +46,40 @@ app.on('will-quit',function(){win=null;});
 
 
 function initWindowMenu(){
-  const template = [
-    {
-      label: 'Edit',
-      submenu: [
-          {
-              role: 'undo',
-          },
-          {
-              role: 'redo',
-          },
-      ]
+  const template =
+[
+  {label: 'ファイル',submenu:
+    [
+
+    ]
   },
-  {
-      label: 'View',
-      submenu: [
-          {
-              label: 'Reload',
-              accelerator: 'CmdOrCtrl+R',
-              click(item, focusedWindow){
-                  if(focusedWindow) focusedWindow.reload()
-              },
-          },
-          {
-              type: 'separator',
-          },
-          {
-              role: 'resetzoom',
-          },
-          {
-              role: 'zoomin',
-          },
-          {
-              role: 'zoomout',
-          },
-          {
-              type: 'separator',
-          },
-          {
-              role: 'togglefullscreen',
-          }
-      ]
+  {label: '設定',submenu:
+    [
+
+    ]
+  },
+  {label: 'ヘルプ',submenu:
+    [
+
+    ]
+  },
+  {label: '開発',submenu:
+    [
+      {
+        label: '再読み込み',
+        accelerator: 'CmdOrCtrl+R',
+        click(item, focusedWindow)
+        {if(focusedWindow) focusedWindow.reload();},
+      },
+      {
+        label: "開発者用具",
+        accelerator:'CmdOrCtrl+I',
+        click(item, focusedWindow)
+        {focusedWindow.toggleDevTools();},
+      }
+    ]
   }
-  ];
+];
 
 const menu = Menu.buildFromTemplate(template)
 Menu.setApplicationMenu(menu)
