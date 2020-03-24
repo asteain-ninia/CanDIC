@@ -4,6 +4,9 @@ const {app} = electron;
 const {BrowserWindow} = electron;
 let win;
 
+
+// require('electron-reload')(__dirname);
+
 function createWindow() {
   win = new BrowserWindow
   ({
@@ -37,4 +40,3 @@ app.on('activate', () => {
 
 app.on('before-quit',function(e){forceQuit=true;});
 app.on('will-quit',function(){win=null;});
-
