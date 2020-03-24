@@ -2,6 +2,7 @@
 const electron = require('electron');
 const {app} = electron;
 const {BrowserWindow} = electron;
+const Menu = electron.Menu;
 let win;
 
 
@@ -9,15 +10,20 @@ let win;
 
 function createWindow() {
   win = new BrowserWindow
-  ({
-    width: 1200+500,
-    height: 800,
-    useContentSize: true,
-  });
+  (
+    {
+      width: 1200+500,
+      height: 700,
+      useContentSize: true,
+    }
+  );
+  win.setMenu(null);
+  initWindowMenu();
 
   win.loadURL(`file://${__dirname}/index.html`);
 
   win.webContents.openDevTools();
+  
 
   win.on('closed', () => {
     win = null;
@@ -40,3 +46,53 @@ app.on('activate', () => {
 
 app.on('before-quit',function(e){forceQuit=true;});
 app.on('will-quit',function(){win=null;});
+
+
+function initWindowMenu(){
+  const template = [
+    {
+      label: 'Edit',
+      submenu: [
+          {
+              role: 'undo',
+          },
+          {
+              role: 'redo',
+          },
+      ]
+  },
+  {
+      label: 'View',
+      submenu: [
+          {
+              label: 'Reload',
+              accelerator: 'CmdOrCtrl+R',
+              click(item, focusedWindow){
+                  if(focusedWindow) focusedWindow.reload()
+              },
+          },
+          {
+              type: 'separator',
+          },
+          {
+              role: 'resetzoom',
+          },
+          {
+              role: 'zoomin',
+          },
+          {
+              role: 'zoomout',
+          },
+          {
+              type: 'separator',
+          },
+          {
+              role: 'togglefullscreen',
+          }
+      ]
+  }
+  ];
+
+const menu = Menu.buildFromTemplate(template)
+Menu.setApplicationMenu(menu)
+}

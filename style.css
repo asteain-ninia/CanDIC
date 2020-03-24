@@ -1,7 +1,7 @@
 html,body{
 	background-color: lightgray;
 	height: 100vh;
-	overflow: hidden;
+	/*overflow: hidden;*/
 }
 
 .menu{
