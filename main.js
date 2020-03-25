@@ -6,6 +6,7 @@ const Menu = electron.Menu;
 const openAboutWindow = require('electron-about-window').default;
 const {dialog}=require('electron');
 const {ipcMain} =require('electron');
+const fs =require('fs');
 
 let win;
 
@@ -121,16 +122,14 @@ function initWindowMenu(){
 const menu = Menu.buildFromTemplate(template)
 Menu.setApplicationMenu(menu)
 }
-  //参考：https://qiita.com/stupid_student2/items/f25c2b8c3d0ca5cdc89e
+/*   //参考：https://qiita.com/stupid_student2/items/f25c2b8c3d0ca5cdc89e
   function openFile() {
-/*     dialog.showOpenDialog({ properties: ['openFile'] }, (filePath) => {
+     dialog.showOpenDialog({ properties: ['openFile'] }, (filePath) => {
   
       // レンダラープロセスにイベントを飛ばす
       win.webContents.send('open_file',filePath);
-      win.webContents.send('1',"file send");
-      console.log(filePath) 
-    })*/
-  }
+    })
+  } */
 
   ipcMain.on('2',(event,arg)=>{
     console.log(arg)
@@ -140,3 +139,15 @@ Menu.setApplicationMenu(menu)
     console.log(arg)
     event.returnValue='pong';
   })
+
+function openFile(){
+  dialog.showOpenDialog({properties:['openFile']},filePath =>{
+
+    fs.readFile(filePath[0], { encoding:"utf-8"}, (err, data)=>{
+
+      signal=data;
+      event.sender.sendSync('open_file',"signal");
+
+    })
+  })
+}
