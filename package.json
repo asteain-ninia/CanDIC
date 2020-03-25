@@ -1,7 +1,13 @@
 {
+	"name": "CanDIC",
 	"version": "0.0.1",
+	"description": "",
+	"author": "asteain-ninia",
 	"main": "main.js",
+	"license": "MIT",
 	"dependencies": {
-		"electron": "^8.1.1"
+		"about-window": "^1.13.2",
+		"electron": "^8.1.1",
+		"electron-about-window": "^1.13.2"
 	}
 }

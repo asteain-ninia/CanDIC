@@ -1,7 +1,9 @@
+const {ipcRenderer}=require('electron')
+
 //form要素の取得
-var form=		document.getElementById("form_1");
+//var form=		document.getElementById("form_1");
 //dictionary要素の取得
-var dictionary=	document.getElementById("dictionary");
+//var dictionary=	document.getElementById("dictionary");
 
 form.myfile.addEventListener( 'change', function test(e) {
 //参考：https://www.sejuku.net/blog/32532
@@ -70,3 +72,7 @@ function Search(){
 		}
 	);
 }
+
+ipcRenderer.on('ping', (event, arg) => {
+  console.log(arg) // pong
+})

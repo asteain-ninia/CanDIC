@@ -3,43 +3,42 @@ const electron = require('electron');
 const {app} = electron;
 const {BrowserWindow} = electron;
 const Menu = electron.Menu;
+const openAboutWindow = require('electron-about-window').default;
+//const {ipcRenderer} = require('electron');
+
 let win;
 
 
-// require('electron-reload')(__dirname);
-
 function createWindow() {
-  win = new BrowserWindow
-  (
+  win = new BrowserWindow(
     {
+      title:'CanDIC',
       width: 1200+500,
       height: 700,
       useContentSize: true,
-    }
-  );
+      icon: './images/icon.png',
+      webPreferences: {
+        nodeIntegration: true
+        }
+    });
+
   win.setMenu(null);
   initWindowMenu();
 
   win.loadURL(`file://${__dirname}/index.html`);
 
   win.webContents.openDevTools();
-  
+  win.webContents.on('did-finish-load',()=>{
+    win.webContents.send('ping','pong');
+  })
   win.on('closed', () => {win = null;});
 }
 
 app.on('ready', createWindow);
 
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
-});
+app.on('window-all-closed', () => {if(process.platform !== 'darwin') {app.quit();}});
 
-app.on('activate', () => {
-  if (win === null) {
-    createWindow();
-  }
-});
+app.on('activate', () => {if (win === null) {createWindow();}});
 
 app.on('before-quit',function(e){forceQuit=true;});
 app.on('will-quit',function(){win=null;});
@@ -48,19 +47,44 @@ app.on('will-quit',function(){win=null;});
 function initWindowMenu(){
   const template =
 [
-  {label: 'ファイル',submenu:
+  {label: '操作',submenu:
     [
-
+      {
+        label:'辞書を開く',
+        click(){ console.log('item 1 clicked') },
+      },
+      {
+        label:'辞書を作る',
+        enebled:false,
+      },
+      {
+        label:'名前を付けて複製を保存',
+        enabled:false,
+      },
     ]
   },
   {label: '設定',submenu:
     [
-
+      {
+      label:'設定を変更する',
+      enabled:false,
+      }
     ]
   },
   {label: 'ヘルプ',submenu:
     [
-
+      {
+        label:'情報',
+        click: function(item, focusedWindow)
+        {
+          console.log(
+            "We are using node "+process.versions.node+"Chrome"+process.versions.chrome+"and Electron"+process.versions.electron
+          )
+          openAboutWindow({
+            icon_path:'./images/icon.png' 
+          })
+        }
+      }
     ]
   },
   {label: '開発',submenu:
@@ -68,14 +92,26 @@ function initWindowMenu(){
       {
         label: '再読み込み',
         accelerator: 'CmdOrCtrl+R',
-        click(item, focusedWindow)
+        click(focusedWindow)
         {if(focusedWindow) focusedWindow.reload();},
       },
       {
         label: "開発者用具",
         accelerator:'CmdOrCtrl+I',
-        click(item, focusedWindow)
-        {focusedWindow.toggleDevTools();},
+        click(focusedWindow)
+        {focusedWindow.openDevTools();},
+      },
+      {
+        label:"test",
+        click:function(item, focusedWindow) {
+          if (focusedWindow) {console.log(
+            "We are using node "+process.versions.node+"Chrome"+process.versions.chrome+"and Electron"+process.versions.electron
+          )}
+        }
+      },
+      {
+        label:"test2",
+
       }
     ]
   }
