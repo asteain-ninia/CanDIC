@@ -8,6 +8,7 @@
 	"dependencies": {
 		"about-window": "^1.13.2",
 		"electron": "^8.1.1",
-		"electron-about-window": "^1.13.2"
+		"electron-about-window": "^1.13.2",
+		"minimist": "^1.2.2"
 	}
 }
