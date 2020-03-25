@@ -4,12 +4,14 @@ const {app} = electron;
 const {BrowserWindow} = electron;
 const Menu = electron.Menu;
 const openAboutWindow = require('electron-about-window').default;
-//const {ipcRenderer} = require('electron');
+const {dialog}=require('electron');
+const {ipcRenderer} =require('electron');
 
 let win;
 
 
-function createWindow() {
+function createWindow()
+{
   win = new BrowserWindow(
     {
       title:'CanDIC',
@@ -17,21 +19,20 @@ function createWindow() {
       height: 700,
       useContentSize: true,
       icon: './images/icon.png',
-      webPreferences: {
-        nodeIntegration: true
-        }
-    });
+      webPreferences: {nodeIntegration: true}
+    }
+  );
 
   win.setMenu(null);
   initWindowMenu();
-
+  
   win.loadURL(`file://${__dirname}/index.html`);
-
   win.webContents.openDevTools();
-  win.webContents.on('did-finish-load',()=>{
-    win.webContents.send('ping','pong');
-  })
+
   win.on('closed', () => {win = null;});
+  win.webContents.on('did-finish-load',()=>
+  {win.webContents.send('ping','pong');})
+
 }
 
 app.on('ready', createWindow);
@@ -51,7 +52,7 @@ function initWindowMenu(){
     [
       {
         label:'辞書を開く',
-        click(){ console.log('item 1 clicked') },
+        click(){openFile()},
       },
       {
         label:'辞書を作る',
@@ -93,13 +94,13 @@ function initWindowMenu(){
         label: '再読み込み',
         accelerator: 'CmdOrCtrl+R',
         click(focusedWindow)
-        {if(focusedWindow) focusedWindow.reload();},
+        {if(focusedWindow) focusedWindow.reload;},
       },
       {
         label: "開発者用具",
         accelerator:'CmdOrCtrl+I',
         click(focusedWindow)
-        {focusedWindow.openDevTools();},
+        {focusedWindow.openDevTools;},
       },
       {
         label:"test",
@@ -120,3 +121,12 @@ function initWindowMenu(){
 const menu = Menu.buildFromTemplate(template)
 Menu.setApplicationMenu(menu)
 }
+  //参考：https://qiita.com/stupid_student2/items/f25c2b8c3d0ca5cdc89e
+  function openFile() {
+    dialog.showOpenDialog({ properties: ['openFile'] }, (filePath) => {
+  
+      // レンダラープロセスにイベントを飛ばす
+      event.sender.send('open_file',filePath);
+      console.log(filePath)
+    })
+  }
