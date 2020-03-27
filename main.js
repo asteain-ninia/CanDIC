@@ -1,12 +1,9 @@
 'use strict';
 const electron = require('electron');
-const {app} = electron;
-const {BrowserWindow} = electron;
+const {app,BrowserWindow,dialog,ipcMain}=electron
 const Menu = electron.Menu;
-const openAboutWindow = require('electron-about-window').default;
-const {dialog}=require('electron');
-const {ipcMain} =require('electron');
 const fs =require('fs');
+const openAboutWindow = require('electron-about-window').default;
 
 let win;
 
@@ -112,7 +109,7 @@ function initWindowMenu(){
       },
       {
         label:"test2",
-
+        click(){FileTest();}
       }
     ]
   }
@@ -121,6 +118,7 @@ function initWindowMenu(){
 const menu = Menu.buildFromTemplate(template)
 Menu.setApplicationMenu(menu)
 }
+
 /*   //参考：https://qiita.com/stupid_student2/items/f25c2b8c3d0ca5cdc89e
   function openFile() {
      dialog.showOpenDialog({ properties: ['openFile'] }, (filePath) => {
@@ -134,6 +132,7 @@ Menu.setApplicationMenu(menu)
     console.log(arg)
     event.sender.send('1','pong')
   })
+
   ipcMain.on('3',(event,arg)=>{
     console.log(arg)
     event.returnValue='pong';
@@ -148,5 +147,11 @@ function openFile(){
       event.sender.send('open_file',"signal");
 
     })
+  })
+}
+
+function FileTest(){
+  dialog.showOpenDialog({properties:['openFile']},function(filePath){
+    event.sender.send('4',filePath);
   })
 }
