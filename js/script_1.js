@@ -18,6 +18,10 @@ function  message(){
   const result =ipcRenderer.sendSync('3','ping')
   console.log(result)
 
-/*   ipcRenderer.send('2','ping')
-  ipcRenderer.on('1',(event,arg)=>{console.log(arg)}) */
 }
+
+ipcRenderer.on('1',(event,arg)=>{console.log(arg)}) 
+
+
+
+

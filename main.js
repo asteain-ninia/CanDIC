@@ -31,10 +31,11 @@ function createWindow()
   win.webContents.openDevTools();
 
   win.on('closed', () => {win = null;});
-  win.webContents.on('did-finish-load',()=>
-  {win.webContents.send('ping','pong');})
-
 }
+
+
+
+
 
 app.on('ready', createWindow);
 
@@ -94,21 +95,19 @@ function initWindowMenu(){
       {
         label: '再読み込み',
         accelerator: 'CmdOrCtrl+R',
-        click(focusedWindow)
-        {if(focusedWindow) focusedWindow.reload;},
+        role:'reload',
       },
       {
         label: "開発者用具",
         accelerator:'CmdOrCtrl+I',
-        click(focusedWindow)
-        {focusedWindow.openDevTools;},
+        role:'toggledevtools',
       },
       {
         label:"test",
-        click:function(item, focusedWindow) {
-          if (focusedWindow) {console.log(
+        click:function() {
+          console.log(
             "We are using node "+process.versions.node+"Chrome"+process.versions.chrome+"and Electron"+process.versions.electron
-          )}
+          )
         }
       },
       {
@@ -142,11 +141,11 @@ Menu.setApplicationMenu(menu)
 
 function openFile(){
   dialog.showOpenDialog({properties:['openFile']},filePath =>{
-
+    event.sender.send('1','ping')
     fs.readFile(filePath[0], { encoding:"utf-8"}, (err, data)=>{
 
       signal=data;
-      event.sender.sendSync('open_file',"signal");
+      event.sender.send('open_file',"signal");
 
     })
   })
