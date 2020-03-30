@@ -26,22 +26,15 @@ ipcRenderer.on('1',(event,arg)=>{console.log(arg)})
 //以下参考:https://qiita.com/zaburo/items/eb525138b88890c5357c
 const editor = document.getElementById('editor');
 //openFileボタンが押されたとき（ファイル名取得まで）
-function openFile() {
 
-  const win = BrowserWindow.getFocusedWindow();
-  dialog.showOpenDialog(win,{
+function openFile() {
+  var result =dialog.showOpenDialogSync({
     properties: ['openFile'],
     filters: [
       {name: 'JSONファイル', extensions: ['json']}
-    ]},
-      function(fileNames){
-        console.log("!!!");
-          if (fileNames) {
-              // alert(fileNames[0]);
-              readFile(fileNames[0]); //複数選択の可能性もあるので配列となる。
-          }
-      }
-  )
+    ]})
+  console.log (result)
+  readFile(result)
 }
 
 function readFile(path) {
@@ -58,7 +51,10 @@ function readFile(path) {
 var form = document.forms.myform;
 form.myfile.addEventListener( 'change', function test(e) {console.log(e)})
 
-ipcRenderer.on('4,',function(event,arg){
-  console.log(event);
-  console.log(arg);
+
+
+ipcRenderer.on('4,',function(){
+  console.log(msg);
+  alert(msg);
+  console.log("ping")
 })

@@ -3,7 +3,6 @@ const electron = require('electron');
 const {app,BrowserWindow,dialog,ipcMain}=electron
 const Menu = electron.Menu;
 const fs =require('fs');
-const openAboutWindow = require('electron-about-window').default;
 
 let win;
 
@@ -31,9 +30,6 @@ function createWindow()
 }
 
 
-
-
-
 app.on('ready', createWindow);
 
 app.on('window-all-closed', () => {if(process.platform !== 'darwin') {app.quit();}});
@@ -43,6 +39,7 @@ app.on('activate', () => {if (win === null) {createWindow();}});
 app.on('before-quit',function(e){forceQuit=true;});
 app.on('will-quit',function(){win=null;});
 
+app.allowRendererProcessReuse=true;
 
 function initWindowMenu(){
   const template =
@@ -51,7 +48,7 @@ function initWindowMenu(){
     [
       {
         label:'辞書を開く',
-        click(){openFile()},
+        enabled:false
       },
       {
         label:'辞書を作る',
@@ -80,9 +77,7 @@ function initWindowMenu(){
           console.log(
             "We are using node "+process.versions.node+"Chrome"+process.versions.chrome+"and Electron"+process.versions.electron
           )
-          openAboutWindow({
-            icon_path:'./images/icon.png' 
-          })
+          win.webContents.send('4',"message");
         }
       }
     ]
@@ -119,14 +114,7 @@ const menu = Menu.buildFromTemplate(template)
 Menu.setApplicationMenu(menu)
 }
 
-/*   //参考：https://qiita.com/stupid_student2/items/f25c2b8c3d0ca5cdc89e
-  function openFile() {
-     dialog.showOpenDialog({ properties: ['openFile'] }, (filePath) => {
-  
-      // レンダラープロセスにイベントを飛ばす
-      win.webContents.send('open_file',filePath);
-    })
-  } */
+//参考：https://qiita.com/stupid_student2/items/f25c2b8c3d0ca5cdc89e
 
   ipcMain.on('2',(event,arg)=>{
     console.log(arg)
@@ -138,20 +126,10 @@ Menu.setApplicationMenu(menu)
     event.returnValue='pong';
   })
 
-function openFile(){
-  dialog.showOpenDialog({properties:['openFile']},filePath =>{
-    event.sender.send('1','ping')
-    fs.readFile(filePath[0], { encoding:"utf-8"}, (err, data)=>{
-
-      signal=data;
-      event.sender.send('open_file',"signal");
-
-    })
-  })
-}
-
-function FileTest(){
-  dialog.showOpenDialog({properties:['openFile']},function(filePath){
-    event.sender.send('4',filePath);
-  })
+function FileTest()
+{
+  var result = dialog.showOpenDialogSync({properties: ['openFile']})
+  var test ="amberapappa"
+  win.webContents.send('4',test)
+  console.log(result)
 }
