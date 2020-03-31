@@ -32,7 +32,9 @@ function addElement(json,i){
 	word_column.id=i;
 
 	var content=document.createTextNode(
-		"No."+json.words[i].entry.id+",|"+json.words[i].entry.form);
+    "No."+json.words[i].entry.id+",|"+json.words[i].entry.form
+  );
+  
 	word_column.appendChild(content);
 
 	word_column.appendChild(document.createElement('br'))
