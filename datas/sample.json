@@ -1,82 +1,150 @@
 {
-	"words":[
-		{
-			"id":0,
-			"string":["Ho:","Ho"],
-			"char":["U+FFFF","U+FFFA"],
-			"tag":[1,2],
-			"relations":[],
-			"translations":[
-				{
-					"class":1,
-					"trans":"自分"
-				},
-				{
-					"class":2,
-					"trans":"私"
-				}
-			],
-			"contents":[
-				{
-					"title":1,
-					"text":"一人称として最も一般的。"
-				},
-				{
-					"title":2,
-					"text":"最初に制定された単語。R03XXXX"
-				}
-			]
-		},
-		{
-			"id":1,
-			"string":["yu","yit"],
-			"char":["U+FFFC","U+FFFB"],
-			"tag":[1,2],
-			"relations":[],
-			"translations":[
-				{
-					"class":1,
-					"trans":"他人"
-				},
-				{
-					"class":2,
-					"trans":"あなた"
-				}
-			],
-			"contents":[
-				{
-					"title":1,
-					"text":"二人称として最も一般的。"
-				},
-				{
-					"title":2,
-					"text":"最初期に制定された単語。R03XXXX"
-				}
-			]
-		}
-	],
-	"dictionary":
-	{
-		"type":"TNN",
-		"lang":"ena",
-		"classes":[
-			{"id":0,"name":"不明"},
-			{"id":1,"name":"名詞"},
-			{"id":2,"name":"代名詞"}
-		],
-		"titles":[
-			{"id":0,"name":"無題"},
-			{"id":1,"name":"語法"},
-			{"id":2,"name":"造語"}
-		],
-		"tags":[
-			{"id":0,"name":"無題のタグ"},
-			{"id":1,"name":"レベル：１"},
-			{"id":2,"name":"基礎語"}
-		]
-	},
-	"/*":[
-		"",
-		""
-	]
+    "words": [
+        {
+            "entry": {
+                "id": 0,
+                "form": [
+                    "Ho:",
+                    "Ho"
+                ],
+                "char": [
+                    "U+FFFF",
+                    "U+FFFA"
+                ]
+            },
+            "translations": [
+                {
+                    "title": 1,
+                    "forms": [
+                        "自分"
+                    ]
+                },
+                {
+                    "title": 2,
+                    "forms": [
+                        "私"
+                    ]
+                }
+            ],
+            "tags": [
+                1,
+                2
+            ],
+            "contents": [
+                {
+                    "title": 1,
+                    "text": "一人称として最も一般的。"
+                },
+                {
+                    "title": 2,
+                    "text": "最初に制定された単語。R03XXXX"
+                }
+            ],
+            "variations": [
+                {
+                    "title": "",
+                    "form": ""
+                }
+            ],
+            "relations": []
+        },
+        {
+            "entry": {
+                "id": 1,
+                "form": [
+                    "Yu",
+                    "Yit"
+                ],
+                "char": [
+                    "U+FFFB",
+                    "U+FFFC"
+                ]
+            },
+            "translations": [
+                {
+                    "title": 1,
+                    "forms": [
+                        "他人"
+                    ]
+                },
+                {
+                    "title": 2,
+                    "forms": [
+                        "貴方"
+                    ]
+                }
+            ],
+            "tags": [
+                1,
+                2
+            ],
+            "contents": [
+                {
+                    "title": 1,
+                    "text": "二人称として最も一般的。"
+                },
+                {
+                    "title": 2,
+                    "text": "最初期に制定された単語。R03XXXX"
+                }
+            ],
+            "variations": [
+                {
+                    "title": "",
+                    "form": ""
+                }
+            ],
+            "relations": []
+        }
+    ],
+    "dictionary": {
+        "type": "TNN",
+        "language": "ena",
+        "classes": [
+            {
+                "id": 0,
+                "name": "不明"
+            },
+            {
+                "id": 1,
+                "name": "名詞"
+            },
+            {
+                "id": 2,
+                "name": "代名詞"
+            }
+        ],
+        "titles": [
+            {
+                "id": 0,
+                "name": "無題"
+            },
+            {
+                "id": 1,
+                "name": "語法"
+            },
+            {
+                "id": 2,
+                "name": "造語"
+            }
+        ],
+        "tags": [
+            {
+                "id": 0,
+                "name": "無題のタグ"
+            },
+            {
+                "id": 1,
+                "name": "レベル：１"
+            },
+            {
+                "id": 2,
+                "name": "基礎語"
+            }
+        ]
+    },
+    "/*": [
+        "",
+        ""
+    ]
 }
