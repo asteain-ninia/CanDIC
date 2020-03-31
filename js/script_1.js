@@ -1,6 +1,6 @@
 const electron = require('electron');
 const {ipcRenderer}=require( 'electron');
-const {BrowserWindow,dialog}=require('electron').remote;
+const {dialog}=require('electron').remote;
 const fs=require('fs')
 
 ipcRenderer.on('open_file', (event, arg) => {
@@ -53,8 +53,7 @@ form.myfile.addEventListener( 'change', function test(e) {console.log(e)})
 
 
 
-ipcRenderer.on('4,',function(){
-  console.log(msg);
-  alert(msg);
-  console.log("ping")
+ipcRenderer.on('4',function(event,arg){
+  console.log("filePath Reserved!")
+  console.log(arg);
 })

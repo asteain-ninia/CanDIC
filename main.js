@@ -2,7 +2,6 @@
 const electron = require('electron');
 const {app,BrowserWindow,dialog,ipcMain}=electron
 const Menu = electron.Menu;
-const fs =require('fs');
 
 let win;
 
@@ -20,13 +19,15 @@ function createWindow()
     }
   );
 
-  win.setMenu(null);
   initWindowMenu();
   
   win.loadURL(`file://${__dirname}/index.html`);
   win.webContents.openDevTools();
 
   win.on('closed', () => {win = null;});
+  win.webContents.on('did-finish-load', () => {
+    win.webContents.send('ping', 'whoooooooh!')
+  })//これはうごく
 }
 
 
@@ -38,8 +39,6 @@ app.on('activate', () => {if (win === null) {createWindow();}});
 
 app.on('before-quit',function(e){forceQuit=true;});
 app.on('will-quit',function(){win=null;});
-
-app.allowRendererProcessReuse=true;
 
 function initWindowMenu(){
   const template =
@@ -104,7 +103,12 @@ function initWindowMenu(){
       },
       {
         label:"test2",
-        click(){FileTest();}
+        click(){
+          var result = dialog.showOpenDialogSync({properties: ['openFile']});
+          var test ="amberapappa";
+          win.webContents.send('4',result);
+          console.log(result);//うごかない
+        }
       }
     ]
   }
@@ -117,8 +121,8 @@ Menu.setApplicationMenu(menu)
 //参考：https://qiita.com/stupid_student2/items/f25c2b8c3d0ca5cdc89e
 
   ipcMain.on('2',(event,arg)=>{
-    console.log(arg)
-    event.sender.send('1','pong')
+    console.log(arg);
+    event.sender.send('1','pong');
   })
 
   ipcMain.on('3',(event,arg)=>{
@@ -128,8 +132,9 @@ Menu.setApplicationMenu(menu)
 
 function FileTest()
 {
-  var result = dialog.showOpenDialogSync({properties: ['openFile']})
-  var test ="amberapappa"
-  win.webContents.send('4',test)
-  console.log(result)
+  var result = dialog.showOpenDialogSync({properties: ['openFile']});
+  var test ="amberapappa";
+  win=webContents.getFocusedWindow();
+  win.webContents.send('4',test);
+  console.log(result);
 }
