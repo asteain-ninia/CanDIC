@@ -45,6 +45,7 @@ function addElement(json,i){
   
   var newStyle=document.createElement('style');
   newStyle.type='text.css'
+  newStyle.innerText = 'p {background-color: red}';
   word_column.appendChild(newStyle);
     
 	dictionary.appendChild(word_column);
