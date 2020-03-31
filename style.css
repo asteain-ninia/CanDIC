@@ -1,13 +1,13 @@
 html,body{
 	background-color: lightgray;
-	height: 100vh;
-	/*overflow: hidden;*/
+	height: 99vh;
+	overflow: hidden;
 }
 
 .container {
     display: grid;
 	grid-template-columns: 2fr 3fr;
-	height: 95.5%;
+	height: 90%;
 	gap: 8px;
 	margin: 8px;
 }
@@ -18,4 +18,15 @@ html,body{
 
 .editor{
 	background-color: whitesmoke;
+}
+
+.dictionary{
+	height: 95vh;
+	overflow-y: scroll;
+
+}
+
+.word{
+	border: 2px;
+	border-color: black;
 }

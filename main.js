@@ -13,7 +13,7 @@ function createWindow()
       title:'CanDIC',
       width: 1200+500,
       height: 700,
-      useContentSize: true,
+      useContentSize:false,
       icon: './images/icon.png',
       webPreferences: {nodeIntegration: true}
     }
