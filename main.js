@@ -47,7 +47,11 @@ function initWindowMenu(){
     [
       {
         label:'辞書を開く',
-        enabled:false
+        click(){
+          //参考：https://qiita.com/stupid_student2/items/f25c2b8c3d0ca5cdc89e
+          var result = dialog.showOpenDialogSync({properties: ['openFile']});
+          win.webContents.send('4',result);
+        }
       },
       {
         label:'辞書を作る',
@@ -103,12 +107,7 @@ function initWindowMenu(){
       },
       {
         label:"test2",
-        click(){
-          var result = dialog.showOpenDialogSync({properties: ['openFile']});
-          var test ="amberapappa";
-          win.webContents.send('4',result);
-          console.log(result);//うごかない
-        }
+
       }
     ]
   }
@@ -116,25 +115,4 @@ function initWindowMenu(){
 
 const menu = Menu.buildFromTemplate(template)
 Menu.setApplicationMenu(menu)
-}
-
-//参考：https://qiita.com/stupid_student2/items/f25c2b8c3d0ca5cdc89e
-
-  ipcMain.on('2',(event,arg)=>{
-    console.log(arg);
-    event.sender.send('1','pong');
-  })
-
-  ipcMain.on('3',(event,arg)=>{
-    console.log(arg)
-    event.returnValue='pong';
-  })
-
-function FileTest()
-{
-  var result = dialog.showOpenDialogSync({properties: ['openFile']});
-  var test ="amberapappa";
-  win=webContents.getFocusedWindow();
-  win.webContents.send('4',test);
-  console.log(result);
 }

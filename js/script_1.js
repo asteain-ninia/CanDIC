@@ -49,11 +49,24 @@ function readFile(path) {
 
 //https://www.sejuku.net/blog/32532
 var form = document.forms.myform;
-form.myfile.addEventListener( 'change', function test(e) {console.log(e)})
+form.myfile.addEventListener( 'change', function test(e) {
+  console.log(e.target.files[0])
+  result=e.target.files[0];
+  var reader=new FileReader();
+  reader.readAsText(result);
+  reader.addEventListener( 'load', function() {
+    
+    console.log( JSON.parse(reader.result) );
+    
+})
+})
 
 
 
 ipcRenderer.on('4',function(event,arg){
   console.log("filePath Reserved!")
-  console.log(arg);
+  var result=arg[0];
+  console.log(result)
+  var data=fs.readFileSync(result,'utf8')
+  console.log(JSON.parse(data.words[0]));
 })
