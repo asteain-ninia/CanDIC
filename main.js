@@ -12,7 +12,7 @@ function createWindow()
     {
       title:'CanDIC',
       width: 1200+500,
-      height: 700,
+      height: 750,
       useContentSize:false,
       icon: './images/icon.png',
       webPreferences: {nodeIntegration: true}
@@ -27,7 +27,7 @@ function createWindow()
   win.on('closed', () => {win = null;});
   win.webContents.on('did-finish-load', () => {
     win.webContents.send('ping', 'whoooooooh!')
-  })//これはうごく
+  })
 }
 
 

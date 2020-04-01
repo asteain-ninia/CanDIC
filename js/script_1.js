@@ -28,22 +28,24 @@ ipcRenderer.on('4',function(event,arg){
 function addElement(json,i){
 //参考:	https://www.sejuku.net/blog/49970
 //		https://www.sejuku.net/blog/30970
+//word_columnをdiv要素として作成・idを設定(TNNの単語IDに一致)
 	var word_column = document.createElement('div');
-	word_column.id=i;
+  word_column.id=i;
+  var forms=null;
+  var No=null
 
-	var content=document.createTextNode(
-    "No."+json.words[i].entry.id+",|"+json.words[i].entry.form
-  );
-  
-	word_column.appendChild(content);
+
+//第一行：単語行の生成
+	forms=document.createTextNode(json.words[i].entry.form);
+	word_column.appendChild(forms);
+	word_column.appendChild(document.createElement('hr'))
+
+//第二行：訳・文字情報の生成
+  chars=document.createTextNode(
+    json.words[i].translaions+"対応文字:"+json.words[i].entry.char);
+	word_column.appendChild(chars);
 
 	word_column.appendChild(document.createElement('br'))
-
-	content=document.createTextNode(json.words[i].entry.char);
-	word_column.appendChild(content);
-
-	word_column.appendChild(document.createElement('br'))
-  word_column.appendChild(document.createElement('br'))
   
   var newStyle=document.createElement('style');
   newStyle.type='text.css'

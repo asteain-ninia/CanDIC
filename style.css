@@ -13,25 +13,36 @@ html,body{
 }
 
 .viewer{
-	background-color: whitesmoke;
 }
 
-.queue{
-	width: 98%;
+.search{
+	height: 30px;
+	background-color:whitesmoke;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
 }
-
-
-.editor{
-	background-color: whitesmoke;
+.search form{
+	width:100%;
+	display: grid;
+	grid-template-columns: 8fr 2fr;
+}
+.a input{
+	margin: 3px;
 }
 
 .dictionary{
 	height: 95vh;
 	overflow-y: scroll;
-
+	background-color: whitesmoke;
+}
+.dictionary div{
+	background-color: whitesmoke;
+	border:solid 3px gray;
 }
 
-.word{
-	border: 2px;
-	border-color: black;
+
+.editor{
+	background-color: whitesmoke;
 }
