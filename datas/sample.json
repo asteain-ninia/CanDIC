@@ -11,7 +11,10 @@
                     "U+FFFF",
                     "U+FFFA"
                 ]
-            },
+			},
+			"pronunciation":[
+				"ho:"
+			],
             "translations": [
                 {
                     "title": 1,
@@ -59,7 +62,11 @@
                     "U+FFFB",
                     "U+FFFC"
                 ]
-            },
+			},
+			"pronunciation":[
+				"yu",
+				"yit"
+			],
             "translations": [
                 {
                     "title": 1,
