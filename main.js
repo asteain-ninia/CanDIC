@@ -74,14 +74,8 @@ function initWindowMenu(){
   {label: 'ヘルプ',submenu:
     [
       {
-        label:'情報',
-        click: function(item, focusedWindow)
-        {
-          console.log(
-            "We are using node "+process.versions.node+"Chrome"+process.versions.chrome+"and Electron"+process.versions.electron
-          )
-          win.webContents.send('4',"message");
-        }
+        label:'取扱説明書',
+        enabled:false,
       }
     ]
   },
@@ -97,18 +91,6 @@ function initWindowMenu(){
         accelerator:'CmdOrCtrl+I',
         role:'toggledevtools',
       },
-      {
-        label:"test",
-        click:function() {
-          console.log(
-            "We are using node "+process.versions.node+"Chrome"+process.versions.chrome+"and Electron"+process.versions.electron
-          )
-        }
-      },
-      {
-        label:"test2",
-
-      }
     ]
   }
 ];

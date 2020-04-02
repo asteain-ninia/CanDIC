@@ -8,19 +8,29 @@ const dictionary=document.getElementById('dictionary')
 var json = null;
 
 ipcRenderer.on('4',function(event,arg){
-  console.log("filePath Reserved!")
+  console.log("filePath TNN Reserved!")
   var path=arg[0];//argを受け取ってpathに入れ込む
   console.log(path)
   var data=fs.readFileSync(path,'utf8')//pathの向こうにあるファイルをテキストで読む
   json =JSON.parse(data);//jsonでパース
-  var word_count = json.words.length//単語数をカウント
-  console.log("単語数"+word_count);
 
   //参考：https://qiita.com/kouh/items/dfc14d25ccb4e50afe89
   //dictionary欄内の掃除
   while (dictionary.firstChild){
     dictionary.removeChild(dictionary.firstChild);
   }
+
+  // if(json.dictionar.type=="TNN"){
+  //   //つくりかけ、OTM対応の布石
+  //   //まずJSONであることを判定しなければいけないのでは？
+  // }
+
+
+
+
+
+  var word_count = json.words.length//単語数をカウント
+  console.log("単語数"+word_count);
 
   //forをぶん回して単語欄を生成する
   var word_queue=word_count;
@@ -31,39 +41,66 @@ ipcRenderer.on('4',function(event,arg){
 function addElement(json,i){
   //参考:	https://www.sejuku.net/blog/49970
   //		https://www.sejuku.net/blog/30970
-  //word_columnをdiv要素として作成・idを設定(TNNの単語IDに一致)
-	var word_column = document.createElement('div');
-  word_column.id=i;
-  word_column.size=+1;
+  //word_shelfをdiv要素として作成・idを設定(TNNの単語IDに一致)
+	var word_shelf = document.createElement('div');
+  word_shelf.id=i;
 
-  var pronun_column=document.createElement('font')
-  pronun_column.size=-1;
+  //entryiesをdiv要素として生成、この中にform要素とpronun要素・tag要素が入る
+  var entryies=document.createElement('div');
 
-  //第一行：単語行の生成
+  var entry
+
+  //formをspan要素として生成。ここに語形が入る
+  var form=document.createElement('span');
+  //語形の列挙
 	var forms=document.createTextNode(json.words[i].entry.form);
-  word_column.appendChild(forms);
-  
+  form.appendChild(forms);//formの完成
+
+  //pronunをspan要素として生成。すこし小さく表示する。
+  var pronun=document.createElement('span')
+  pronun.setAttribute("style","font-size:"+15+"px;")
   //発音の列挙
   var pronun_queue=json.words[i].pronunciation.length;
-console.log(pronun_queue);
   for(let j=0; j<pronun_queue; j++){
-    var pronuns=document.createTextNode(" /"+json.words[i].pronunciation[j]+"/");
-    pronun_column.appendChild(pronuns);
+    var pronuns=document.createTextNode(" /"+json.words[i].entry.pronunciation[j]+"/");
+    pronun.appendChild(pronuns);//pronunの完成
   };
-  word_column.appendChild(pronun_column);
+  var tag=document.createElement('span')
+  pronun.setAttribute("style","font-size:"+15+"px;")
+  var tasg=json.words[i].entry
 
 
 
+  //classesをspan要素として生成。
+  var classes=document.createElement('span')
+  pronun.setAttribute("style","font-size:15px;")
+
+  //見出し語の列挙
+  var trans_queue=json.words[i].translations.length;
+  for (let k=0; k<trans_queue; k++){
+    var classID=json.words[i].translations[k].title;
+    var classes_queue=json.dictionary.classes.length;
+    //forを回してclasses.idが一致する物を探す
+    for(let l=0; l<classes_queue; l++){
+      if(json.dictionary.classes[l].id==classID)
+      {var className=json.dictionary.classes[l].name;}
+    };
+    var classDisplay=document.createTextNode(className+"："+json.words[i].tarnslation.forms);
+    classes.appendChild(classDisplay);//classesの完成
+
+  }
 
 
-	word_column.appendChild(document.createElement('hr'))
 
-  //第二行：訳・文字情報の生成
-  chars=document.createTextNode(
-    json.words[i].translaions+"対応文字:"+json.words[i].entry.char);
-	word_column.appendChild(chars);
+  // var hr=document.createElement('hr')
+	// entry.appendChild(hr)
 
-	word_column.appendChild(document.createElement('br'))
+  // //第二行：訳・文字情報の生成
+  // chars=document.createTextNode(
+  //   json.words[i].translations+"対応文字:"+json.words[i].entry.char);
+	// word_shelf.appendChild(chars);
+
+	word_shelf.appendChild(document.createElement('br'))
     
-	dictionary.appendChild(word_column);
+	dictionary.appendChild(word_shelf);
 }
