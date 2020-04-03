@@ -24,11 +24,7 @@ ipcRenderer.on('4',function(event,arg){
   //   //つくりかけ、OTM対応の布石
   //   //まずJSONであることを判定しなければいけないのでは？
   // }
-
-
-
-
-
+  
   var word_count = json.words.length//単語数をカウント
   console.log("単語数"+word_count);
 
@@ -44,6 +40,9 @@ function addElement(json,i){
   //word_shelfをdiv要素として作成・idを設定(TNNの単語IDに一致)
 	var word_shelf = document.createElement('div');
   word_shelf.id=i;
+  word_shelf.setAttribute("style",
+  "border-bottom:solid 2px gray;border-left:solid 2px gray;border-right:solid 2px gray;"
+  )
 
   //entryiesをdiv要素として生成、この中にform要素とpronun要素・tag要素が入る
   var entries=document.createElement('div');
@@ -51,6 +50,7 @@ function addElement(json,i){
 
   //formをspan要素として生成。ここに語形が入る
   var form=document.createElement('span');
+  form.setAttribute("style","font-size:18px;")
   //語形の列挙
 	var forms=document.createTextNode(" "+json.words[i].entry.form+" ");
   form.appendChild(forms);//formの完成
@@ -92,10 +92,15 @@ function addElement(json,i){
   }
   //tagの完成
 
+  var HR =document.createElement('hr');
+  HR.setAttribute("style","margin:0px;")
+
   //entriesへの登録
   entries.appendChild(form)
   entries.appendChild(pronun)
   entries.appendChild(tags)
+  // entries.setAttribute("style","border-bottom:solid 1px lightgray")
+  entries.appendChild(HR)
  
 
   //classesをspan要素として生成。
