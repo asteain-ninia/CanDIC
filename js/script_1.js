@@ -7,10 +7,21 @@ const dictionary=document.getElementById('dictionary')
 
 var json = null;
 
+function debugButton(){
+  path="datas/sample.json";
+  ReadDictionary(path);
+}
+
+
+
 ipcRenderer.on('4',function(event,arg){
   console.log("filePath TNN Reserved!")
   var path=arg[0];//argを受け取ってpathに入れ込む
   console.log(path)
+  ReadDictionary(path);
+})
+
+function ReadDictionary(path){
   var data=fs.readFileSync(path,'utf8')//pathの向こうにあるファイルをテキストで読む
   json =JSON.parse(data);//jsonでパース
 
@@ -28,11 +39,17 @@ ipcRenderer.on('4',function(event,arg){
   var word_count = json.words.length//単語数をカウント
   console.log("単語数"+word_count);
 
+  //単語欄の上下境
+  var word_cap=document.createElement('div')
+  word_cap.setAttribute("style","height:0px;border-top:solid 2px gray;");
+  dictionary.appendChild(word_cap);
+
   //forをぶん回して単語欄を生成する
   var word_queue=word_count;
   for(let i=0; i<word_queue; i++ ) {addElement(json,i);}
+}
 
-})
+
 
 function addElement(json,i){
   //参考:	https://www.sejuku.net/blog/49970
@@ -99,16 +116,21 @@ function addElement(json,i){
   entries.appendChild(form)
   entries.appendChild(pronun)
   entries.appendChild(tags)
-  // entries.setAttribute("style","border-bottom:solid 1px lightgray")
   entries.appendChild(HR)
- 
+  word_shelf.appendChild(entries)//entriesの完成
 
+  //----------------------------------------------------------//
+  //次から語義などの部分
+  var contents=document.createElement('div');
+  contents.id="contents";
+ 
   //classesをspan要素として生成。
   var classes=document.createElement('span')
   classes.setAttribute("style","font-size:15px;")
 
   //見出し語の列挙
-  var trans_queue=json.words[i].contents.length;
+  var trans_queue=json.words[i].contents.length;//この値が持っている品詞の数
+
   for (let k=0; k<trans_queue; k++){
     var classID=json.words[i].contents[k].title;
     var classes_queue=json.dictionary.classes.length;
@@ -117,22 +139,15 @@ function addElement(json,i){
       if(json.dictionary.classes[l].id==classID)
       {var className=json.dictionary.classes[l].name;}
     };
+
     var classDisplay=document.createTextNode(className+"："+json.words[i].contents[k].forms);
     classes.appendChild(classDisplay);//classesの完成
   }
 
+  contents.appendChild(classes)
+
+  word_shelf.appendChild(contents)
 
 
-  // var hr=document.createElement('hr')
-	// entry.appendChild(hr)
-
-  // //第二行：訳・文字情報の生成
-  // chars=document.createTextNode(
-  //   json.words[i].translations+"対応文字:"+json.words[i].entry.char);
-	// word_shelf.appendChild(chars);
-  word_shelf.appendChild(entries)
-  word_shelf.appendChild(document.createElement('br'))
-
-    
-	dictionary.appendChild(word_shelf);
+	dictionary.appendChild(word_shelf);//最終工程：word_shelfをdictionary窓にぶち込む
 }
