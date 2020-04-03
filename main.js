@@ -25,9 +25,6 @@ function createWindow()
   win.webContents.openDevTools();
 
   win.on('closed', () => {win = null;});
-  win.webContents.on('did-finish-load', () => {
-    win.webContents.send('ping', 'whoooooooh!')
-  })
 }
 
 
@@ -55,7 +52,7 @@ function initWindowMenu(){
       },
       {
         label:'辞書を作る',
-        enebled:false,
+        enabled:false,
       },
       {
         label:'名前を付けて複製を保存',
@@ -71,11 +68,19 @@ function initWindowMenu(){
       }
     ]
   },
-  {label: 'ヘルプ',submenu:
+  {label: '情報',submenu:
     [
       {
         label:'取扱説明書',
         enabled:false,
+      },
+      {
+        label:'辞書情報',
+        enabled:false,
+      },
+      {
+        label:'CanDICについて',
+        enebled:false,
       }
     ]
   },
