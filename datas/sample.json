@@ -7,92 +7,41 @@
                     "Ho:",
                     "Ho"
                 ],
+                "pronunciation": [
+                    "ho:",
+                    "ho"
+                ],
+                "tags": [
+                    1,
+                    2
+                ],
                 "char": [
                     "U+FFFF",
                     "U+FFFA"
                 ]
-			},
-			"pronunciation":[
-				"ho:"
-			],
-            "translations": [
-                {
-                    "title": 1,
-                    "forms": [
-                        "自分"
-                    ]
-                },
+            },
+            "contents": [
                 {
                     "title": 2,
                     "forms": [
                         "私"
                     ]
-                }
-            ],
-            "tags": [
-                1,
-                2
-            ],
-            "contents": [
-                {
-                    "title": 1,
-                    "text": "一人称として最も一般的。"
                 },
-                {
-                    "title": 2,
-                    "text": "最初に制定された単語。R03XXXX"
-                }
-            ],
-            "variations": [
-                {
-                    "title": "",
-                    "form": ""
-                }
-            ],
-            "relations": []
-        },
-        {
-            "entry": {
-                "id": 1,
-                "form": [
-                    "Yu",
-                    "Yit"
-                ],
-                "char": [
-                    "U+FFFB",
-                    "U+FFFC"
-                ]
-			},
-			"pronunciation":[
-				"yu",
-				"yit"
-			],
-            "translations": [
                 {
                     "title": 1,
                     "forms": [
-                        "他人"
+                        "自分"
+                    ],
+                    "content": [
+                        {
+                            "title": 1,
+                            "text": "一人称として最も一般的。"
+                        },
+                        {
+                            "title": 2,
+                            "text": "最初に制定された単語。R03XXXX"
+                        }
                     ]
-                },
-                {
-                    "title": 2,
-                    "forms": [
-                        "貴方"
-                    ]
-                }
-            ],
-            "tags": [
-                1,
-                2
-            ],
-            "contents": [
-                {
-                    "title": 1,
-                    "text": "二人称として最も一般的。"
-                },
-                {
-                    "title": 2,
-                    "text": "最初期に制定された単語。R03XXXX"
                 }
             ],
             "variations": [
