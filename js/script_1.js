@@ -46,48 +46,74 @@ function addElement(json,i){
   word_shelf.id=i;
 
   //entryiesをdiv要素として生成、この中にform要素とpronun要素・tag要素が入る
-  var entryies=document.createElement('div');
-
-  var entry
+  var entries=document.createElement('div');
+  entries.id="entries";
 
   //formをspan要素として生成。ここに語形が入る
   var form=document.createElement('span');
   //語形の列挙
-	var forms=document.createTextNode(json.words[i].entry.form);
+	var forms=document.createTextNode(" "+json.words[i].entry.form+" ");
   form.appendChild(forms);//formの完成
 
   //pronunをspan要素として生成。すこし小さく表示する。
   var pronun=document.createElement('span')
-  pronun.setAttribute("style","font-size:"+15+"px;")
+  pronun.setAttribute("style","font-size:13px;")
+
   //発音の列挙
-  var pronun_queue=json.words[i].pronunciation.length;
+  //始端の空白
+  var pronuns=document.createTextNode("　");
+  pronun.appendChild(pronuns)
+  //forを回して発音を//に挟んで列挙
+  var pronun_queue=json.words[i].entry.pronunciation.length;
   for(let j=0; j<pronun_queue; j++){
-    var pronuns=document.createTextNode(" /"+json.words[i].entry.pronunciation[j]+"/");
-    pronun.appendChild(pronuns);//pronunの完成
+    pronuns=document.createTextNode(" /"+json.words[i].entry.pronunciation[j]+"/");
+    pronun.appendChild(pronuns);
   };
-  var tag=document.createElement('span')
-  pronun.setAttribute("style","font-size:"+15+"px;")
-  var tasg=json.words[i].entry
+  //終端の空白
+  pronuns=document.createTextNode("　");
+  pronun.appendChild(pronuns)//pronunの完成
 
+  //tagをspan要素としていっぱい生成。すこし小さく、かつ囲んで表示する。
+  var tags=document.createElement('span')//tagの入るspan
+  var tags_queue=json.words[i].entry.tags.length;//tag数の取得
+  for (let m=0; m<tags_queue; m++){
+    var tag=document.createElement('span')//tagのspan
+    var tagID=json.words[i].entry.tags[m];
+    var tag_queue=json.dictionary.tags.length;
+    //forを回してtags.idが一致する物を探す
+    for(let n=0; n<tag_queue; n++){
+      if(json.dictionary.tags[n].id==tagID)
+      {var tagName=json.dictionary.tags[n].name;}
+    };
+    var tagDisplay=document.createTextNode(tagName);
+    tag.appendChild(tagDisplay);
+    tag.setAttribute("style","font-size:13px;border:solid 1px black")
+    tags.appendChild(tag);
+  }
+  //tagの完成
 
+  //entriesへの登録
+  entries.appendChild(form)
+  entries.appendChild(pronun)
+  entries.appendChild(tags)
+ 
 
   //classesをspan要素として生成。
   var classes=document.createElement('span')
-  pronun.setAttribute("style","font-size:15px;")
+  classes.setAttribute("style","font-size:15px;")
 
   //見出し語の列挙
-  var trans_queue=json.words[i].translations.length;
+  var trans_queue=json.words[i].contents.length;
   for (let k=0; k<trans_queue; k++){
-    var classID=json.words[i].translations[k].title;
+    var classID=json.words[i].contents[k].title;
     var classes_queue=json.dictionary.classes.length;
     //forを回してclasses.idが一致する物を探す
     for(let l=0; l<classes_queue; l++){
       if(json.dictionary.classes[l].id==classID)
       {var className=json.dictionary.classes[l].name;}
     };
-    var classDisplay=document.createTextNode(className+"："+json.words[i].tarnslation.forms);
+    var classDisplay=document.createTextNode(className+"："+json.words[i].contents[k].forms);
     classes.appendChild(classDisplay);//classesの完成
-
   }
 
 
@@ -99,8 +125,9 @@ function addElement(json,i){
   // chars=document.createTextNode(
   //   json.words[i].translations+"対応文字:"+json.words[i].entry.char);
 	// word_shelf.appendChild(chars);
+  word_shelf.appendChild(entries)
+  word_shelf.appendChild(document.createElement('br'))
 
-	word_shelf.appendChild(document.createElement('br'))
     
 	dictionary.appendChild(word_shelf);
 }
