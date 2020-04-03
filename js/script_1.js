@@ -124,14 +124,13 @@ function addElement(json,i){
   var contents=document.createElement('div');
   contents.id="contents";
  
-  //classesをspan要素として生成。
-  var classes=document.createElement('span')
-  classes.setAttribute("style","font-size:15px;")
+  //contentsをspan要素として生成。
+  var contents=document.createElement('div')
 
-  //見出し語の列挙
   var trans_queue=json.words[i].contents.length;//この値が持っている品詞の数
 
   for (let k=0; k<trans_queue; k++){
+    var Kthcontent=document.createElement('div')//K番目のdiv要素
     var classID=json.words[i].contents[k].title;
     var classes_queue=json.dictionary.classes.length;
     //forを回してclasses.idが一致する物を探す
@@ -141,10 +140,11 @@ function addElement(json,i){
     };
 
     var classDisplay=document.createTextNode(className+"："+json.words[i].contents[k].forms);
-    classes.appendChild(classDisplay);//classesの完成
+    contents.appendChild(classDisplay);//classesの完成
+    contents.appendChild(document.createElement('br'))
   }
 
-  contents.appendChild(classes)
+  contents.appendChild(Kthcontent)
 
   word_shelf.appendChild(contents)
 
