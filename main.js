@@ -87,6 +87,14 @@ function initWindowMenu(){
   {label: '開発',submenu:
     [
       {
+        label:'サンプル読み込み',
+        click(){
+          var result =["datas/sample.json"]
+          win.webContents.send('4',result);
+        }
+      },
+
+      {
         label: '再読み込み',
         accelerator: 'CmdOrCtrl+R',
         role:'reload',
