@@ -56,9 +56,9 @@ function addElement(json,i){
   //		https://www.sejuku.net/blog/30970
   //word_shelfをdiv要素として作成・idを設定(TNNの単語IDに一致)
 	var word_shelf = document.createElement('div');
-  word_shelf.id=i;
+  word_shelf.id="wordNo."+i;
   word_shelf.setAttribute("style",
-  "border-bottom:solid 2px gray;border-left:solid 2px gray;border-right:solid 2px gray;"
+  "border-bottom:solid 2px gray;border-left:solid 2px gray;border-right:solid 2px gray;padding:5px;"
   )
 
   //entryiesをdiv要素として生成、この中にform要素とpronun要素・tag要素が入る
@@ -116,16 +116,17 @@ function addElement(json,i){
   entries.appendChild(form)
   entries.appendChild(pronun)
   entries.appendChild(tags)
-  entries.appendChild(HR)
-  word_shelf.appendChild(entries)//entriesの完成
+  entries.appendChild(HR)//entriesの完成
+
 
   //----------------------------------------------------------//
   //次から語義などの部分
+  //contentsをdiv要素として生成。
   var contents=document.createElement('div');
   contents.id="contents";
  
-  //contentsをspan要素として生成。
-  var contents=document.createElement('div')
+
+  
 
   var trans_queue=json.words[i].contents.length;//この値が持っている品詞の数
 
@@ -151,7 +152,7 @@ function addElement(json,i){
     //-------------------------------------------------//
     //語義などcontent部分の実装
     var content_column=document.createElement('div');
-    content_column.setAttribute("style","border-left:solid 2px darkgray;")
+    content_column.setAttribute("style","border-left:solid 2px darkgray;margin-left:3px;padding:3px;")
     content_column.id="content_column";
 
     var content_queue=json.words[i].contents[k].content.length;
@@ -182,6 +183,7 @@ function addElement(json,i){
     contents.appendChild(Kthcontent)
   }
 
+  word_shelf.appendChild(entries)
   word_shelf.appendChild(contents)
 
 	dictionary.appendChild(word_shelf);//最終工程：word_shelfをdictionary窓にぶち込む
