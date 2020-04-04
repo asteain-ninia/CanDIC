@@ -112,7 +112,7 @@ function addElement(json,i){
   var HR =document.createElement('hr');
   HR.setAttribute("style","margin:0px;")
 
-  //entriesへの登録
+  //entriesへの登録とword_shelfへの登録
   entries.appendChild(form)
   entries.appendChild(pronun)
   entries.appendChild(tags)
@@ -131,23 +131,58 @@ function addElement(json,i){
 
   for (let k=0; k<trans_queue; k++){
     var Kthcontent=document.createElement('div')//K番目のdiv要素
+
+    var class_column=document.createElement('span');//品詞と訳が入る見出しのspan
+    class_column.setAttribute("style","border-bottom:solid 1px lightgray;")
+
+    //品詞名の取り出し
     var classID=json.words[i].contents[k].title;
     var classes_queue=json.dictionary.classes.length;
-    //forを回してclasses.idが一致する物を探す
-    for(let l=0; l<classes_queue; l++){
+    for(let l=0; l<classes_queue; l++){    //forを回してclasses.idが一致する物を探す
       if(json.dictionary.classes[l].id==classID)
       {var className=json.dictionary.classes[l].name;}
     };
 
+    Kthcontent.id=className;
+
     var classDisplay=document.createTextNode(className+"："+json.words[i].contents[k].forms);
-    contents.appendChild(classDisplay);//classesの完成
-    contents.appendChild(document.createElement('br'))
+    class_column.appendChild(classDisplay);//classesの完成
+
+    //-------------------------------------------------//
+    //語義などcontent部分の実装
+    var content_column=document.createElement('div');
+    content_column.setAttribute("style","border-left:solid 2px darkgray;")
+    content_column.id="content_column";
+
+    var content_queue=json.words[i].contents[k].content.length;
+    for(let o=0;o<content_queue;o++){
+      var title=document.createElement('span');
+      title.setAttribute("style","border-bottom: solid 1px gray")
+      var titleID=json.words[i].contents[k].content[o].title;
+      var title_queue=json.dictionary.titles.length;
+      for (let p=0;p<title_queue;p++){
+        if(json.dictionary.titles[p].id==titleID)
+        {var titleName=json.dictionary.titles[p].name;}
+      }
+      var titleDisplay=document.createTextNode(titleName);
+      title.appendChild(titleDisplay);
+      content_column.appendChild(title);
+
+      var contentBox=document.createElement('div')
+      contentBox.id="contentBox";
+      var contentDisplay=document.createTextNode(
+        json.words[i].contents[k].content[o].text)
+      contentBox.appendChild(contentDisplay);
+      content_column.appendChild(contentBox);
+    }
+
+    //Kthcontentへの登録とcontentsへの登録
+    Kthcontent.appendChild(class_column);
+    Kthcontent.appendChild(content_column);
+    contents.appendChild(Kthcontent)
   }
 
-  contents.appendChild(Kthcontent)
-
   word_shelf.appendChild(contents)
-
 
 	dictionary.appendChild(word_shelf);//最終工程：word_shelfをdictionary窓にぶち込む
 }
