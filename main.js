@@ -13,7 +13,7 @@ function createWindow()
       title:'CanDIC',
       width: 1200+500,
       height: 750,
-      useContentSize:false,
+      useContentSize:true,
       icon: './images/icon.png',
       webPreferences: {nodeIntegration: true}
     }
@@ -26,6 +26,15 @@ function createWindow()
 
   win.on('closed', () => {win = null;});
 }
+let editor;
+function createEditor(){
+  editor=new BrowserWindow({
+    title:'CanDICEditor',
+  })
+}
+
+
+
 
 
 app.on('ready', createWindow);
