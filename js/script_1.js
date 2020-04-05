@@ -7,13 +7,6 @@ const dictionary=document.getElementById('dictionary')
 
 var json = null;
 
-function debugButton(){
-  path="datas/sample.json";
-  ReadDictionary(path);
-}
-
-
-
 ipcRenderer.on('4',function(event,arg){
   console.log("filePath TNN Reserved!")
   var path=arg[0];//argを受け取ってpathに入れ込む
@@ -187,4 +180,12 @@ function addElement(json,i){
   word_shelf.appendChild(contents)
 
 	dictionary.appendChild(word_shelf);//最終工程：word_shelfをdictionary窓にぶち込む
+}
+
+function debugButton(){
+  path="datas/sample.json";
+  ReadDictionary(path);
+}
+function OpenEdit(number){
+  console.log(number);
 }
