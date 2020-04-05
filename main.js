@@ -9,7 +9,7 @@ function createWindow()
   index = new BrowserWindow(
     {
       title:'CanDIC',
-      width: 1200+500,
+      width: 1300+400,
       height: 750,
       useContentSize:true,
       icon: './images/icon.png',
@@ -22,14 +22,23 @@ function createWindow()
   index.loadURL(`file://${__dirname}/index.html`);
   index.webContents.openDevTools();
 
-  index.on('closed', () => {index = null;});
+  index.on('closed', () => {
+    index = null;
+    if(editor){
+      editor.close();
+    }
+  });
 }
 
-
+let requiredID;
 let editor;
 function createEditor(){
   editor=new BrowserWindow({
     title:'CanDICEditor',
+    width: 500+400,
+    height: 750,
+    useContentSize:true,
+    webPreferences: {nodeIntegration: true}
   });
 
   editor.setMenu(null);
@@ -37,15 +46,18 @@ function createEditor(){
   editor.loadURL(`file://${__dirname}/editor.html`);
   editor.webContents.openDevTools();
 
+  editor.webContents.on('did-finish-load', ()=>{
+    editor.webContents.send('target',requiredID);
+  });
+
+
   editor.on('closed', () => {editor = null;});
 }
 
-ipcMain.handle('editor_signal',(event,message)=>{
+ipcMain.on('editor_signal',(event,arg)=>{
+  requiredID=arg;
   createEditor();
-  editor.webContents.send('target',message)
 });
-
-
 
 app.on('ready', createWindow);
 
@@ -59,7 +71,7 @@ app.on('will-quit',function(){index=null;});
 function initWindowMenu(){
   const template =
 [
-  {label: '操作',submenu:
+  {label: '辞書操作',submenu:
     [
       {
         label:'辞書を開く',
@@ -84,6 +96,15 @@ function initWindowMenu(){
       {
       label:'設定を変更する',
       enabled:false,
+      }
+    ]
+  },
+  {
+    label:'辞書',submenu:
+    [
+      {
+        label:"番号",
+        enabled:false,
       }
     ]
   },
