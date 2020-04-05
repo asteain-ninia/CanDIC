@@ -4,8 +4,6 @@ const {app,BrowserWindow,dialog,ipcMain}=electron
 const Menu = electron.Menu;
 
 let index;
-
-
 function createWindow()
 {
   index = new BrowserWindow(
@@ -33,6 +31,8 @@ function createEditor(){
   editor=new BrowserWindow({
     title:'CanDICEditor',
   });
+
+  editor.setMenu(null);
 
   editor.loadURL(`file://${__dirname}/editor.html`);
   editor.webContents.openDevTools();
