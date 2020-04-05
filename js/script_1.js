@@ -188,4 +188,5 @@ function debugButton(){
 }
 function OpenEdit(number){
   console.log(number);
+  ipcRenderer.invoke('editor_signal',number)
 }

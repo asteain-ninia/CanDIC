@@ -4,8 +4,6 @@ const {app,BrowserWindow,dialog,ipcMain}=electron
 const Menu = electron.Menu;
 
 let win;
-
-
 function createWindow()
 {
   win = new BrowserWindow(
@@ -26,14 +24,24 @@ function createWindow()
 
   win.on('closed', () => {win = null;});
 }
+
+
 let editor;
 function createEditor(){
   editor=new BrowserWindow({
     title:'CanDICEditor',
-  })
+  });
+
+  editor.loadURL(`file://${__dirname}/editor.html`);
+  editor.webContents.openDevTools();
+
+  editor.on('closed', () => {editor = null;});
 }
 
-
+ipcMain.handle('editor_signal',(event,message)=>{
+  console.log(message)
+  createEditor();
+});
 
 
 
