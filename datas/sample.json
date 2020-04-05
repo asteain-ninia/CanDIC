@@ -57,6 +57,7 @@
     ],
     "dictionary": {
         "type": "TNN",
+        "version":"beta 1",
         "language": "ena",
         "classes": [
             {
