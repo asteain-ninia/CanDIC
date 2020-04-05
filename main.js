@@ -3,10 +3,12 @@ const electron = require('electron');
 const {app,BrowserWindow,dialog,ipcMain}=electron
 const Menu = electron.Menu;
 
-let win;
+let index;
+
+
 function createWindow()
 {
-  win = new BrowserWindow(
+  index = new BrowserWindow(
     {
       title:'CanDIC',
       width: 1200+500,
@@ -19,10 +21,10 @@ function createWindow()
 
   initWindowMenu();
   
-  win.loadURL(`file://${__dirname}/index.html`);
-  win.webContents.openDevTools();
+  index.loadURL(`file://${__dirname}/index.html`);
+  index.webContents.openDevTools();
 
-  win.on('closed', () => {win = null;});
+  index.on('closed', () => {index = null;});
 }
 
 
@@ -39,8 +41,8 @@ function createEditor(){
 }
 
 ipcMain.handle('editor_signal',(event,message)=>{
-  console.log(message)
   createEditor();
+  editor.webContents.send('target',message)
 });
 
 
@@ -49,10 +51,10 @@ app.on('ready', createWindow);
 
 app.on('window-all-closed', () => {if(process.platform !== 'darwin') {app.quit();}});
 
-app.on('activate', () => {if (win === null) {createWindow();}});
+app.on('activate', () => {if (index === null) {createWindow();}});
 
 app.on('before-quit',function(e){forceQuit=true;});
-app.on('will-quit',function(){win=null;});
+app.on('will-quit',function(){index=null;});
 
 function initWindowMenu(){
   const template =
@@ -64,7 +66,7 @@ function initWindowMenu(){
         click(){
           //参考：https://qiita.com/stupid_student2/items/f25c2b8c3d0ca5cdc89e
           var result = dialog.showOpenDialogSync({properties: ['openFile']});
-          win.webContents.send('4',result);
+          index.webContents.send('4',result);
         }
       },
       {
@@ -107,7 +109,7 @@ function initWindowMenu(){
         label:'サンプル読み込み',
         click(){
           var result =["datas/sample.json"]
-          win.webContents.send('4',result);
+          index.webContents.send('4',result);
         }
       },
 
