@@ -49,8 +49,8 @@ function ReadDictionary(path) {
 
 
 function addElement(json, i) {
-    //参考:	https://www.sejuku.net/blog/49970
-    //		https://www.sejuku.net/blog/30970
+    //参考:    https://www.sejuku.net/blog/49970
+    //        https://www.sejuku.net/blog/30970
     //word_shelfをdiv要素として作成・idを設定(TNNの単語IDに一致)
     var word_shelf = document.createElement('div');
     word_shelf.id = "wordNo." + i;
@@ -194,7 +194,12 @@ function debugButton() {
     ReadDictionary(path);
 }
 
-function OpenEdit(number) {
-    console.log(number);
-    ipcRenderer.send('editor_signal', number)
+function OpenEdit() {
+    var editword ={
+        "number":0,
+        "path":"datas/sample.json",
+    }
+
+    console.log(editword);
+    ipcRenderer.send('editor_signal', editword)
 }

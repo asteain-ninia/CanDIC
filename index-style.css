@@ -1,41 +1,41 @@
 html,body{
-	background-color: lightgray;
-	height: 99vh;
-	overflow: hidden;
+    background-color: lightgray;
+    height: 99vh;
+    overflow: hidden;
 }
 
 .container {
     display: grid;
-	grid-template-columns: 2fr 3fr;
-	height: 100%;
-	gap: 8px;
-	margin: 8px;
+    grid-template-columns: 2fr 3fr;
+    height: 100%;
+    gap: 8px;
+    margin: 8px;
 }
 
 .search{
-	height: 30px;
-	background-color:whitesmoke;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+    height: 30px;
+    background-color:whitesmoke;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .search form{
-	width:100%;
-	display: grid;
-	grid-template-columns: 8fr 2fr;
+    width:100%;
+    display: grid;
+    grid-template-columns: 8fr 2fr;
 }
 .a input{
-	margin: 3px;
+    margin: 3px;
 }
 
 .dictionary{
-	height: 94vh;
-	overflow-y: scroll;
-	background-color: whitesmoke;
+    height: 94vh;
+    overflow-y: scroll;
+    background-color: whitesmoke;
 
 }
 
 .editor{
-	background-color: whitesmoke;
+    background-color: whitesmoke;
 
 }

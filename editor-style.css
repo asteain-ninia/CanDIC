@@ -4,13 +4,15 @@ html,body{
 	overflow: hidden;
 }
 
-
 .container {
 	background-color:whitesmoke;
 	height: 100%;
 	margin: 8px;
 }
+.spelling_form{
+font-size:large;
+}
 
-.entry{
-    background-color: aqua;
+hr{
+	margin: 0;
 }

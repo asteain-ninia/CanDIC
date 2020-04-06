@@ -8,14 +8,19 @@
 <body topmargin=0 leftmargin=0 rightmargin=0>
     <div class="container">
         <div class="editor">
-            <div class="entry">
+            <div class="entry" id="entry">
                 <span id="wordID">ID</span>
-                <div>綴り</div>
-                <hr style="margin:0;"/>
-                <div>タグ</div>
-                <hr style="margin:0;"/>
-                <div>文字</div>
-                <hr style="margin:0;"/>
+                <div id="spelling">
+                    <form name="spelling_form">
+                        <input type="text" name="spell" class="spell"/>
+                        <input type="button" name="delete_spell" value="-">
+                    </form>
+                </div>
+                <hr>
+                <div id="tag">タグ</div>
+                <hr>
+                <div id="char">文字</div>
+                <hr>
             </div>
             <div class="contents">
 
@@ -23,6 +28,6 @@
         </div>
     </div>
     <link rel="stylesheet" href="./editor-style.css">
-	<script src = "js/script_2.js"></script>
+    <script src = "js/script_2.js"></script>
 </body>
 </html>
