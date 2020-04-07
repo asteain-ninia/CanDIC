@@ -19,6 +19,30 @@ function ShowWord(target){
     var form=document.getElementById("spelling");
     var tag=document.getElementById("tag");
     var char=document.getElementById("char")
+}
 
+function add_spelling(){
+    var spelling_1=document.getElementById("spelling")
 
+    var spelling=document.createElement('form')
+    spelling.className="spelling";
+
+    var spell=document.createElement('input');
+    spell.type="text";
+    spell.name="spell";
+    var remove=document.createElement('input');
+    remove.type="button";
+    remove.name="remove";
+    remove.value="-"
+    remove.onclick="remove_spelling"
+
+    spelling.appendChild(spell);
+    spelling.appendChild(remove);
+
+    spelling_1.appendChild(spelling)
+}
+
+function remove_spelling(){
+    console.log("remove!")
+    //dictionary.removeChild(dictionary.firstChild);
 }

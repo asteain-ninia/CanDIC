@@ -9,15 +9,17 @@
     <div id="container">
         <div id="editor">
             <div id="entry">
-                <span id="wordID">ID</span>
-                <form id="spelling" class="spelling">
-                    <input type="text" name="spell"/>
-                    <input type="button" name="add" value="-">
-                 </form>
+                <div id="spelling">
+                    <span id="wordID">ID:Nodata</span>
+                    <form class="spelling">
+                        <input type="text" name="spell"/>
+                        <input type="button" name="remove" value="-" onclick="remove_spelling()">
+                    </form>
+                </div>
                 <form class="spelling">
+                    <a>順番変更機能は未実装。</a>
                     <a></a>
-                    <a></a>
-                    <input type="button" name="remove" value="+">
+                    <input type="button" name="add" value="+" onclick="add_spelling()">
                 </form>
 
                 <hr>
