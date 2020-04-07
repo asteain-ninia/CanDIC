@@ -21,11 +21,15 @@ function ShowWord(target){
     var char=document.getElementById("char")
 }
 
+let spellingFormCount=0;
+
 function add_spelling(){
-    var spelling_1=document.getElementById("spelling")
+    spellingFormCount++;
+    var spellingBox=document.getElementById("spellingBox")
 
     var spelling=document.createElement('form')
     spelling.className="spelling";
+    spelling.id="spelling-"+spellingFormCount;
 
     var spell=document.createElement('input');
     spell.type="text";
@@ -34,15 +38,15 @@ function add_spelling(){
     remove.type="button";
     remove.name="remove";
     remove.value="-"
-    remove.onclick="remove_spelling"
+    remove.setAttribute("onclick","remove_spelling("+spellingFormCount+")")
 
     spelling.appendChild(spell);
     spelling.appendChild(remove);
 
-    spelling_1.appendChild(spelling)
+    spellingBox.appendChild(spelling)
 }
 
-function remove_spelling(){
-    console.log("remove!")
-    //dictionary.removeChild(dictionary.firstChild);
+function remove_spelling(spelling_count){
+    var remove_target=document.getElementById("spelling-"+spelling_count)
+    spellingBox.removeChild(remove_target);
 }
