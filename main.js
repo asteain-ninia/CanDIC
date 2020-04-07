@@ -9,7 +9,7 @@ function createWindow()
   index = new BrowserWindow(
     {
       title:'CanDIC',
-      width: 1300+400,
+      width: 1200+500,
       height: 750,
       useContentSize:true,
       icon: './images/icon.png',
@@ -35,7 +35,7 @@ let editor;
 function createEditor(){
   editor=new BrowserWindow({
     title:'CanDICEditor',
-    width: 500+400,
+    width: 600+500,
     height: 750,
     useContentSize:true,
     webPreferences: {nodeIntegration: true}

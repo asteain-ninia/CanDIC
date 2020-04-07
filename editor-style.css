@@ -10,6 +10,12 @@ html,body{
 	margin: 8px;
 }
 .spelling_form{
+	display: grid;
+	grid-template-columns: 1fr 27px 27px;
+	gap: 2px;
+	margin: 2px;
+}
+.spell{
 font-size:large;
 }
 
