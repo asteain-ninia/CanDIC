@@ -10,13 +10,14 @@
         <div id="editor">
             <div id="entry">
                 <div id="spellingBox">
-                    <span id="wordID">ID:Nodata</span>
-                    <form class="spelling" id=spelling-0>
-                        <input type="text" name="spell"/>
-                        <input type="button" name="remove" value="-" onclick="remove_spelling(0)">
-                    </form>
+                    <span id="wordID">ID:NoData</span>
+                    <br>語形
+                    <!--<form name="1-0" class="input-1" id=1-0>
+                        <input type="text" name="content"/>
+                        <input type="button" name="remove" value="-" onclick="remove(1,0)">
+                    </form>-->
                 </div>
-                <form class="spelling">
+                <form class="input-1"><!--spellingの+ボタン-->
                     <a>順番変更機能は未実装。</a>
                     <a></a>
                     <input type="button" name="add" value="+" onclick="add_spelling()">
@@ -24,7 +25,10 @@
 
                 <hr>
 
-                <div id="tag">タグ</div>
+                <div id="tagBox">
+                    タグ<br>
+                    <span class="tag">レベルいち</span>
+                </div>
 
                 <hr>
 

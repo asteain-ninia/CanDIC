@@ -10,7 +10,7 @@ div#container {
 	margin: 8px;
 }
 
-.spelling{
+.input-1{
 	display: grid;
 	grid-template-columns: 1fr 27px 27px;
 	gap: 2px;
@@ -30,4 +30,8 @@ input[name="remove"]{
 
 hr{
 	margin: 0;
+}
+
+.tag{
+	border:solid 1px black
 }
