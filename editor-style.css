@@ -4,19 +4,30 @@ html,body{
 	overflow: hidden;
 }
 
-.container {
+div#container {
 	background-color:whitesmoke;
 	height: 100%;
 	margin: 8px;
 }
-.spelling_form{
+
+.spelling{
 	display: grid;
 	grid-template-columns: 1fr 27px 27px;
 	gap: 2px;
 	margin: 2px;
 }
-.spell{
-font-size:large;
+
+
+
+input[name="spell"]{
+	font-size:large;
+}
+
+input[name="add"]{
+	font-size: large;
+}
+input[name="remove"]{
+	font-size: large;
 }
 
 hr{

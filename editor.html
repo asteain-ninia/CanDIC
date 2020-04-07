@@ -6,22 +6,30 @@
 
 </head>
 <body topmargin=0 leftmargin=0 rightmargin=0>
-    <div class="container">
-        <div class="editor">
-            <div class="entry" id="entry">
+    <div id="container">
+        <div id="editor">
+            <div id="entry">
                 <span id="wordID">ID</span>
-                <div id="spelling">
-                    <form name="spelling_form" class="spelling_form">
-                        <input type="text" name="spell" class="spell"/>
-                        <input type="button" name="delete_button" value="-">
-                        <input type="button" name="add_button" value="+">
-                    </form>
-                </div>
+                <form id="spelling" class="spelling">
+                    <input type="text" name="spell"/>
+                    <input type="button" name="add" value="-">
+                 </form>
+                <form class="spelling">
+                    <a></a>
+                    <a></a>
+                    <input type="button" name="remove" value="+">
+                </form>
+
                 <hr>
+
                 <div id="tag">タグ</div>
+
                 <hr>
+
                 <div id="char">文字</div>
+
                 <hr>
+
             </div>
             <div class="contents">
 
