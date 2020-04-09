@@ -9,6 +9,8 @@ div#container {
 	height: 100%;
 	margin: 8px;
 }
+div#editor{height:95%}
+div#submit{height:5%}
 
 .input-1{
 	display: grid;

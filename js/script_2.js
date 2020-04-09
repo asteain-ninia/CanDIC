@@ -39,23 +39,11 @@ function load_word(target_path,target_number){
 function entry_load(entry,custom,order){
 
     var element=document.createElement('form')
-    element.name=custom+"-"+order;
     element.className="input-1";
-    element.id=custom+"-"+order;
 
     var column_value=document.createElement('input');//窓
     column_value.type="text";
     column_value.name="content";
-    switch(customID){
-        case 1:
-            custom="spell";
-            column_value.value=entry.form[order]
-            break;
-        case 2:
-            custom="tag";
-            break;
-    }
-    column_value.value="";
 
     var remove=document.createElement('input');//-ボタン
     remove.type="button";
@@ -66,34 +54,21 @@ function entry_load(entry,custom,order){
     element.appendChild(column_value);
     element.appendChild(remove);
 
+    //element.name=custom+"-"+order;
+    //element.id=custom+"-"+order;
+
+
     spellingBox.appendChild(element)
     order++;
 }
 
 function remove(customID,order){
     //どの窓がremoveを行ったかを受け取って、それをですとろーい
-    switch(customID){
-        case 1:
-            custom="spell";
-            break;
-        case 2:
-            custom="tag";
-            break;
-    }
-    var remove_target=document.getElementById(custom+"-"+order)
-    remove_target.parentNode.removeChild(remove_target);
+    console.log("remove is TODO")
+    //var remove_target=document.getElementById(custom+"-"+order)
+    //remove_target.parentNode.removeChild(remove_target);
 }
 
 function add_button(customID){
-
-    switch(customID){
-        case 1:
-            custom="spell";
-            entry_load(custom,order);
-            break;
-        case 2:
-            custom="tag";
-            break;
-    }
-
+    console.log("add is TODO")
 }
