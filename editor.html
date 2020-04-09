@@ -12,15 +12,22 @@
                 <div id="spellingBox">
                     <span id="wordID">ID:NoData</span>
                     <br>語形
-                    <!--<form name="spell-0" class="input-1" id=spell-0>
-                        <input type="text" name="content"/>
-                        <input type="button" name="remove" value="-" onclick="remove(1,0)">
-                    </form>-->
                 </div>
                 <form class="input-1"><!--spellingの+ボタン-->
                     <a>順番変更機能は未実装。</a>
                     <a></a>
-                    <input type="button" name="add" value="+" onclick="add_button(1)"/>
+                    <input type="button" name="add" value="+" onclick="add_button(1,-1)"/>
+                </form>
+
+                <hr>
+
+                <div id="pronunBox">
+                    撥音
+                </div>
+                <form class="input-1">
+                    <a>順番変更機能は未実装。</a>
+                    <a></a>
+                    <input type="button" name="add" value="+" onclick="add_button(2,-1)"/>
                 </form>
 
                 <hr>
@@ -35,7 +42,6 @@
                 <div id="char">文字</div>
 
                 <hr>
-
             </div>
             <div class="contents">
 
@@ -43,7 +49,10 @@
         </div>
         <div id="submit">
             <hr>
-            ここに決定・キャンセルが入る
+            <form>
+                <input type="button" value=破棄>
+                <input type="button" value=確定>
+            </form>
         </div>
     </div>
     <link rel="stylesheet" href="./editor-style.css">

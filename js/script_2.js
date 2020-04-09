@@ -2,10 +2,16 @@ const electron = require('electron');
 const {ipcRenderer}=electron;
 const fs=require('fs')
 
+let entry=null;
+let FormID=0;
+let customID=0;
 let wordID=document.getElementById("wordID");
-let spellingBox=document.getElementById("spellingBox")
+let spellingBox=document.getElementById("spellingBox");
+let pronunBox=document.getElementById('pronunBox');
+let charBox=document.getElementById("charBox");
 let tagBox=document.getElementById("tagBox");
-let charBox=document.getElementById("charBox")
+
+
 
 ipcRenderer.on('target',(event,arg)=>{
     var target_number=arg.number;
@@ -19,27 +25,28 @@ function load_word(target_path,target_number){
     var data = fs.readFileSync(target_path, 'utf8') //pathの向こうにあるファイルをテキストで読む
     json = JSON.parse(data); //jsonでパース(ここ二行scrpt_1と共通)
 
-    var entry=json.words[target_number].entry//entry下のデータへの短縮
+    entry=json.words[target_number].entry//entry下のデータへの短縮
 
     wordID.innerHTML="ID:"+target_number;//IDの表示
 
     var forms_queue=entry.form.length;//第一：語形の読み込み
-    var spell="spell"
+    customID=1;
     for(let i=0; i<forms_queue; i++){
-        entry_load(entry,spell,i);
+       entry_load(customID,i);
     }
 
-    var chars_queue=entry.char.length;
-    for(let i=0; i<chars_queue;i++){
-        //entry_load(entry,char,i);
+    var pronuns_queue=entry.pronunciation.length;
+    customID=2;
+    for(let i=0; i<pronuns_queue;i++){
+        entry_load(customID,i);
     }
     var tags_queue=entry.tags.length
 }
 
-function entry_load(entry,custom,order){
-
-    var element=document.createElement('form')
+function entry_load(custom,i){
+    var element=document.createElement('form');
     element.className="input-1";
+    element.name=element.id=FormID;
 
     var column_value=document.createElement('input');//窓
     column_value.type="text";
@@ -49,26 +56,33 @@ function entry_load(entry,custom,order){
     remove.type="button";
     remove.name="remove";
     remove.value="-"
-    remove.setAttribute("onclick","remove("+custom+","+order+")")
+    remove.setAttribute("onclick","remove("+FormID+")")
 
-    element.appendChild(column_value);
-    element.appendChild(remove);
-
-    //element.name=custom+"-"+order;
-    //element.id=custom+"-"+order;
-
-
-    spellingBox.appendChild(element)
-    order++;
+    switch(custom){
+        case 1:
+            element.appendChild(column_value);
+            element.appendChild(remove);
+            spellingBox.appendChild(element);
+            if(i!=-1)
+                {column_value.value=entry.form[i];}
+            break;
+        case 2:
+            element.appendChild(column_value);
+            element.appendChild(remove);
+            pronunBox.appendChild(element);
+            if(i!=-1)
+                {column_value.value=entry.pronunciation[i];}
+            break;
+    }
+    FormID++
 }
 
-function remove(customID,order){
+function remove(target){
     //どの窓がremoveを行ったかを受け取って、それをですとろーい
-    console.log("remove is TODO")
-    //var remove_target=document.getElementById(custom+"-"+order)
-    //remove_target.parentNode.removeChild(remove_target);
+    var remove_target=document.getElementById(target)
+    remove_target.parentNode.removeChild(remove_target);
 }
 
-function add_button(customID){
-    console.log("add is TODO")
+function add_button(customID,i){
+    entry_load(customID,i)
 }
