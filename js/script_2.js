@@ -19,62 +19,43 @@ function load_word(target_path,target_number){
     var data = fs.readFileSync(target_path, 'utf8') //pathの向こうにあるファイルをテキストで読む
     json = JSON.parse(data); //jsonでパース(ここ二行scrpt_1と共通)
 
-    var entry=json.words[target_number].entry
+    var entry=json.words[target_number].entry//entry下のデータへの短縮
 
-    wordID.innerHTML="ID:"+target_number;
+    wordID.innerHTML="ID:"+target_number;//IDの表示
 
-    var forms_queue=entry.form.length;
+    var forms_queue=entry.form.length;//第一：語形の読み込み
+    var spell="spell"
     for(let i=0; i<forms_queue; i++){
-        load_spelling(entry,i);
+        entry_load(entry,spell,i);
     }
 
     var chars_queue=entry.char.length;
     for(let i=0; i<chars_queue;i++){
-        //load_chars(entry,i);
+        //entry_load(entry,char,i);
     }
-
-
-
     var tags_queue=entry.tags.length
 }
 
-function load_spelling(entry,i){
-    var custom=1　//1=spelling
-
-    var spelling=document.createElement('form')
-    spelling.name="spelling-"+i;
-    spelling.className="input-1";
-    spelling.id="spelling-"+i;
-
-    var spell=document.createElement('input');
-    spell.type="text";
-    spell.name="spell";
-    spell.value=entry.form[i]
-
-    var remove=document.createElement('input');
-    remove.type="button";
-    remove.name="remove";
-    remove.value="-"
-
-    remove.setAttribute("onclick","remove("+custom+","+i+")")
-
-    spelling.appendChild(spell);
-    spelling.appendChild(remove);
-
-    spellingBox.appendChild(spelling)
-}
-
-let order=0
-function entry_add(custom){//空っぽの窓を末尾に追加する関数
+function entry_load(entry,custom,order){
 
     var element=document.createElement('form')
-    element.name=custom+order;
+    element.name=custom+"-"+order;
     element.className="input-1";
-    element.id=custom+order;
+    element.id=custom+"-"+order;
 
     var column_value=document.createElement('input');//窓
     column_value.type="text";
     column_value.name="content";
+    switch(customID){
+        case 1:
+            custom="spell";
+            column_value.value=entry.form[order]
+            break;
+        case 2:
+            custom="tag";
+            break;
+    }
+    column_value.value="";
 
     var remove=document.createElement('input');//-ボタン
     remove.type="button";
@@ -86,17 +67,33 @@ function entry_add(custom){//空っぽの窓を末尾に追加する関数
     element.appendChild(remove);
 
     spellingBox.appendChild(element)
-
     order++;
 }
 
-function remove(custom,order){
+function remove(customID,order){
     //どの窓がremoveを行ったかを受け取って、それをですとろーい
+    switch(customID){
+        case 1:
+            custom="spell";
+            break;
+        case 2:
+            custom="tag";
+            break;
+    }
     var remove_target=document.getElementById(custom+"-"+order)
     remove_target.parentNode.removeChild(remove_target);
 }
 
-function add_spelling(){
-    custom=1
-    entry_add(custom)
+function add_button(customID){
+
+    switch(customID){
+        case 1:
+            custom="spell";
+            entry_load(custom,order);
+            break;
+        case 2:
+            custom="tag";
+            break;
+    }
+
 }
