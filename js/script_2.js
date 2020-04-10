@@ -17,30 +17,33 @@ ipcRenderer.on('target',(event,arg)=>{
     var target_number=arg.number;
     var target_path=arg.path;
 
-    console.log(arg);
-    load_word(target_path,target_number);
-});
-
-function load_word(target_path,target_number){
     var data = fs.readFileSync(target_path, 'utf8') //pathの向こうにあるファイルをテキストで読む
     json = JSON.parse(data); //jsonでパース(ここ二行scrpt_1と共通)
+    load_word(target_number);
+});
 
-    entry=json.words[target_number].entry//entry下のデータへの短縮
+function load_word(target_number){
+    if(target_number!=-1){
+        
+        //各データの長さチェック
+        entry=json.words[target_number].entry
+        var forms_queue=entry.form.length;
+        var pronuns_queue=entry.pronunciation.length;
+        wordID.innerHTML="ID:"+target_number;
 
-    wordID.innerHTML="ID:"+target_number;//IDの表示
+        customID=1;//第一：語形の読み込み
+        for(let i=0; i<forms_queue; i++){
+            entry_load(customID,i);
+        }
 
-    var forms_queue=entry.form.length;//第一：語形の読み込み
-    customID=1;
-    for(let i=0; i<forms_queue; i++){
-       entry_load(customID,i);
+        customID=2;
+        for(let i=0; i<pronuns_queue;i++){
+            entry_load(customID,i);
+        }
+
+    }else{//新規作成時の画面
+        wordID.innerHTML="NEW WORD";
     }
-
-    var pronuns_queue=entry.pronunciation.length;
-    customID=2;
-    for(let i=0; i<pronuns_queue;i++){
-        entry_load(customID,i);
-    }
-    var tags_queue=entry.tags.length
 }
 
 function entry_load(custom,i){

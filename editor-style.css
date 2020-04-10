@@ -10,7 +10,13 @@ div#container {
 	margin: 8px;
 }
 div#editor{height:95%}
-div#submit{height:5%}
+form#submitBox{
+	display: grid;
+	grid-template-columns: 1fr 60px 60px;
+	gap: 2px;
+	margin: 2px;
+	padding-bottom: 5px;
+}
 
 .input-1{
 	display: grid;
