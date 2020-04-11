@@ -24,6 +24,14 @@ form#submitBox{
 	gap: 2px;
 	margin: 2px;
 }
+.input-2{
+	margin: 2px;
+}
+div#tagBox{
+	display: grid;
+	grid-template-columns: repeat(auto-fill,minmax(100px,1fr));
+	gap: 5px;
+}
 
 input[name="content"]{
 	font-size:large;

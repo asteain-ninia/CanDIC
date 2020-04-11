@@ -9,33 +9,39 @@
     <div id="container">
         <div id="editor">
             <div id="entry">
+                <span id="wordID">ID:NoData<br>語形</span>
                 <div id="spellingBox">
-                    <span id="wordID">ID:NoData<br>語形</span>
+
                 </div>
                 <form class="input-1"><!--spellingの+ボタン-->
                     <a>順番変更機能は未実装。</a>
                     <a></a>
-                    <input type="button" name="add" value="+" onclick="add_button(1,-1)"/>
+                    <input type="button" name="add" value="+" onclick="add_button(1)"/>
                 </form>
 
                 <hr>
-
+                <span>撥音</span>
                 <div id="pronunBox">
-                    <span>撥音</span>
+
                 </div>
                 <form class="input-1">
                     <a>順番変更機能は未実装。</a>
                     <a></a>
-                    <input type="button" name="add" value="+" onclick="add_button(2,-1)"/>
+                    <input type="button" name="add" value="+" onclick="add_button(2)"/>
                 </form>
 
                 <hr>
-
+                <span>タグ<br></span>
                 <div id="tagBox">
-                    タグ<br>
                     <span class="tag">レベルいち</span>
-                </div>
+                    <input type="button" name="remove" value="-" onclick="remove(4)">
 
+                </div>
+                <form class="input-2">
+                    <select id="tagSelection">
+
+                    </select>
+                    <input type="button"value="+" name="add" onclick="tag_add_button()"/>
                 <hr>
 
                 <div id="char">文字</div>
