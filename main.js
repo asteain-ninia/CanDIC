@@ -36,6 +36,7 @@ function createEditor(){
   editor=new BrowserWindow({
     title:'CanDICEditor',
     width: 600+500,
+    minWidth:300+500,
     height: 750,
     useContentSize:true,
     webPreferences: {nodeIntegration: true}
