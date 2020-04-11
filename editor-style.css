@@ -35,6 +35,10 @@ div#tagBox{
 	grid-template-columns: repeat(auto-fill,minmax(100px,1fr));
 	gap: 5px;
 }
+.tagColumn{
+	display: grid;
+	grid-template-columns: 1fr 27px;
+}
 
 input[name="content"]{
 	font-size:large;
@@ -54,5 +58,4 @@ hr{
 .tag{
 	background-color: white;
 	border:solid 1px black;
-	width: 20%;
 }

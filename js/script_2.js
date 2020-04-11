@@ -114,6 +114,7 @@ function entry_load(custom,i){
                 }
             }
             var tagDisplay = document.createTextNode(tagName);
+            element.className="tagColumn"
             tag.appendChild(tagDisplay);
             element.appendChild(tag);
             element.appendChild(remove);
@@ -123,6 +124,27 @@ function entry_load(custom,i){
     FormID++
 }
 
+function tag_add(){
+
+    var element=document.createElement('form');//form要素
+    element.name=element.id=FormID;
+    element.className="tagColumn"
+
+    var remove=document.createElement('input');//-ボタン
+    remove.type="button";
+    remove.name="remove";
+    remove.value="-"
+    remove.setAttribute("onclick","remove("+FormID+")")
+    var tagDisplay=document.createTextNode(tagSelection.value);
+    var tag=document.createElement('span');
+    tag.className="tag";
+    tag.appendChild(tagDisplay);
+    element.appendChild(tag);
+    element.appendChild(remove);
+    tagBox.appendChild(element);
+
+}
+
 function remove(target){
     //どの窓がremoveを行ったかを受け取って、それをですとろーい
     var remove_target=document.getElementById(target)
@@ -130,5 +152,14 @@ function remove(target){
 }
 
 function add_button(customID){
-    entry_load(customID,-1)
+    switch(customID){
+        case 1:
+        case 2:
+            entry_load(customID,-1)
+            break;
+        case 3:
+            tag_add();
+            break;
+    }
+
 }
