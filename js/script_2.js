@@ -2,20 +2,27 @@ const electron = require('electron');
 const {ipcRenderer}=electron;
 const fs=require('fs')
 
-let entry
+let entry=null;
+let dictionary=null;
 let FormID=0;
 let customID=0;
+
 let wordID=document.getElementById("wordID");
-let spellingBox=document.getElementById("spellingBox");
+let formBox=document.getElementById("formBox");
 let pronunBox=document.getElementById('pronunBox');
 let tagBox=document.getElementById("tagBox");
-let tagSelection=document.getElementById("tagSelection");
 let charBox=document.getElementById("charBox");
 
-let forms_queue
-let pronuns_queue
-let tags_queue
-let chars_queue
+let forms_queue=0;
+let pronuns_queue=0;
+let tags_queue=0;
+let chars_queue=0;
+
+let entry_id=[];
+let entry_form=[];
+let entry_pronunciation=[];
+let entry_tags=[];
+let entry_char=[];
 
 ipcRenderer.on('target',(event,arg)=>{
     var target_number=arg.number;
@@ -31,16 +38,24 @@ function load_word(target_number){
     if(target_number!=-1){
         wordID.innerHTML="ID:"+target_number;
 
-        entry=json.words[target_number].entry
-        dictionary=json.dictionary
+        entry=json.words[target_number].entry;
+        dictionary=json.dictionary;
 
         //各データの長さチェック
         forms_queue=entry.form.length;
         pronuns_queue=entry.pronunciation.length;
-        tags_queue=entry.tags.length
-        chars_queue=entry.char.length
+        tags_queue=entry.tags.length;
+        chars_queue=entry.char.length;
 
-        var tags_queue_dictionary=dictionary.tags.length;
+        var tags_queue_dictionary=dictionary.tags.length;//タグの表示
+        for(let i=0; i<tags_queue_dictionary;i++){
+            var tag=document.createElement('span');
+            tag.className="tag";
+            tag.id="tag:"+dictionary.tags[i].id;
+            tag_value=document.createTextNode(dictionary.tags[i].name);
+            tag.appendChild(tag_value);
+            tagBox.appendChild(tag);
+        }
 
         customID=1;//第一：語形の読み込み
         for(let i=0; i<forms_queue; i++){
@@ -52,19 +67,9 @@ function load_word(target_number){
             entry_load(customID,i);
         }
 
-        for(let k=0;k<tags_queue_dictionary;k++){//tag窓の生成
-            var tag_option=document.createElement('option');
-            tag_option.value=dictionary.tags[k].name;
-            var tag_option_content=document.createTextNode(dictionary.tags[k].name);
-            tag_option.appendChild(tag_option_content);
-            tagSelection.appendChild(tag_option)
+        for(let i=0; i<tags_queue_dictionary;i++){
+            tag_load(i);
         }
-
-        customID=3;//第三：タグの読み込み
-        for(let i=0;i<tags_queue;i++){
-            entry_load(customID,i);
-        }
-
 
     }else{//新規作成時の画面
         wordID.innerHTML="NEW WORD";
@@ -90,10 +95,11 @@ function entry_load(custom,i){
             element.appendChild(column_value);
             element.appendChild(remove);
             element.className="input-1";
-            spellingBox.appendChild(element);
+            formBox.appendChild(element);
             
             if(i!=-1)
-                {column_value.value=entry.form[i];}
+                {column_value.value=entry.form[i];
+                console.log(column_value.value)}
             break;
         case 2:
             element.appendChild(column_value);
@@ -101,47 +107,27 @@ function entry_load(custom,i){
             element.className="input-1";
             pronunBox.appendChild(element);
             if(i!=-1)
-                {column_value.value=entry.pronunciation[i];}
+                {column_value.value=entry.pronunciation[i];
+                console.log(column_value.value)}
             break;
         case 3:
-            var tag=document.createElement('span');
-            tag.className="tag";
-            var tagID=entry.tags[i]
-            var tags_queue_dictionary=dictionary.tags.length;
-            for(let k=0;k<tags_queue_dictionary;k++){
-                if(dictionary.tags[k].id==tagID){
-                    var tagName=dictionary.tags[k].name;
-                }
-            }
-            var tagDisplay = document.createTextNode(tagName);
-            element.className="tagColumn"
-            tag.appendChild(tagDisplay);
-            element.appendChild(tag);
-            element.appendChild(remove);
-            tagBox.appendChild(element);
+
             break;
     }
     FormID++
 }
 
-function tag_add(){
-
-    var element=document.createElement('form');//form要素
-    element.name=element.id=FormID;
-    element.className="tagColumn"
-
-    var remove=document.createElement('input');//-ボタン
-    remove.type="button";
-    remove.name="remove";
-    remove.value="-"
-    remove.setAttribute("onclick","remove("+FormID+")")
-    var tagDisplay=document.createTextNode(tagSelection.value);
-    var tag=document.createElement('span');
-    tag.className="tag";
-    tag.appendChild(tagDisplay);
-    element.appendChild(tag);
-    element.appendChild(remove);
-    tagBox.appendChild(element);
+function tag_load(i){//tagIDがiのタグがデータにマッチするかを検査
+    var tag_target=document.getElementById("tag:"+i);
+        tag_target.setAttribute("style","background-color:gray;")
+    for(let j=0;j<tags_queue;j++){
+        if(entry.tags[j]==i){
+            tag_target.setAttribute("style","true");
+            console.log(dictionary.tags[i].name);
+        }else{
+            tag_target.setAttribute("flag","false");
+        }
+    }
 
 }
 
@@ -156,9 +142,6 @@ function add_button(customID){
         case 1:
         case 2:
             entry_load(customID,-1)
-            break;
-        case 3:
-            tag_add();
             break;
     }
 
