@@ -4,7 +4,8 @@ const fs=require('fs')
 
 let entry=null;
 let dictionary=null;
-let FormID=0;
+let spellID=0;
+let pronunID=0;
 let customID=0;
 
 let wordID=document.getElementById("wordID");
@@ -76,9 +77,8 @@ function load_word(target_number){
     }
 }
 
-function entry_load(custom,i){
+function entry_load(customID,i){
     var element=document.createElement('form');//form要素
-    element.name=element.id=FormID;
 
     var column_value=document.createElement('input');//窓
     column_value.type="text";
@@ -88,24 +88,30 @@ function entry_load(custom,i){
     remove.type="button";
     remove.name="remove";
     remove.value="-"
-    remove.setAttribute("onclick","remove("+FormID+")")
 
-    switch(custom){
+    switch(customID){
         case 1:
             element.appendChild(column_value);
+            remove.setAttribute("onclick","remove('spell"+spellID+"')")
+            //remove.setAttribute("onclick","remove(this)")
             element.appendChild(remove);
             element.className="input-1";
+            element.name=element.id="spell"+spellID;
             formBox.appendChild(element);
-            
+            console.log(spellID)
+            spellID++
             if(i!=-1)
                 {column_value.value=entry.form[i];
                 console.log(column_value.value)}
             break;
         case 2:
             element.appendChild(column_value);
+            remove.setAttribute("onclick","remove('pronun"+pronunID+"')")
             element.appendChild(remove);
             element.className="input-1";
+            element.name=element.id="pronun"+pronunID;
             pronunBox.appendChild(element);
+            pronunID++
             if(i!=-1)
                 {column_value.value=entry.pronunciation[i];
                 console.log(column_value.value)}
@@ -114,7 +120,7 @@ function entry_load(custom,i){
 
             break;
     }
-    FormID++
+
 }
 
 function tag_load(i){//tagIDがiのタグがデータにマッチするかを検査
@@ -128,11 +134,11 @@ function tag_load(i){//tagIDがiのタグがデータにマッチするかを検
             tag_target.setAttribute("flag","false");
         }
     }
-
 }
 
 function remove(target){
     //どの窓がremoveを行ったかを受け取って、それをですとろーい
+    console.log(target)
     var remove_target=document.getElementById(target)
     remove_target.parentNode.removeChild(remove_target);
 }
