@@ -38,6 +38,7 @@ div#tagBox{
 }
 .tag{
 	border:solid 1px black;
+	user-select: none;
 }
 
 input[name="content"]{

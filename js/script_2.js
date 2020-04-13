@@ -55,6 +55,7 @@ function load_word(target_number){
             tag.id="tag:"+dictionary.tags[i].id;
             tag_value=document.createTextNode(dictionary.tags[i].name);
             tag.appendChild(tag_value);
+            tag.setAttribute("onclick","tag_switch("+i+")")
             tagBox.appendChild(tag);
         }
 
@@ -116,25 +117,37 @@ function entry_load(customID,i){
                 {column_value.value=entry.pronunciation[i];
                 console.log(column_value.value)}
             break;
-        case 3:
-
-            break;
     }
 
 }
 
 function tag_load(i){//tagIDがiのタグがデータにマッチするかを検査
     var tag_target=document.getElementById("tag:"+i);
-        tag_target.setAttribute("style","background-color:gray;")
+
     for(let j=0;j<tags_queue;j++){
         if(entry.tags[j]==i){
-            tag_target.setAttribute("style","true");
-            console.log(dictionary.tags[i].name);
+            tag_target.setAttribute("flag","true");
+            tag_target.setAttribute("style","background-color:white;")
+            break;
         }else{
             tag_target.setAttribute("flag","false");
+            tag_target.setAttribute("style","background-color:gray;")
         }
     }
 }
+
+function tag_switch(i){
+    var tag_target=document.getElementById("tag:"+i);
+    tag_target_flag=tag_target.getAttribute("flag")
+    if(tag_target_flag=="true"){
+        tag_target.setAttribute("flag","false");
+        tag_target.setAttribute("style","background-color:gray;")
+    }else{
+        tag_target.setAttribute("flag","true");
+        tag_target.setAttribute("style","background-color:white;")
+    }
+}
+
 
 function remove(target){
     //どの窓がremoveを行ったかを受け取って、それをですとろーい
