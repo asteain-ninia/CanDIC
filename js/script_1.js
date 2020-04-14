@@ -194,9 +194,9 @@ function debugButton() {
     ReadDictionary(path);
 }
 
-function OpenEdit() {
+function OpenEdit(targetID) {
     var editword ={
-        "number":0,
+        "number":targetID,
         "path":"datas/sample.json",
     }
 
