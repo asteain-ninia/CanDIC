@@ -24,12 +24,14 @@ form#submitBox{
 	gap: 2px;
 	margin: 2px;
 }
-.input-2{
+/* .input-2{
 	display: grid;
-	grid-template-columns: 2fr 1fr 27px;
+	grid-template-columns: 1fr 27px 27px;
 	gap: 2px;
 	margin: 2px;
-}
+} */
+
+
 div#tagBox{
 	display: grid;
 	grid-template-columns: repeat(auto-fill,minmax(100px,1fr));
@@ -41,8 +43,20 @@ div#tagBox{
 	user-select: none;
 }
 
+div#charBox{
+	display: grid;
+	grid-template-columns: repeat(auto-fill,minmax(150px,1fr));
+	gap: 5px;
+	margin: 2px;
+}
+
 input[name="content"]{
 	font-size:large;
+}
+
+input[name="char_content"]{
+	font-size:large;
+	max-width: 120px;
 }
 
 input[name="add"]{

@@ -4,9 +4,11 @@ const fs=require('fs')
 
 let entry=null;
 let dictionary=null;
+
+let customID=0;
 let spellID=0;
 let pronunID=0;
-let customID=0;
+let charID=0;
 
 let wordID=document.getElementById("wordID");
 let formBox=document.getElementById("formBox");
@@ -69,9 +71,15 @@ function load_word(target_number){
             entry_load(customID,i);
         }
 
-        for(let i=0; i<tags_queue_dictionary;i++){
+        for(let i=0; i<tags_queue_dictionary;i++){//第三・タグの読み込み
             tag_load(i);
         }
+
+        customID=3;
+        for(let i=0;i<chars_queue;i++){
+            entry_load(customID,i)
+        }
+
 
     }else{//新規作成時の画面
         wordID.innerHTML="NEW WORD";
@@ -84,6 +92,7 @@ function entry_load(customID,i){
     var column_value=document.createElement('input');//窓
     column_value.type="text";
     column_value.name="content";
+    element.appendChild(column_value);
 
     var remove=document.createElement('input');//-ボタン
     remove.type="button";
@@ -92,33 +101,44 @@ function entry_load(customID,i){
 
     switch(customID){
         case 1:
-            element.appendChild(column_value);
             remove.setAttribute("onclick","remove('spell"+spellID+"')")
-            //remove.setAttribute("onclick","remove(this)")
             element.appendChild(remove);
             element.className="input-1";
             element.name=element.id="spell"+spellID;
             formBox.appendChild(element);
-            console.log(spellID)
+
+            if(i!=-1){
+                column_value.value=entry.form[i];
+            }
             spellID++
-            if(i!=-1)
-                {column_value.value=entry.form[i];
-                console.log(column_value.value)}
             break;
+
         case 2:
-            element.appendChild(column_value);
             remove.setAttribute("onclick","remove('pronun"+pronunID+"')")
             element.appendChild(remove);
             element.className="input-1";
             element.name=element.id="pronun"+pronunID;
             pronunBox.appendChild(element);
+
+            if(i!=-1){
+                column_value.value=entry.pronunciation[i];
+            }
             pronunID++
-            if(i!=-1)
-                {column_value.value=entry.pronunciation[i];
-                console.log(column_value.value)}
+            break;
+
+        case 3:
+            remove.setAttribute("onclick","remove('char"+charID+"')")
+            element.appendChild(remove);
+            element.className="input-1";
+            element.name=element.id="char"+charID;
+            column_value.name="char_content";
+            charBox.appendChild(element);
+            if(i!=-1){
+                column_value.value=entry.char[i];
+            }
+            charID++
             break;
     }
-
 }
 
 function tag_load(i){//tagIDがiのタグがデータにマッチするかを検査
@@ -160,6 +180,7 @@ function add_button(customID){
     switch(customID){
         case 1:
         case 2:
+        case 3:
             entry_load(customID,-1)
             break;
     }
