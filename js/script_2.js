@@ -4,6 +4,7 @@ const fs=require('fs')
 
 let entry=null;
 let dictionary=null;
+let contents=null
 
 let customID=0;
 let spellID=0;
@@ -18,8 +19,14 @@ let charBox=document.getElementById("charBox");
 
 let forms_queue=0;
 let pronuns_queue=0;
+let tags_queue_dictionary=0;
 let tags_queue=0;
 let chars_queue=0;
+
+let contents_queue=0;
+let classes_queue_dictionary=0;
+let trans_queue=0;
+let content_queue=0;
 
 let entry_id=[];
 let entry_form=[];
@@ -43,15 +50,21 @@ function load_word(target_number){
 
         entry=json.words[target_number].entry;
         dictionary=json.dictionary;
+        contents=json.words[target_number].contents
 
         //各データの長さチェック
         forms_queue=entry.form.length;
         pronuns_queue=entry.pronunciation.length;
+        tags_queue_dictionary=dictionary.tags.length;
         tags_queue=entry.tags.length;
         chars_queue=entry.char.length;
 
-        var tags_queue_dictionary=dictionary.tags.length;//タグの表示
-        for(let i=0; i<tags_queue_dictionary;i++){
+        contents_queue=contents.length
+        classes_queue_dictionary=dictionary.classes.length;
+        trans_queue=contents.forms.length;
+        content_queue=contents.content.length;
+
+        for(let i=0; i<tags_queue_dictionary;i++){//タグの表示
             var tag=document.createElement('span');
             tag.className="tag";
             tag.id="tag:"+dictionary.tags[i].id;
@@ -78,6 +91,10 @@ function load_word(target_number){
         customID=3;
         for(let i=0;i<chars_queue;i++){
             entry_load(customID,i)
+        }
+
+        for(let i=0;i<contents_queue;i++){
+            content_load(i);
         }
 
 
@@ -141,7 +158,8 @@ function entry_load(customID,i){
     }
 }
 
-function tag_load(i){//tagIDがiのタグがデータにマッチするかを検査
+//tagIDがiのタグがデータにマッチするかを検査
+function tag_load(i){
     var tag_target=document.getElementById("tag:"+i);
 
     for(let j=0;j<tags_queue;j++){
@@ -156,6 +174,7 @@ function tag_load(i){//tagIDがiのタグがデータにマッチするかを検
     }
 }
 
+//タグ状態の変更。(これそのうちtag_loadに一本化できるかも)
 function tag_switch(i){
     var tag_target=document.getElementById("tag:"+i);
     tag_target_flag=tag_target.getAttribute("flag")
@@ -168,9 +187,20 @@ function tag_switch(i){
     }
 }
 
+function content_load(i){
 
+    //class判定
+    var classID=contents[i].class;
+    for(let j=0;j<classes_queue_dictionary;j++){
+        
+    }
+}
+
+
+
+
+//どの窓がremoveを行ったかを受け取って、それをですとろーい
 function remove(target){
-    //どの窓がremoveを行ったかを受け取って、それをですとろーい
     console.log(target)
     var remove_target=document.getElementById(target)
     remove_target.parentNode.removeChild(remove_target);
