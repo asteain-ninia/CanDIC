@@ -135,7 +135,7 @@ function addElement(json, i) {
         class_column.setAttribute("style", "border-bottom:solid 1px lightgray;")
 
         //品詞名の取り出し
-        var classID = json.words[i].contents[k].title;
+        var classID = json.words[i].contents[k].class;
         var classes_queue = json.dictionary.classes.length;
         for (let l = 0; l < classes_queue; l++) { //forを回してclasses.idが一致する物を探す
             if (json.dictionary.classes[l].id == classID) {

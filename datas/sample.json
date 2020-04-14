@@ -23,7 +23,7 @@
             },
             "contents": [
                 {
-                    "title": 1,
+                    "class": 1,
                     "forms": [
                         "自分"
                     ],
@@ -31,7 +31,7 @@
                 },
                 {
 
-                    "title": 2,
+                    "class": 2,
                     "forms": [
                         "私"
                     ],
