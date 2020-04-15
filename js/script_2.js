@@ -206,13 +206,16 @@ function content_load(i){
     var contents_column=document.createElement('div');
     contents_column.id="content"+contentID;
 
+    {//ラベル生成
     var rabel=document.createElement('span')
     rabel.appendChild(document.createTextNode("品詞："))
     contents_column.appendChild(rabel)
+    }
 
     trans_queue=contents[i].trans.length;
     content_queue=contents[i].content.length;
 
+    {//クラス情報設定
     var class_select=document.createElement('select');
     class_select.className="large";
 
@@ -224,10 +227,8 @@ function content_load(i){
     }
     //selectedIndexにデータにあるIDを代入
     class_select.selectedIndex=contents[i].class;
-
-
     contents_column.appendChild(class_select);
-    //contents_column.appendChild(contents_trans);
+    }
 
     contentsBox.appendChild(contents_column);
     contentID++
