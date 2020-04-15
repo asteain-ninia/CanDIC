@@ -24,7 +24,7 @@
             "contents": [
                 {
                     "class": 1,
-                    "forms": [
+                    "trans": [
                         "自分"
                     ],
                     "content":[]
@@ -32,7 +32,7 @@
                 {
 
                     "class": 2,
-                    "forms": [
+                    "trans": [
                         "私"
                     ],
                     "content": [

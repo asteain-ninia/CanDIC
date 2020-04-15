@@ -66,6 +66,13 @@ input[name="remove"]{
 	font-size: large;
 }
 
+.large{
+	font-size: large;
+}
+.contents_trans{
+	border-left: solid 3px gray;
+}
+
 hr{
 	margin: 0;
 }

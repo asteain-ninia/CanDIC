@@ -11,6 +11,9 @@ let spellID=0;
 let pronunID=0;
 let charID=0;
 
+let contentID=0;
+let transID=0;
+
 let wordID=document.getElementById("wordID");
 let formBox=document.getElementById("formBox");
 let pronunBox=document.getElementById('pronunBox');
@@ -94,10 +97,10 @@ function load_word(target_number){
             entry_load(customID,i)
         }
 
+        customID=4;
         for(let i=0;i<contents_queue;i++){
             content_load(i);
         }
-
 
     }else{//新規作成時の画面
         wordID.innerHTML="NEW WORD";
@@ -156,6 +159,16 @@ function entry_load(customID,i){
             }
             charID++
             break;
+
+        case 4://content読み込む用の奴、つかわない予定
+            var content_shelf=document.getElementById("content"+i)
+            remove.setAttribute("onclick","remove('trans"+transID+"')")
+            element.appendChild(remove);
+            element.className="input-1";
+            element.name=element.id="trans"+transID;
+            content_shelf.appendChild(element);
+            transID++
+        break;
     }
 }
 
@@ -191,25 +204,33 @@ function tag_switch(i){
 function content_load(i){
 
     var contents_column=document.createElement('div');
-    var contents_form=document.createElement('form');
+    contents_column.id="content"+contentID;
 
-    trans_queue=contents[i].forms.length;
+    var rabel=document.createElement('span')
+    rabel.appendChild(document.createTextNode("品詞："))
+    contents_column.appendChild(rabel)
+
+    trans_queue=contents[i].trans.length;
     content_queue=contents[i].content.length;
-    forms_queue
 
-    var class_select=document.createElement('select')
+    var class_select=document.createElement('select');
+    class_select.className="large";
 
     for(let j=0;j<classes_queue_dictionary;j++){
             var class_option=document.createElement('option')
-            class_option.text=dictionary.classes[j].name
-            class_option.value=dictionary.classes[j].id
+            class_option.text=dictionary.classes[j].name;
+            class_option.value=dictionary.classes[j].id;
             class_select.appendChild(class_option)
     }
-
-    class_select.selectedIndex=contents[i].class;
     //selectedIndexにデータにあるIDを代入
+    class_select.selectedIndex=contents[i].class;
+
+
     contents_column.appendChild(class_select);
+    //contents_column.appendChild(contents_trans);
+
     contentsBox.appendChild(contents_column);
+    contentID++
 }
 
 

@@ -145,7 +145,7 @@ function addElement(json, i) {
 
         Kthcontent.id = className;
 
-        var classDisplay = document.createTextNode(className + "：" + json.words[i].contents[k].forms);
+        var classDisplay = document.createTextNode(className + "：" + json.words[i].contents[k].trans);
         class_column.appendChild(classDisplay); //classesの完成
 
         //-------------------------------------------------//
