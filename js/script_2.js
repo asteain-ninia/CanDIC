@@ -17,6 +17,8 @@ let pronunBox=document.getElementById('pronunBox');
 let tagBox=document.getElementById("tagBox");
 let charBox=document.getElementById("charBox");
 
+let contentsBox=document.getElementById('contentsBox')
+
 let forms_queue=0;
 let pronuns_queue=0;
 let tags_queue_dictionary=0;
@@ -61,8 +63,7 @@ function load_word(target_number){
 
         contents_queue=contents.length
         classes_queue_dictionary=dictionary.classes.length;
-        trans_queue=contents.forms.length;
-        content_queue=contents.content.length;
+
 
         for(let i=0; i<tags_queue_dictionary;i++){//タグの表示
             var tag=document.createElement('span');
@@ -189,11 +190,26 @@ function tag_switch(i){
 
 function content_load(i){
 
-    //class判定
-    var classID=contents[i].class;
+    var contents_column=document.createElement('div');
+    var contents_form=document.createElement('form');
+
+    trans_queue=contents[i].forms.length;
+    content_queue=contents[i].content.length;
+    forms_queue
+
+    var class_select=document.createElement('select')
+
     for(let j=0;j<classes_queue_dictionary;j++){
-        
+            var class_option=document.createElement('option')
+            class_option.text=dictionary.classes[j].name
+            class_option.value=dictionary.classes[j].id
+            class_select.appendChild(class_option)
     }
+
+    class_select.selectedIndex=contents[i].class;
+    //selectedIndexにデータにあるIDを代入
+    contents_column.appendChild(class_select);
+    contentsBox.appendChild(contents_column);
 }
 
 
