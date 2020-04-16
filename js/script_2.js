@@ -210,7 +210,6 @@ function content_load(i){
     {//ラベル生成
     var rabel=document.createElement('span')
     rabel.appendChild(document.createTextNode("品詞："))
-
     }contents_column.appendChild(rabel)
 
     trans_queue=contents[i].trans.length;
@@ -230,21 +229,44 @@ function content_load(i){
     class_select.selectedIndex=contents[i].class;
     }contents_column.appendChild(class_select);
 
-    {
+    var trans_box=document.createElement('div');
+    trans_box.id="content"+contentID;
+    trans_box.className="contents_trans"
+
     var transID=0;
-    var trans_form=document.createElement('form');
-    trans_form.id="content"+contentID+"form";
-    trans_form.className="input-1";
-    for(let j=0;j<trans_queue;j++){
+    for(let j=0;j<trans_queue;j++){//訳語窓生成
+        var ID_idea="content"+contentID+"form"+transID;
+        var trans_form=document.createElement('form');
+        trans_form.id=ID_idea
+        trans_form.className="input-1";
+
         trans_value=document.createElement('input');
-        trans_value.id="content"+contentID+":trans"+transID;
+        trans_value.id=ID_idea
         trans_value.className="large"
 
+        var remove=document.createElement('input');//-ボタン
+        remove.type="button";
+        remove.name="remove";
+        remove.value="-"
+
+        remove.setAttribute("onclick","remove('"+ID_idea+"')")
         trans_value.value=contents[i].trans[j]
 
         trans_form.appendChild(trans_value)
+        trans_form.appendChild(remove)
+        trans_box.appendChild(trans_form)
+        transID++
+    }contents_column.appendChild(trans_box)
+
+    {//+ボタン
+    var add_form=document.createElement('form')
+    var add=document.createElement('input');
+    add.type="button";
+    add.name="add";
+    add.value="+"
     }
-    }contents_column.appendChild(trans_form)
+
+    contents_column.appendChild(add)
     contents_column.appendChild(document.createElement('hr'))
     contentsBox.appendChild(contents_column);
     contentID++
