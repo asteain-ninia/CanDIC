@@ -71,6 +71,7 @@ input[name="remove"]{
 }
 .contents_trans{
 	border-left: solid 3px gray;
+	margin: 3px;
 }
 
 hr{

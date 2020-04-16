@@ -205,12 +205,13 @@ function content_load(i){
 
     var contents_column=document.createElement('div');
     contents_column.id="content"+contentID;
+    contents_column.className="contents_trans"
 
     {//ラベル生成
     var rabel=document.createElement('span')
     rabel.appendChild(document.createTextNode("品詞："))
-    contents_column.appendChild(rabel)
-    }
+
+    }contents_column.appendChild(rabel)
 
     trans_queue=contents[i].trans.length;
     content_queue=contents[i].content.length;
@@ -227,9 +228,24 @@ function content_load(i){
     }
     //selectedIndexにデータにあるIDを代入
     class_select.selectedIndex=contents[i].class;
-    contents_column.appendChild(class_select);
-    }
+    }contents_column.appendChild(class_select);
 
+    {
+    var transID=0;
+    var trans_form=document.createElement('form');
+    trans_form.id="content"+contentID+"form";
+    trans_form.className="input-1";
+    for(let j=0;j<trans_queue;j++){
+        trans_value=document.createElement('input');
+        trans_value.id="content"+contentID+":trans"+transID;
+        trans_value.className="large"
+
+        trans_value.value=contents[i].trans[j]
+
+        trans_form.appendChild(trans_value)
+    }
+    }contents_column.appendChild(trans_form)
+    contents_column.appendChild(document.createElement('hr'))
     contentsBox.appendChild(contents_column);
     contentID++
 }
