@@ -218,6 +218,7 @@ function content_load(i){
     {//クラス情報設定
     var class_select=document.createElement('select');
     class_select.className="large";
+    class_select.id="class"+contentID;
 
     for(let j=0;j<classes_queue_dictionary;j++){
             var class_option=document.createElement('option')
@@ -230,12 +231,14 @@ function content_load(i){
     }contents_column.appendChild(class_select);
 
     var trans_box=document.createElement('div');
-    trans_box.id="content"+contentID;
+    //trans_box.id="content"+contentID;
     trans_box.className="contents_trans"
 
     var transID=0;
     for(let j=0;j<trans_queue;j++){//訳語窓生成
+
         var ID_idea="content"+contentID+"form"+transID;
+
         var trans_form=document.createElement('form');
         trans_form.id=ID_idea
         trans_form.className="input-1";
@@ -256,17 +259,33 @@ function content_load(i){
         trans_form.appendChild(remove)
         trans_box.appendChild(trans_form)
         transID++
-    }contents_column.appendChild(trans_box)
+    }
+    addButton_add(trans_box,1)
 
-    {//+ボタン
+    function addButton_add(target_box,add_customID){//+ボタン
     var add_form=document.createElement('form')
+    add_form.className="input-1"
+
     var add=document.createElement('input');
     add.type="button";
     add.name="add";
     add.value="+"
+
+    switch(add_customID){
+        case 1:
+            add_form.appendChild(document.createElement('a'))
+            add_form.appendChild(document.createElement('a'))
+            add_form.appendChild(add);
+            target_box.appendChild(add_form);
+            break;
+        case 2:
+            break
+        }
     }
 
-    contents_column.appendChild(add)
+    trans_box.appendChild(document.createElement('hr'))
+    contents_column.appendChild(trans_box)
+
     contents_column.appendChild(document.createElement('hr'))
     contentsBox.appendChild(contents_column);
     contentID++

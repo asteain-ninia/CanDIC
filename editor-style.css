@@ -24,13 +24,17 @@ form#submitBox{
 	gap: 2px;
 	margin: 2px;
 }
-/* .input-2{
+.input-2{
 	display: grid;
-	grid-template-columns: 1fr 27px 27px;
+	grid-template-columns: 1fr 27px;
 	gap: 2px;
 	margin: 2px;
-} */
+}
 
+.bigcolumn{
+	border-left: solid 2px darkgray;
+	margin: 2px;
+}
 
 div#tagBox{
 	display: grid;
