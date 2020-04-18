@@ -203,3 +203,6 @@ function OpenEdit(targetID) {
     console.log(editword);
     ipcRenderer.send('editor_signal', editword)
 }
+ipcRenderer.on('1',function(event, arg) {
+    console.log(arg)
+})

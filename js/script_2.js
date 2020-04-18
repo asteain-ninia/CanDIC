@@ -309,5 +309,15 @@ function add_button(customID){
             entry_load(customID,-1)
             break;
     }
-
 }
+
+function agree(){
+    //保存処理
+}
+function disagree(){
+    ipcRenderer.send('close_signal',1)
+}
+
+ipcRenderer.on('1',function(event, arg) {
+    console.log(arg)
+})
