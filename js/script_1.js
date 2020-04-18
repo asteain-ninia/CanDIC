@@ -197,12 +197,18 @@ function debugButton() {
 function OpenEdit(targetID) {
     var editword ={
         "number":targetID,
+        "path":"datas/sample.json",//ここには開いているファイルのデータが入る予定
+    }
+    console.log(editword);
+    ipcRenderer.send('editor_signal', editword)
+}
+
+function OpenEditDEV(targetID){
+    var editword ={
+        "number":targetID,
         "path":"datas/sample.json",
     }
 
     console.log(editword);
     ipcRenderer.send('editor_signal', editword)
 }
-ipcRenderer.on('1',function(event, arg) {
-    console.log(arg)
-})

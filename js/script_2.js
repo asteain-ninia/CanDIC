@@ -13,6 +13,7 @@ let charID=0;
 
 let contentID=0;
 let transID=0;
+let textID=0;
 
 let wordID=document.getElementById("wordID");
 let formBox=document.getElementById("formBox");
@@ -22,14 +23,18 @@ let charBox=document.getElementById("charBox");
 
 let contentsBox=document.getElementById('contentsBox')
 
+let tags_queue_dictionary=0;
+let classes_queue_dictionary=0;
+
+
 let forms_queue=0;
 let pronuns_queue=0;
-let tags_queue_dictionary=0;
 let tags_queue=0;
 let chars_queue=0;
 
+
+
 let contents_queue=0;
-let classes_queue_dictionary=0;
 let trans_queue=0;
 let content_queue=0;
 
@@ -66,6 +71,7 @@ function load_word(target_number){
 
         contents_queue=contents.length
         classes_queue_dictionary=dictionary.classes.length;
+        title_queue_dictionary=dictionary.titles.length
 
 
         for(let i=0; i<tags_queue_dictionary;i++){//タグの表示
@@ -159,16 +165,6 @@ function entry_load(customID,i){
             }
             charID++
             break;
-
-        case 4://content読み込む用の奴、つかわない予定
-            var content_shelf=document.getElementById("content"+i)
-            remove.setAttribute("onclick","remove('trans"+transID+"')")
-            element.appendChild(remove);
-            element.className="input-1";
-            element.name=element.id="trans"+transID;
-            content_shelf.appendChild(element);
-            transID++
-        break;
     }
 }
 
@@ -207,44 +203,42 @@ function content_load(i){
     contents_column.id="content"+contentID;
     contents_column.className="contents_trans"
 
-    {//ラベル生成
-    var rabel=document.createElement('span')
-    rabel.appendChild(document.createTextNode("品詞："))
-    }contents_column.appendChild(rabel)
+    //{//ラベル生成
+    //var rabel=document.createElement('span')
+    //rabel.appendChild(document.createTextNode("品詞："))
+    //}contents_column.appendChild(rabel)
 
     trans_queue=contents[i].trans.length;
     content_queue=contents[i].content.length;
 
     {//クラス情報設定
     var class_select=document.createElement('select');
-    class_select.className="large";
+    class_select.className="class";
     class_select.id="class"+contentID;
 
-    for(let j=0;j<classes_queue_dictionary;j++){
+    for(let j=0;j<classes_queue_dictionary;j++){//option生成
             var class_option=document.createElement('option')
             class_option.text=dictionary.classes[j].name;
             class_option.value=dictionary.classes[j].id;
             class_select.appendChild(class_option)
     }
-    //selectedIndexにデータにあるIDを代入
-    class_select.selectedIndex=contents[i].class;
+    
+    if(i!==-1){class_select.selectedIndex=contents[i].class;}//selectedIndexにデータにあるIDを代入
     }contents_column.appendChild(class_select);
 
     var trans_box=document.createElement('div');
-    //trans_box.id="content"+contentID;
     trans_box.className="contents_trans"
 
     var transID=0;
     for(let j=0;j<trans_queue;j++){//訳語窓生成
-
-        var ID_idea="content"+contentID+"form"+transID;
+        var ID_idea_trans="content"+contentID+"form"+transID;
 
         var trans_form=document.createElement('form');
-        trans_form.id=ID_idea
+        trans_form.id=ID_idea_trans
         trans_form.className="input-1";
 
         trans_value=document.createElement('input');
-        trans_value.id=ID_idea
+        trans_value.id=ID_idea_trans
         trans_value.className="large"
 
         var remove=document.createElement('input');//-ボタン
@@ -252,17 +246,71 @@ function content_load(i){
         remove.name="remove";
         remove.value="-"
 
-        remove.setAttribute("onclick","remove('"+ID_idea+"')")
-        trans_value.value=contents[i].trans[j]
+        remove.setAttribute("onclick","remove('"+ID_idea_trans+"')")
+        if(i!==-1){trans_value.value=contents[i].trans[j]}
 
         trans_form.appendChild(trans_value)
         trans_form.appendChild(remove)
         trans_box.appendChild(trans_form)
         transID++
     }
-    addButton_add(trans_box,1)
+    addButton_add(trans_box)
 
-    function addButton_add(target_box,add_customID){//+ボタン
+    trans_box.appendChild(document.createElement('hr'))
+    contents_column.appendChild(trans_box)
+
+    
+    var content_texts_box=document.createElement('div');
+
+    var content_shelf=document.createElement('div');
+
+    contents_content_queue=contents[i].content.length
+    for(let j=0;j<contents_content_queue;j++){//text情報設定
+        var title_select=document.createElement('select');
+        title_select.className="title";
+        title_select.id="content"+contentID+"title"+textID;
+        for(let k=0;k<title_queue_dictionary;k++){//option生成
+            var title_option=document.createElement('option')
+            title_option.text=dictionary.titles[k].name;
+            title_option.value=dictionary.titles[k].id;
+            title_select.appendChild(title_option)
+        }
+        if(i!==-1){title_select.selectedIndex=contents[i].content[j].title;}//selectedIndexにデータにあるIDを代入
+        
+        content_shelf.appendChild(title_select);
+
+        var content_texts_column= document.createElement('div')
+        content_texts_column.className="content_texts_colummn"
+        content_texts_column.id="content"+contentID+"text"+textID;
+
+        var content_texts_text=document.createElement('textarea')
+        content_texts_text.value=contents[i].content[j].text
+        content_texts_text.id="content"+contentID+"text"+textID;
+        content_texts_text.className="textBox"
+
+        var remove=document.createElement('input');//-ボタン
+        remove.type="button";
+        remove.name="remove";
+        remove.value="-"
+        remove.setAttribute("onclick","remove('"+"content"+contentID+"text"+textID+"')")
+        
+        content_texts_column.appendChild(content_texts_text)
+        content_texts_column.appendChild(remove)
+
+        content_shelf.appendChild(content_texts_column)
+        
+        content_texts_box.appendChild(content_shelf)
+    }
+    textID++
+
+    contents_column.appendChild(content_texts_box)
+    contents_column.appendChild(document.createElement('hr'))
+
+    contentsBox.appendChild(contents_column);
+    contentID++
+}
+
+function addButton_add(target_box){//+ボタン
     var add_form=document.createElement('form')
     add_form.className="input-1"
 
@@ -271,24 +319,10 @@ function content_load(i){
     add.name="add";
     add.value="+"
 
-    switch(add_customID){
-        case 1:
-            add_form.appendChild(document.createElement('a'))
-            add_form.appendChild(document.createElement('a'))
-            add_form.appendChild(add);
-            target_box.appendChild(add_form);
-            break;
-        case 2:
-            break
-        }
-    }
-
-    trans_box.appendChild(document.createElement('hr'))
-    contents_column.appendChild(trans_box)
-
-    contents_column.appendChild(document.createElement('hr'))
-    contentsBox.appendChild(contents_column);
-    contentID++
+    add_form.appendChild(document.createElement('a'))
+    add_form.appendChild(document.createElement('a'))
+    add_form.appendChild(add);
+    target_box.appendChild(add_form);
 }
 
 

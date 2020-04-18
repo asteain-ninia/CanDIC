@@ -9,7 +9,12 @@ div#container {
 	height: 100%;
 	margin: 8px;
 }
-div#editor{height:95%}
+div#editor{
+	height:95%;
+	overflow: auto;
+
+
+}
 form#submitBox{
 	display: grid;
 	grid-template-columns: 1fr 60px 60px;
@@ -68,13 +73,39 @@ input[name="add"]{
 }
 input[name="remove"]{
 	font-size: large;
+	height: 27px;
+	width: 27px;
 }
+
+
 
 .large{
 	font-size: large;
 }
 .contents_trans{
 	border-left: solid 3px gray;
+	margin: 3px;
+}
+.content_texts_colummn{
+	display: grid;
+	grid-template-columns: 1fr 27px 27px;
+}
+
+
+.class{
+	font-size: large;
+	min-width: 10em;
+	margin: 3px;
+}
+.title{
+	font-size: large;
+	min-width: 10em;
+	margin: 3px;
+}
+.textBox{
+	min-height: 3em;
+	width: 98%;
+	font-size: large;
 	margin: 3px;
 }
 

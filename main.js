@@ -74,6 +74,7 @@ ipcMain.on('close_signal',(event,arg)=>{
   };
   }else{
     editor.close()
+    index.webContents.send('modifi_signal')
   }
 });
 

@@ -28,7 +28,12 @@
                         "自分",
                         "自己"
                     ],
-                    "content":[]
+                    "content":[
+                        {
+                            "title":0,
+                            "text":"dummy"
+                        }
+                    ]
                 },
                 {
 
