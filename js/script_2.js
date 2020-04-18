@@ -26,13 +26,10 @@ let contentsBox=document.getElementById('contentsBox')
 let tags_queue_dictionary=0;
 let classes_queue_dictionary=0;
 
-
 let forms_queue=0;
 let pronuns_queue=0;
 let tags_queue=0;
 let chars_queue=0;
-
-
 
 let contents_queue=0;
 let trans_queue=0;
@@ -55,34 +52,27 @@ ipcRenderer.on('target',(event,arg)=>{
 
 
 function load_word(target_number){
+        dictionary=json.dictionary;
+
+        tags_queue_dictionary=dictionary.tags.length;
+        classes_queue_dictionary=dictionary.classes.length;
+        title_queue_dictionary=dictionary.titles.length
+
     if(target_number!=-1){
         wordID.innerHTML="ID:"+target_number;
 
         entry=json.words[target_number].entry;
-        dictionary=json.dictionary;
         contents=json.words[target_number].contents
 
         //各データの長さチェック
         forms_queue=entry.form.length;
         pronuns_queue=entry.pronunciation.length;
-        tags_queue_dictionary=dictionary.tags.length;
         tags_queue=entry.tags.length;
         chars_queue=entry.char.length;
 
         contents_queue=contents.length
-        classes_queue_dictionary=dictionary.classes.length;
-        title_queue_dictionary=dictionary.titles.length
 
-
-        for(let i=0; i<tags_queue_dictionary;i++){//タグの表示
-            var tag=document.createElement('span');
-            tag.className="tag";
-            tag.id="tag:"+dictionary.tags[i].id;
-            tag_value=document.createTextNode(dictionary.tags[i].name);
-            tag.appendChild(tag_value);
-            tag.setAttribute("onclick","tag_switch("+i+")")
-            tagBox.appendChild(tag);
-        }
+        tag_show()
 
         customID=1;//第一：語形の読み込み
         for(let i=0; i<forms_queue; i++){
@@ -110,6 +100,19 @@ function load_word(target_number){
 
     }else{//新規作成時の画面
         wordID.innerHTML="NEW WORD";
+        tag_show()
+    }
+}
+
+function tag_show(){
+    for(let i=0; i<tags_queue_dictionary;i++){//タグの表示
+        var tag=document.createElement('span');
+        tag.className="tag";
+        tag.id="tag:"+dictionary.tags[i].id;
+        tag_value=document.createTextNode(dictionary.tags[i].name);
+        tag.appendChild(tag_value);
+        tag.setAttribute("onclick","tag_switch("+i+")")
+        tagBox.appendChild(tag);
     }
 }
 

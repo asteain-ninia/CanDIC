@@ -50,6 +50,7 @@ div#tagBox{
 .tag{
 	border:solid 1px black;
 	user-select: none;
+	background-color: gray;
 }
 
 div#charBox{
@@ -111,4 +112,9 @@ input[name="remove"]{
 
 hr{
 	margin: 0;
+}
+
+* div,* span,* form,* textarea,* input,* a{
+	margin: 8px;
+	border: solid 3px red;
 }
