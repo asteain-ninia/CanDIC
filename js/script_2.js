@@ -230,6 +230,7 @@ function content_load(i){//地獄
     }contents_column.appendChild(class_select);
 
     var trans_box=document.createElement('div');
+    trans_box.id="trans_box"
     trans_box.className="contents_border"
 
     var transID=0;
@@ -264,6 +265,7 @@ function content_load(i){//地獄
 
     
     var content_texts_box=document.createElement('div');
+    content_texts_box.id="content_texts_box"
     content_texts_box.className="contents_border"
 
     var content_shelf=document.createElement('div');
