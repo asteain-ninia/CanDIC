@@ -4,7 +4,7 @@ html,body{
 	overflow: hidden;
 }
 
-div#container {
+.container {
 	background-color:whitesmoke;
 	height: 100%;
 	margin: 8px;
@@ -12,11 +12,11 @@ div#container {
 div#editor{
 	height:95%;
 	overflow: auto;
-
-
 }
+
 form#submitBox{
-	display: grid;
+	display: none;
+	/* display: grid; */
 	grid-template-columns: 1fr 60px 60px;
 	gap: 2px;
 	margin: 2px;
@@ -51,6 +51,7 @@ div#tagBox{
 	border:solid 1px black;
 	user-select: none;
 	background-color: gray;
+	min-width: 6em;
 }
 
 div#charBox{
@@ -83,7 +84,7 @@ input[name="remove"]{
 .large{
 	font-size: large;
 }
-.contents_trans{
+.contents_border{
 	border-left: solid 3px gray;
 	margin: 3px;
 }
@@ -110,11 +111,29 @@ input[name="remove"]{
 	margin: 3px;
 }
 
+
+
+/* .container > * > *{
+	margin: 4px;
+	border: solid 3px red;
+} */
+.container > * > * > *{
+	margin: 4px;
+	border: solid 3px green;
+}
+.container> * > * > * > *{
+	margin: 4px;
+	border: solid 3px pink;
+}
+.container> * > * > * > * >*{
+	margin: 4px;
+	border: solid 3px orangered;
+}
+.container> * > * > * > * > * >*{
+	margin: 4px;
+	border: solid 3px blue;
+}
 hr{
 	margin: 0;
-}
-
-* div,* span,* form,* textarea,* input,* a{
-	margin: 8px;
-	border: solid 3px red;
+	border: solid 3px black;
 }

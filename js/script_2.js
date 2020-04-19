@@ -200,11 +200,11 @@ function tag_switch(i){
     }
 }
 
-function content_load(i){
+function content_load(i){//地獄
 
     var contents_column=document.createElement('div');
     contents_column.id="content"+contentID;
-    contents_column.className="contents_trans"
+    contents_column.className="contents_border"
 
     //{//ラベル生成
     //var rabel=document.createElement('span')
@@ -230,7 +230,7 @@ function content_load(i){
     }contents_column.appendChild(class_select);
 
     var trans_box=document.createElement('div');
-    trans_box.className="contents_trans"
+    trans_box.className="contents_border"
 
     var transID=0;
     for(let j=0;j<trans_queue;j++){//訳語窓生成
@@ -259,13 +259,15 @@ function content_load(i){
     }
     addButton_add(trans_box)
 
-    trans_box.appendChild(document.createElement('hr'))
+    contents_column.appendChild(document.createElement('hr'))
     contents_column.appendChild(trans_box)
 
     
     var content_texts_box=document.createElement('div');
+    content_texts_box.className="contents_border"
 
     var content_shelf=document.createElement('div');
+    
 
     contents_content_queue=contents[i].content.length
     for(let j=0;j<contents_content_queue;j++){//text情報設定
