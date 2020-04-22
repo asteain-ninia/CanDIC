@@ -8,19 +8,19 @@ html,body{
 	background-color:whitesmoke;
 	height: 100%;
 	margin: 8px;
+	display: grid;
+	grid-template-rows: 1fr 40px;
 }
-div#editor{
-	height:95%;
+.editor{
 	overflow: auto;
 }
 
 form#submitBox{
-	display: none;
-	/* display: grid; */
+
+	display: grid;
 	grid-template-columns: 1fr 60px 60px;
 	gap: 2px;
 	margin: 2px;
-	padding-bottom: 5px;
 }
 
 .input-1{
@@ -110,13 +110,15 @@ input[name="remove"]{
 	font-size: large;
 	margin: 3px;
 }
-
+hr{
+	margin: 0;
+}
 
 
 /* .container > * > *{
 	margin: 4px;
-	border: solid 3px red;
-} */
+	border: solid 3px purple;
+}*/
 .container > * > * > *{
 	margin: 4px;
 	border: solid 3px green;
@@ -132,8 +134,7 @@ input[name="remove"]{
 .container> * > * > * > * > * >*{
 	margin: 4px;
 	border: solid 3px blue;
-}
+} 
 hr{
-	margin: 0;
 	border: solid 3px black;
 }
