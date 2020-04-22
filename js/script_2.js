@@ -1,45 +1,46 @@
 const electron = require('electron');
 const {ipcRenderer}=electron;
 const fs=require('fs')
+{//宣言pa
+ entry=null;
+ dictionary=null;
+ contents=null
 
-let entry=null;
-let dictionary=null;
-let contents=null
+ customID=0;
+ spellID=0;
+ pronunID=0;
+ charID=0;
 
-let customID=0;
-let spellID=0;
-let pronunID=0;
-let charID=0;
+ contentID=0;
+ transID=0;
+ textID=0;
 
-let contentID=0;
-let transID=0;
-let textID=0;
+ wordID=document.getElementById("wordID");
+ formBox=document.getElementById("formBox");
+ pronunBox=document.getElementById('pronunBox');
+ tagBox=document.getElementById("tagBox");
+ charBox=document.getElementById("charBox");
 
-let wordID=document.getElementById("wordID");
-let formBox=document.getElementById("formBox");
-let pronunBox=document.getElementById('pronunBox');
-let tagBox=document.getElementById("tagBox");
-let charBox=document.getElementById("charBox");
+ contentsBox=document.getElementById('contentsBox')
 
-let contentsBox=document.getElementById('contentsBox')
+ tags_queue_dictionary=0;
+ classes_queue_dictionary=0;
 
-let tags_queue_dictionary=0;
-let classes_queue_dictionary=0;
+ forms_queue=0;
+ pronuns_queue=0;
+ tags_queue=0;
+ chars_queue=0;
 
-let forms_queue=0;
-let pronuns_queue=0;
-let tags_queue=0;
-let chars_queue=0;
+ contents_queue=0;
+ trans_queue=0;
+ content_queue=0;
 
-let contents_queue=0;
-let trans_queue=0;
-let content_queue=0;
-
-let entry_id=[];
-let entry_form=[];
-let entry_pronunciation=[];
-let entry_tags=[];
-let entry_char=[];
+ entry_id=[];
+ entry_form=[];
+ entry_pronunciation=[];
+ entry_tags=[];
+ entry_char=[];
+}
 
 ipcRenderer.on('target',(event,arg)=>{
     var target_number=arg.number;
@@ -49,7 +50,6 @@ ipcRenderer.on('target',(event,arg)=>{
     json = JSON.parse(data); //jsonでパース(ここ二行scrpt_1と共通)
     load_word(target_number);
 });
-
 
 function load_word(target_number){
         dictionary=json.dictionary;
@@ -203,13 +203,9 @@ function tag_switch(i){
 function content_load(i){//地獄
 
     var contents_column=document.createElement('div');
+    contents_column.name="contents_column";
     contents_column.id="content"+contentID;
     contents_column.className="contents_border"
-
-    //{//ラベル生成
-    //var rabel=document.createElement('span')
-    //rabel.appendChild(document.createTextNode("品詞："))
-    //}contents_column.appendChild(rabel)
 
     trans_queue=contents[i].trans.length;
     content_queue=contents[i].content.length;
@@ -235,14 +231,13 @@ function content_load(i){//地獄
 
     var transID=0;
     for(let j=0;j<trans_queue;j++){//訳語窓生成
-        var ID_idea_trans="content"+contentID+"form"+transID;
 
         var trans_form=document.createElement('form');
-        trans_form.id=ID_idea_trans
+        trans_form.id="content"+contentID+"form"+transID;
         trans_form.className="input-1";
 
         trans_value=document.createElement('input');
-        trans_value.id=ID_idea_trans
+        trans_value.id="content"+contentID+"trans"+transID;
         trans_value.className="large"
 
         var remove=document.createElement('input');//-ボタン
@@ -250,7 +245,7 @@ function content_load(i){//地獄
         remove.name="remove";
         remove.value="-"
 
-        remove.setAttribute("onclick","remove('"+ID_idea_trans+"')")
+        remove.setAttribute("onclick","remove('content"+contentID+"form"+transID+"')")
         if(i!==-1){trans_value.value=contents[i].trans[j]}
 
         trans_form.appendChild(trans_value)
@@ -258,21 +253,37 @@ function content_load(i){//地獄
         trans_box.appendChild(trans_form)
         transID++
     }
-    addButton_add(trans_box)
+
+    var add_form=document.createElement('form')
+    add_form.className="input-1"
+
+    var add=document.createElement('input');
+    add.type="button";
+    add.name="add";
+    add.value="+";
+    add.setAttribute('onclick',"add_button('4')")
+
+    add_form.appendChild(document.createElement('a'))
+    add_form.appendChild(document.createElement('a'))
+    add_form.appendChild(add);
+    trans_box.appendChild(add_form);
 
     contents_column.appendChild(document.createElement('hr'))
     contents_column.appendChild(trans_box)
-
+    contents_column.appendChild(add_form)
+    
     
     var content_texts_box=document.createElement('div');
     content_texts_box.id="content_texts_box"
     content_texts_box.className="contents_border"
 
-    var content_shelf=document.createElement('div');
-    
+
 
     contents_content_queue=contents[i].content.length
     for(let j=0;j<contents_content_queue;j++){//text情報設定
+        var content_shelf=document.createElement('div');
+        content_shelf.id="content_shelf"
+
         var title_select=document.createElement('select');
         title_select.className="title";
         title_select.id="content"+contentID+"title"+textID;
@@ -282,13 +293,8 @@ function content_load(i){//地獄
             title_option.value=dictionary.titles[k].id;
             title_select.appendChild(title_option)
         }
-        if(i!==-1){title_select.selectedIndex=contents[i].content[j].title;}//selectedIndexにデータにあるIDを代入
-        
-        content_shelf.appendChild(title_select);
-
-        var content_texts_column= document.createElement('div')
-        content_texts_column.className="content_texts_colummn"
-        content_texts_column.id="content"+contentID+"text"+textID;
+        //selectedIndexにデータにあるIDを代入
+        if(i!==-1){title_select.selectedIndex=contents[i].content[j].title;}
 
         var content_texts_text=document.createElement('textarea')
         content_texts_text.value=contents[i].content[j].text
@@ -301,13 +307,14 @@ function content_load(i){//地獄
         remove.value="-"
         remove.setAttribute("onclick","remove('"+"content"+contentID+"text"+textID+"')")
         
-        content_texts_column.appendChild(content_texts_text)
-        content_texts_column.appendChild(remove)
+        content_shelf.appendChild(title_select);
+        content_shelf.appendChild(document.createElement('br'));
+        content_shelf.appendChild(content_texts_text)
+        content_shelf.appendChild(remove)
 
-        content_shelf.appendChild(content_texts_column)
-        
         content_texts_box.appendChild(content_shelf)
     }
+    
     textID++
 
     contents_column.appendChild(content_texts_box)
@@ -316,23 +323,6 @@ function content_load(i){//地獄
     contentsBox.appendChild(contents_column);
     contentID++
 }
-
-function addButton_add(target_box){//+ボタン
-    var add_form=document.createElement('form')
-    add_form.className="input-1"
-
-    var add=document.createElement('input');
-    add.type="button";
-    add.name="add";
-    add.value="+"
-
-    add_form.appendChild(document.createElement('a'))
-    add_form.appendChild(document.createElement('a'))
-    add_form.appendChild(add);
-    target_box.appendChild(add_form);
-}
-
-
 
 
 //どの窓がremoveを行ったかを受け取って、それをですとろーい
@@ -349,6 +339,8 @@ function add_button(customID){
         case 3:
             entry_load(customID,-1)
             break;
+        case 4:
+
     }
 }
 

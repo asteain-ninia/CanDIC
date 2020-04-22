@@ -88,11 +88,6 @@ input[name="remove"]{
 	border-left: solid 3px gray;
 	margin: 3px;
 }
-.content_texts_colummn{
-	display: grid;
-	grid-template-columns: 1fr 27px 27px;
-}
-
 
 .class{
 	font-size: large;
@@ -125,7 +120,7 @@ hr{
 }
 .container> * > * > * > *{
 	margin: 4px;
-	border: solid 3px pink;
+	border: solid 3px skyblue;
 }
 .container> * > * > * > * >*{
 	margin: 4px;
@@ -134,6 +129,10 @@ hr{
 .container> * > * > * > * > * >*{
 	margin: 4px;
 	border: solid 3px blue;
+} 
+.container> * > * > * > * > * >*{
+	margin: 4px;
+	border: solid 3px yellowgreen;
 } 
 hr{
 	border: solid 3px black;
