@@ -116,7 +116,7 @@ hr{
 /* .container > * > *{
 	margin: 4px;
 	border: solid 3px purple;
-}*/
+}
 .container > * > * > *{
 	margin: 4px;
 	border: solid 3px green;
@@ -139,4 +139,4 @@ hr{
 } 
 hr{
 	border: solid 3px black;
-}
+}*/
