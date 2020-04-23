@@ -211,7 +211,14 @@ function contents_load(i){
 
     var class_selecion=createElement('select');
     class_selecion.className="large"
-    classID=contents[i].class
+
+    //データの読み込み(iが-1でなければ)
+    if(i!=-1){
+        classID=contents[i].class
+        trans_queue=contents[i].trans.length
+        detail_queue=contents[i].detail.length
+    }
+
     for(j=0;j<classes_queue_dictionary;j++){
 
         var option=createElement('option')
@@ -222,17 +229,36 @@ function contents_load(i){
         if(classID==dictionary.classes[j].id){
             class_selecion.selectedIndex=classID
         }
-    }contents_column.appendChild(class_selecion);
+    }
+    contents_column.appendChild(class_selecion);
 
     transID=0;
-    trans_queue=contents[i].trans.length
+
     for(let j=0;j<trans_queue;j++){//trans読み込みループ
-        console.log("transID:"+transID);
+        var trans_form=createElement('form');//form要素
+        trans_form.className="input-1"
+        trans_form.id="content"+contentID+"trans"+transID
+
+        var trans_value=createElement('input');//窓
+        trans_value.type="text";
+        trans_value.name="content";
+        trans_value.value=contents[i].trans[j]
+
+        var remove=createElement('input');//-ボタン
+        remove.type="button";
+        remove.name="remove";
+        remove.value="-";
+        remove.setAttribute("onclick","remove('content"+contentID+"trans"+transID+"')")
+
+
+        trans_form.appendChild(trans_value);
+        trans_form.appendChild(remove);
+
+        contents_column.appendChild(trans_form);
         transID++
     }
 
     detailID=0;
-    detail_queue=contents[i].detail.length
     for(let j=0;j<detail_queue;j++){
         console.log("detailID:"+detailID)
         detailID++
@@ -247,7 +273,7 @@ function contents_load(i){
 
 //どの窓がremoveを行ったかを受け取って、それをですとろーい
 function remove(target){
-    console.log("remove"+target)
+    console.log("removed:"+target)
     var remove_target=document.getElementById(target)
     remove_target.parentNode.removeChild(remove_target);
 }
@@ -260,7 +286,7 @@ function add_button(customID){
             entry_load(customID,-1)
             break;
         case 4:
-            
+            contents_load(-1)
             break;
     }
 }
