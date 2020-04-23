@@ -154,11 +154,11 @@ function addElement(json, i) {
         content_column.setAttribute("style", "border-left:solid 2px darkgray;margin-left:3px;padding:3px;")
         content_column.id = "content_column";
 
-        var content_queue = json.words[i].contents[k].content.length;
+        var content_queue = json.words[i].contents[k].detail.length;
         for (let o = 0; o < content_queue; o++) {
             var title = document.createElement('span');
             title.setAttribute("style", "border-bottom: solid 1px gray")
-            var titleID = json.words[i].contents[k].content[o].title;
+            var titleID = json.words[i].contents[k].detail[o].title;
             var title_queue = json.dictionary.titles.length;
             for (let p = 0; p < title_queue; p++) {
                 if (json.dictionary.titles[p].id == titleID) {
@@ -172,7 +172,7 @@ function addElement(json, i) {
             var contentBox = document.createElement('div')
             contentBox.id = "contentBox";
             var contentDisplay = document.createTextNode(
-                json.words[i].contents[k].content[o].text)
+                json.words[i].contents[k].detail[o].text)
             contentBox.appendChild(contentDisplay);
             content_column.appendChild(contentBox);
         }
