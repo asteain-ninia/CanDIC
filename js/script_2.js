@@ -13,6 +13,7 @@ const fs=require('fs')
 
  contentID=0;
  transID=0;
+ shelfID=0;
  textID=0;
 
  wordID=document.getElementById("wordID");
@@ -201,7 +202,6 @@ function tag_switch(i){
 }
 
 function content_load(i){//地獄
-
     var contents_column=document.createElement('div');
     contents_column.name="contents_column";
     contents_column.id="content"+contentID;
@@ -278,44 +278,52 @@ function content_load(i){//地獄
     content_texts_box.className="contents_border"
 
 
-
+    textID=0;
     contents_content_queue=contents[i].content.length
     for(let j=0;j<contents_content_queue;j++){//text情報設定
-        var content_shelf=document.createElement('div');
-        content_shelf.id="content_shelf"
+        shelf_maker(i,j);
+        function shelf_maker(i,j){
+            var content_shelf=document.createElement('div');
+            content_shelf.id="content"+contentID+"shelf"+shelfID
 
-        var title_select=document.createElement('select');
-        title_select.className="title";
-        title_select.id="content"+contentID+"title"+textID;
-        for(let k=0;k<title_queue_dictionary;k++){//option生成
-            var title_option=document.createElement('option')
-            title_option.text=dictionary.titles[k].name;
-            title_option.value=dictionary.titles[k].id;
-            title_select.appendChild(title_option)
+            var title_select=document.createElement('select');
+            title_select.className="title";
+            title_select.id="content"+contentID+"title"+textID;
+            for(let k=0;k<title_queue_dictionary;k++){//option生成
+                var title_option=document.createElement('option')
+                title_option.text=dictionary.titles[k].name;
+                title_option.value=dictionary.titles[k].id;
+                title_select.appendChild(title_option)
+            }
+            //selectedIndexにデータにあるIDを代入
+            if(i!==-1){title_select.selectedIndex=contents[i].content[j].title;}
+
+            var content_texts_text=document.createElement('textarea')
+            content_texts_text.value=contents[i].content[j].text
+            content_texts_text.id="content"+contentID+"text"+textID;
+            content_texts_text.className="textBox"
+
+            var remove=document.createElement('input');//-ボタン
+            remove.type="button";
+            remove.name="remove";
+            remove.value="-"
+            remove.setAttribute("onclick","remove('"+"content"+contentID+"shelf"+shelfID+"')")
+            
+            content_shelf.appendChild(title_select);
+            content_shelf.appendChild(document.createElement('br'));
+            content_shelf.appendChild(content_texts_text)
+            content_shelf.appendChild(remove)
+
+            content_texts_box.appendChild(content_shelf)
+            textID++
+            shelfID++
         }
-        //selectedIndexにデータにあるIDを代入
-        if(i!==-1){title_select.selectedIndex=contents[i].content[j].title;}
-
-        var content_texts_text=document.createElement('textarea')
-        content_texts_text.value=contents[i].content[j].text
-        content_texts_text.id="content"+contentID+"text"+textID;
-        content_texts_text.className="textBox"
-
-        var remove=document.createElement('input');//-ボタン
-        remove.type="button";
-        remove.name="remove";
-        remove.value="-"
-        remove.setAttribute("onclick","remove('"+"content"+contentID+"text"+textID+"')")
-        
-        content_shelf.appendChild(title_select);
-        content_shelf.appendChild(document.createElement('br'));
-        content_shelf.appendChild(content_texts_text)
-        content_shelf.appendChild(remove)
-
-        content_texts_box.appendChild(content_shelf)
     }
-    
-    textID++
+
+
+
+
+ 
 
     contents_column.appendChild(content_texts_box)
     contents_column.appendChild(document.createElement('hr'))
@@ -340,7 +348,7 @@ function add_button(customID){
             entry_load(customID,-1)
             break;
         case 4:
-
+        
     }
 }
 

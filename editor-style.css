@@ -3,6 +3,9 @@ html,body{
 	height: 99vh;
 	overflow: hidden;
 }
+textarea{
+	resize:vertical;
+}
 
 .container {
 	background-color:whitesmoke;
@@ -130,7 +133,7 @@ hr{
 	margin: 4px;
 	border: solid 3px blue;
 } 
-.container> * > * > * > * > * >*{
+.container> * > * > * > * > * >* >*{
 	margin: 4px;
 	border: solid 3px yellowgreen;
 } 
