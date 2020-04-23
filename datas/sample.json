@@ -28,7 +28,7 @@
                         "自分",
                         "自己"
                     ],
-                    "content":[
+                    "detail":[
                         {
                             "title":0,
                             "text":"dummy"
@@ -41,7 +41,7 @@
                     "trans": [
                         "私"
                     ],
-                    "content": [
+                    "detail": [
                         {
                             "title": 1,
                             "text": "一人称として最も一般的。"
