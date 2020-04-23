@@ -14,8 +14,7 @@ const fs=require('fs')
 
  contentID=0;
  transID=0;
- shelfID=0;
- textID=0;
+
 
  wordID=document.getElementById("wordID");
  formBox=document.getElementById("formBox");
@@ -26,22 +25,26 @@ const fs=require('fs')
  contentsBox=document.getElementById('contentsBox')
 
  tags_queue_dictionary=0;
- classes_queue_dictionary=0;
 
  forms_queue=0;
  pronuns_queue=0;
  tags_queue=0;
  chars_queue=0;
 
+ classes_queue_dictionary=0;
  contents_queue=0;
  trans_queue=0;
- content_queue=0;
+ detail_queue=0;
 
  entry_id=[];
  entry_form=[];
  entry_pronunciation=[];
  entry_tags=[];
  entry_char=[];
+}
+
+{//ショートカットpa
+ function createElement(x){return document.createElement(x)}
 }
 
 ipcRenderer.on('target',(event,arg)=>{
@@ -97,7 +100,7 @@ function load_word(target_number){
 
         //訳の読み込み
         for(let i=0;i<contents_queue;i++){
-            content_load(i);
+            contents_load(i);
         }
 
     }else{//新規作成時の画面
@@ -108,7 +111,7 @@ function load_word(target_number){
 
 function tag_show(){
     for(let i=0; i<tags_queue_dictionary;i++){//タグの表示
-        var tag=document.createElement('span');
+        var tag=createElement('span');
         tag.className="tag";
         tag.id="tag:"+dictionary.tags[i].id;
         tag_value=document.createTextNode(dictionary.tags[i].name);
@@ -119,14 +122,14 @@ function tag_show(){
 }
 
 function entry_load(customID,i){
-    var element=document.createElement('form');//form要素
+    var element=createElement('form');//form要素
 
-    var column_value=document.createElement('input');//窓
+    var column_value=createElement('input');//窓
     column_value.type="text";
     column_value.name="content";
     element.appendChild(column_value);
 
-    var remove=document.createElement('input');//-ボタン
+    var remove=createElement('input');//-ボタン
     remove.type="button";
     remove.name="remove";
     remove.value="-"
@@ -202,6 +205,42 @@ function tag_switch(i){
     }
 }
 
+function contents_load(i){
+    console.log("contentID:"+contentID);
+    var contents_column=createElement('div')
+
+    var class_selecion=createElement('select');
+    class_selecion.className="large"
+    classID=contents[i].class
+    for(j=0;j<classes_queue_dictionary;j++){
+
+        var option=createElement('option')
+        option.value=dictionary.classes[j].id;//value設定
+        option.appendChild(document.createTextNode(dictionary.classes[j].name))//表示名設定
+        class_selecion.appendChild(option);
+
+        if(classID==dictionary.classes[j].id){
+            class_selecion.selectedIndex=classID
+        }
+    }contents_column.appendChild(class_selecion);
+
+    transID=0;
+    trans_queue=contents[i].trans.length
+    for(let j=0;j<trans_queue;j++){//trans読み込みループ
+        console.log("transID:"+transID);
+        transID++
+    }
+
+    detailID=0;
+    detail_queue=contents[i].detail.length
+    for(let j=0;j<detail_queue;j++){
+        console.log("detailID:"+detailID)
+        detailID++
+    }
+
+    contentsBox.appendChild(contents_column)
+    contentID++
+}
 
 
 
