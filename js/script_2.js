@@ -208,6 +208,7 @@ function tag_switch(i){
 function contents_load(i){
     console.log("contentID:"+contentID);
     var contents_column=createElement('div')
+    contents_column.id="contents"+contentID;
 
     var class_selecion=createElement('select');
     class_selecion.className="large"
@@ -225,15 +226,26 @@ function contents_load(i){
         option.value=dictionary.classes[j].id;//value設定
         option.appendChild(document.createTextNode(dictionary.classes[j].name))//表示名設定
         class_selecion.appendChild(option);
-
-        if(classID==dictionary.classes[j].id){
-            class_selecion.selectedIndex=classID
+        if(i!=-1){
+            if(classID==dictionary.classes[j].id){
+                class_selecion.selectedIndex=classID
+            }
         }
     }
     contents_column.appendChild(class_selecion);
 
-    transID=0;
+    var remove=createElement('input');//-ボタン
+    remove.type="button";
+    remove.name="remove";
+    remove.value="-";
+    remove.setAttribute("onclick","remove('contents"+contentID+"')")
+    contents_column.appendChild(remove);
 
+    var transBox=createElement('div')
+    transBox.id="content"+contentID+"transBox"
+    transBox.
+
+    transID=0;
     for(let j=0;j<trans_queue;j++){//trans読み込みループ
         var trans_form=createElement('form');//form要素
         trans_form.className="input-1"
@@ -242,7 +254,9 @@ function contents_load(i){
         var trans_value=createElement('input');//窓
         trans_value.type="text";
         trans_value.name="content";
-        trans_value.value=contents[i].trans[j]
+        if(i!=-1){
+            trans_value.value=contents[i].trans[j]
+        }
 
         var remove=createElement('input');//-ボタン
         remove.type="button";
@@ -250,13 +264,28 @@ function contents_load(i){
         remove.value="-";
         remove.setAttribute("onclick","remove('content"+contentID+"trans"+transID+"')")
 
-
         trans_form.appendChild(trans_value);
         trans_form.appendChild(remove);
 
-        contents_column.appendChild(trans_form);
+        transBox.appendChild(trans_form);
         transID++
     }
+
+    contents_column.appendChild(transBox)
+
+    var trans_add=createElement('form');
+    trans_add.className="input-1";
+    var add=createElement('input');//+ボタン
+    add.type="button";
+    add.name="add";
+    add.value="+";
+    add.setAttribute("onclick","add_trans('content"+contentID+"transBox',-1)")
+
+    trans_add.appendChild(createElement('a'))
+    trans_add.appendChild(createElement('a'))
+    trans_add.appendChild(add)
+
+    contents_column.appendChild(trans_add)
 
     detailID=0;
     for(let j=0;j<detail_queue;j++){
@@ -267,9 +296,6 @@ function contents_load(i){
     contentsBox.appendChild(contents_column)
     contentID++
 }
-
-
-
 
 //どの窓がremoveを行ったかを受け取って、それをですとろーい
 function remove(target){
@@ -289,6 +315,32 @@ function add_button(customID){
             contents_load(-1)
             break;
     }
+}
+
+function add_trans(targetBox,i){
+    target=document.getElementById(targetBox)
+    var trans_form=createElement('form');//form要素
+    trans_form.className="input-1"
+    trans_form.id="content"+contentID+"trans"+transID
+
+    var trans_value=createElement('input');//窓
+    trans_value.type="text";
+    trans_value.name="content";
+    if(i!=-1){
+        trans_value.value=contents[i].trans[j]
+    }
+
+    var remove=createElement('input');//-ボタン
+    remove.type="button";
+    remove.name="remove";
+    remove.value="-";
+    remove.setAttribute("onclick","remove('content"+contentID+"trans"+transID+"')")
+
+    trans_form.appendChild(trans_value);
+    trans_form.appendChild(remove);
+
+    target.appendChild(trans_form);
+    transID++
 }
 
 function agree(){
