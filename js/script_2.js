@@ -251,6 +251,7 @@ function contents_load(i){
     var transBox=createElement('div')
     transBox.id="content"+contentID+"transBox"
     transBox.className="contents_border"
+    transBox.setAttribute("contentID",contentID);
     transID=0;
     for(let j=0;j<trans_queue;j++){//trans読み込みループ
         var trans_form=createElement('form');//form要素
@@ -259,6 +260,7 @@ function contents_load(i){
 
         var trans_value=createElement('input');//窓
         trans_value.type="text";
+        trans_value.className="large";
         trans_value.name="content"+contentID+"trans"+transID;
         if(i!=-1){
             trans_value.value=contents[i].trans[j]
@@ -276,6 +278,7 @@ function contents_load(i){
         transBox.appendChild(trans_form);
         transID++
     }
+    transBox.setAttribute("transID",transID)
 
     contents_column.appendChild(transBox)
 
@@ -295,14 +298,16 @@ function contents_load(i){
     contents_column.appendChild(createElement('hr'))
 
     var detailBox=createElement('div');
-    detailBox.id="detailBox"+contentID
+    detailBox.id="content"+contentID+"detailBox"
+    detailBox.className="contents_border"
+    detailBox.setAttribute("contentID",contentID)
     detailID=0;
-    
     for(let j=0;j<detail_queue;j++){//detail読み込みループ
 
         var detail_column=createElement('div');
         detail_column.id="content"+contentID+"detail"+detailID;
         detail_column.className="contents_border"
+
 
         if(i!=-1){
             var titleID=contents[i].detail[j].title;
@@ -352,9 +357,11 @@ function contents_load(i){
         detail_column.appendChild(createElement('hr'));
         detailBox.appendChild(detail_column);
         
-        contents_column.appendChild(detailBox);
         detailID++;
     }
+
+    detailBox.setAttribute("detailID",detailID)
+    contents_column.appendChild(detailBox);
 
     var detail_add=createElement('form');
     detail_add.className="input-1";
@@ -362,7 +369,7 @@ function contents_load(i){
     add.type="button";
     add.name="add";
     add.value="+";
-    add.setAttribute("onclick","add_detail('detailBox"+contentID+"',-1)")
+    add.setAttribute("onclick","add_detail('content"+contentID+"detailBox',-1)")
 
     detail_add.appendChild(createElement('a'))
     detail_add.appendChild(createElement('a'))
@@ -388,27 +395,26 @@ function remove(target){
 }
 
 function add_button(customID){
-    switch(customID){
-        case 1:
-        case 2:
-        case 3:
-            entry_load(customID,-1)
-            break;
-        case 4:
-            contents_load(-1)
-            break;
+    if(customID==4){
+        contents_load(-1);
     }
+    entry_load(customID,-1)
 }
 
 function add_trans(targetBox,i){
     target=document.getElementById(targetBox)
+    
+    var contentID_current=target.getAttribute("contentid");
+    var transID_current=target.getAttribute("transid");
+    
     var trans_form=createElement('form');//form要素
     trans_form.className="input-1"
-    trans_form.id="content"+contentID+"trans"+transID
+    trans_form.id="content"+contentID_current+"trans"+transID_current
 
     var trans_value=createElement('input');//窓
     trans_value.type="text";
-    trans_value.name="content";
+    trans_value.className="large";
+    trans_value.name="content"+contentID_current+"trans"+transID_current;
     if(i!=-1){
         trans_value.value=contents[i].trans[j]
     }
@@ -417,20 +423,24 @@ function add_trans(targetBox,i){
     remove.type="button";
     remove.name="remove";
     remove.value="-";
-    remove.setAttribute("onclick","remove('content"+contentID+"trans"+transID+"')")
+    remove.setAttribute("onclick","remove('content"+contentID_current+"trans"+transID_current+"')")
 
     trans_form.appendChild(trans_value);
     trans_form.appendChild(remove);
 
     target.appendChild(trans_form);
-    transID++
+    transID_current++
+    target.setAttribute("transid",transID_current)
 }
 
 function add_detail(targetBox,i){
     target=document.getElementById(targetBox)
 
+    var contentID_current=target.getAttribute("contentid");
+    var detailID_current=target.getAttribute("detailid");
+
     var detail_column=createElement('div');
-    detail_column.id="content"+contentID+"detail"+detailID;
+    detail_column.id="content"+contentID_current+"detail"+detailID_current;
     detail_column.className="contents_border"
 
     if(i!=-1){
@@ -464,13 +474,13 @@ function add_detail(targetBox,i){
     remove.type="button";
     remove.name="remove";
     remove.value="-";
-    remove.setAttribute("onclick","remove('content"+contentID+"detail"+detailID+"')");
+    remove.setAttribute("onclick","remove('content"+contentID_current+"detail"+detailID_current+"')");
     titleBox.appendChild(remove);
 
     detail_column.appendChild(titleBox);
 
     var textBox=createElement('textarea');
-    textBox.id="content"+contentID+"detail"+detailID+"text"
+    textBox.id="content"+contentID_current+"detail"+detailID_current+"text"
     textBox.className="textBox"
     if(i!=-1){
         textBox.value=contents[i].detail[j].text;
@@ -481,11 +491,12 @@ function add_detail(targetBox,i){
     detail_column.appendChild(createElement('hr'));
 
     target.appendChild(detail_column);
-    detailID++;
+    detailID_current++;
+    target.setAttribute("detailid",detailID_current)
 }
 
-function agree(){
-    //保存処理
+function agree(){//保存処理
+    
 }
 function disagree(){
     ipcRenderer.send('close_signal',1)

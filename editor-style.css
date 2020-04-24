@@ -13,6 +13,7 @@ textarea{
 	margin: 8px;
 	display: grid;
 	grid-template-rows: 1fr 40px;
+	background-blend-mode:multiply;
 }
 .editor{
 	overflow: auto;
@@ -37,6 +38,7 @@ form#submitBox{
 	grid-template-columns: 1fr 27px;
 	gap: 2px;
 	margin: 2px;
+	border-left: solid 3px gray;
 }
 
 .bigcolumn{
@@ -118,8 +120,8 @@ hr{
 	margin: 0;
 }
 
-
-/* .container > * > *{
+/*入れ子構造把握のためのborderたち
+.container > * > *{
 	margin: 4px;
 	border: solid 3px purple;
 }
