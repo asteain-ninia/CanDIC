@@ -60,21 +60,21 @@ ipcMain.on('editor_signal',(event,arg)=>{
 });
 
 ipcMain.on('close_signal',(event,arg)=>{
-  if(arg==1){
-  var choise=dialog.showMessageBoxSync(editor,{
-    type:'warning',
-    title:'警告',
-    message:'単語編集を保存せず終了します。よろしいですか。',
-    buttons:['OK', 'Cancel',]
+  if(arg.save_flag==1){
+    var choise=dialog.showMessageBoxSync(editor,{
+      type:'warning',
+      title:'警告',
+      message:'単語編集を保存せず終了します。よろしいですか。',
+      buttons:['OK', 'Cancel',]
     })
-  if(choise==0){
+    if(choise==0){
+      editor.close();
+    }else{
+      //何もしないをする
+    }
+  }else{
     editor.close();
-  }else{
-    //何もしないをする
-  };
-  }else{
-    editor.close()
-    index.webContents.send('modifi_signal')
+    index.webContents.send('modify_signal',arg);
   }
 });
 

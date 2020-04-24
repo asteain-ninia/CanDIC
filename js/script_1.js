@@ -212,3 +212,7 @@ function OpenEditDEV(targetID){
     console.log(editword);
     ipcRenderer.send('editor_signal', editword)
 }
+ipcRenderer.on('modify_signal',(event,arg)=>{//単語編集時の処理
+    console.log(arg.target_number)
+    
+})

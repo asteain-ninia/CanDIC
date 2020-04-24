@@ -48,7 +48,7 @@ const fs=require('fs')
 }
 
 ipcRenderer.on('target',(event,arg)=>{
-    var target_number=arg.number;
+    target_number=arg.number;
     var target_path=arg.path;
 
     var data = fs.readFileSync(target_path, 'utf8') //pathの向こうにあるファイルをテキストで読む
@@ -496,10 +496,18 @@ function add_detail(targetBox,i){
 }
 
 function agree(){//保存処理
-    
+    var modify_pack={
+        "save_flag":0,
+        "target_number":target_number
+    };
+    ipcRenderer.send('close_signal',modify_pack)
 }
 function disagree(){
-    ipcRenderer.send('close_signal',1)
+    var modify_pack={
+        "save_flag":1,
+        "target_number":target_number
+    };
+    ipcRenderer.send('close_signal',modify_pack)
 }
 
 ipcRenderer.on('1',function(event, arg) {
