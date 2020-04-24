@@ -108,6 +108,12 @@ input[name="remove"]{
 	font-size: large;
 	margin: 3px;
 }
+.selectionBox{
+	display: grid;
+	grid-template-columns: 0.5fr 27px;
+	gap: 3px;
+}
+
 hr{
 	margin: 0;
 }

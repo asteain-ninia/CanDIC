@@ -61,7 +61,7 @@ function load_word(target_number){
 
         tags_queue_dictionary=dictionary.tags.length;
         classes_queue_dictionary=dictionary.classes.length;
-        title_queue_dictionary=dictionary.titles.length
+        titles_queue_dictionary=dictionary.titles.length
 
     if(target_number!=-1){
         wordID.innerHTML="ID:"+target_number;
@@ -209,9 +209,7 @@ function contents_load(i){
     console.log("contentID:"+contentID);
     var contents_column=createElement('div')
     contents_column.id="contents"+contentID;
-
-    var class_selecion=createElement('select');
-    class_selecion.className="large"
+    contents_column.className="contents_border"
 
     //データの読み込み(iが-1でなければ)
     if(i!=-1){
@@ -220,8 +218,14 @@ function contents_load(i){
         detail_queue=contents[i].detail.length
     }
 
-    for(j=0;j<classes_queue_dictionary;j++){
+    var selectionBox=createElement('div')
+    selectionBox.id="selectionBox"
+    selectionBox.className="selectionBox"
 
+    var class_selecion=createElement('select');
+    class_selecion.className="large"
+
+    for(j=0;j<classes_queue_dictionary;j++){//class設定ループ
         var option=createElement('option')
         option.value=dictionary.classes[j].id;//value設定
         option.appendChild(document.createTextNode(dictionary.classes[j].name))//表示名設定
@@ -232,28 +236,30 @@ function contents_load(i){
             }
         }
     }
-    contents_column.appendChild(class_selecion);
+    selectionBox.appendChild(class_selecion);
 
     var remove=createElement('input');//-ボタン
     remove.type="button";
     remove.name="remove";
     remove.value="-";
     remove.setAttribute("onclick","remove('contents"+contentID+"')")
-    contents_column.appendChild(remove);
+
+    selectionBox.appendChild(remove);
+
+    contents_column.appendChild(selectionBox)
 
     var transBox=createElement('div')
     transBox.id="content"+contentID+"transBox"
-    transBox.
-
+    transBox.className="contents_border"
     transID=0;
     for(let j=0;j<trans_queue;j++){//trans読み込みループ
         var trans_form=createElement('form');//form要素
         trans_form.className="input-1"
-        trans_form.id="content"+contentID+"trans"+transID
+        trans_form.id="content"+contentID+"trans"+transID;
 
         var trans_value=createElement('input');//窓
         trans_value.type="text";
-        trans_value.name="content";
+        trans_value.name="content"+contentID+"trans"+transID;
         if(i!=-1){
             trans_value.value=contents[i].trans[j]
         }
@@ -286,15 +292,92 @@ function contents_load(i){
     trans_add.appendChild(add)
 
     contents_column.appendChild(trans_add)
+    contents_column.appendChild(createElement('hr'))
 
+    var detailBox=createElement('div');
+    detailBox.id="detailBox"+contentID
     detailID=0;
-    for(let j=0;j<detail_queue;j++){
-        console.log("detailID:"+detailID)
-        detailID++
+    
+    for(let j=0;j<detail_queue;j++){//detail読み込みループ
+
+        var detail_column=createElement('div');
+        detail_column.id="content"+contentID+"detail"+detailID;
+        detail_column.className="contents_border"
+
+        if(i!=-1){
+            var titleID=contents[i].detail[j].title;
+        }
+
+        console.log(titleID);
+
+        var titleBox=createElement('div');
+        titleBox.id="titleBox";
+        titleBox.className="selectionBox";
+    
+        var title_selecion=createElement('select');
+        title_selecion.className="large"
+
+        for(k=0;k<titles_queue_dictionary;k++){//title設定ループ
+
+            var option=createElement('option')
+            option.value=dictionary.titles[k].id;//value設定
+            option.appendChild(document.createTextNode(dictionary.titles[k].name))//表示名設定
+            title_selecion.appendChild(option);
+            if(i!=-1){
+                if(classID==dictionary.classes[k].id){
+                    title_selecion.selectedIndex=titleID
+                }
+            }
+        }
+        titleBox.appendChild(title_selecion);
+
+        var remove=createElement('input');//-ボタン
+        remove.type="button";
+        remove.name="remove";
+        remove.value="-";
+        remove.setAttribute("onclick","remove('content"+contentID+"detail"+detailID+"')");
+        titleBox.appendChild(remove);
+
+        detail_column.appendChild(titleBox);
+
+        var textBox=createElement('textarea');
+        textBox.id="content"+contentID+"detail"+detailID+"text"
+        textBox.className="textBox"
+        if(i!=-1){
+            textBox.value=contents[i].detail[j].text;
+        }
+
+
+        detail_column.appendChild(textBox);
+        detail_column.appendChild(createElement('hr'));
+        detailBox.appendChild(detail_column);
+        
+        contents_column.appendChild(detailBox);
+        detailID++;
     }
+
+    var detail_add=createElement('form');
+    detail_add.className="input-1";
+    var add=createElement('input');//+ボタン
+    add.type="button";
+    add.name="add";
+    add.value="+";
+    add.setAttribute("onclick","add_detail('detailBox"+contentID+"',-1)")
+
+    detail_add.appendChild(createElement('a'))
+    detail_add.appendChild(createElement('a'))
+    detail_add.appendChild(add)
+
+    contents_column.appendChild(detail_add)
+    contents_column.appendChild(createElement('hr'))
 
     contentsBox.appendChild(contents_column)
     contentID++
+
+    {//変数の0化
+        trans_queue=0
+        detail_queue=0
+    }
 }
 
 //どの窓がremoveを行ったかを受け取って、それをですとろーい
@@ -341,6 +424,64 @@ function add_trans(targetBox,i){
 
     target.appendChild(trans_form);
     transID++
+}
+
+function add_detail(targetBox,i){
+    target=document.getElementById(targetBox)
+
+    var detail_column=createElement('div');
+    detail_column.id="content"+contentID+"detail"+detailID;
+    detail_column.className="contents_border"
+
+    if(i!=-1){
+        var titleID=contents[i].detail[j].title;
+    }
+
+    console.log(titleID);
+
+    var titleBox=createElement('div');
+    titleBox.id="titleBox";
+    titleBox.className="selectionBox";
+
+    var title_selecion=createElement('select');
+    title_selecion.className="large"
+
+    for(k=0;k<titles_queue_dictionary;k++){//title設定ループ
+
+        var option=createElement('option')
+        option.value=dictionary.titles[k].id;//value設定
+        option.appendChild(document.createTextNode(dictionary.titles[k].name))//表示名設定
+        title_selecion.appendChild(option);
+        if(i!=-1){
+            if(classID==dictionary.classes[k].id){
+                title_selecion.selectedIndex=titleID
+            }
+        }
+    }
+    titleBox.appendChild(title_selecion);
+
+    var remove=createElement('input');//-ボタン
+    remove.type="button";
+    remove.name="remove";
+    remove.value="-";
+    remove.setAttribute("onclick","remove('content"+contentID+"detail"+detailID+"')");
+    titleBox.appendChild(remove);
+
+    detail_column.appendChild(titleBox);
+
+    var textBox=createElement('textarea');
+    textBox.id="content"+contentID+"detail"+detailID+"text"
+    textBox.className="textBox"
+    if(i!=-1){
+        textBox.value=contents[i].detail[j].text;
+    }
+
+
+    detail_column.appendChild(textBox);
+    detail_column.appendChild(createElement('hr'));
+
+    target.appendChild(detail_column);
+    detailID++;
 }
 
 function agree(){
