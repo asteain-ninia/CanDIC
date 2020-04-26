@@ -514,23 +514,23 @@ function agree(){//保存処理
     entry.id=target_number;//これは何も起きないはず
     entry.form=[];//form初期化
     for(let i=0;i<spellID;i++){//spellループ
-        var spelling_value=document.getElementById("spell"+i)
+        var spelling_value=document.getElementById("spell"+i);
         if(spelling_value){if(spelling_value.value){
                 entry.form.push(spelling_value.value);
             }}
-    }console.log(entry.form)
+    }console.log(entry.form);
 
     entry.pronunciation=[];//pronun初期化
     for(let i=0;i<pronunID;i++){//pronunループ
-        var pronun_value=document.getElementById("pronun"+i)
+        var pronun_value=document.getElementById("pronun"+i);
         if(pronun_value){if(pronun_value.value){
             entry.pronunciation.push(pronun_value.value);
         }}
-    }console.log(entry.pronunciation)
+    }console.log(entry.pronunciation);
 
     entry.tags=[];//tags初期化
     for(let i=0;i<tagID;i++){//tagsループ
-        var tag_element=document.getElementById("tag"+i)
+        var tag_element=document.getElementById("tag"+i);
         if(tag_element){
             if(tag_element.getAttribute("flag")){
                 if(tag_element.getAttribute("flag")=="true"){
@@ -538,9 +538,15 @@ function agree(){//保存処理
                 }
             }
         }
-    }
-    console.log(entry.tags)
+    }console.log(entry.tags);
 
+    entry.char=[];//char初期化
+    for(let i=0;i<charID;i++){//charループ
+        var char_value=document.getElementById("char"+i);
+        if(char_value){if(char_value.value){
+            entry.char.push(char_value.value);
+        }}
+    }console.log(entry.char);
 
 
 
