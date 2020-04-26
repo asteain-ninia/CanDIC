@@ -11,6 +11,7 @@ const fs=require('fs')
  spellID=0;
  pronunID=0;
  charID=0;
+ tagID=0;
 
  contentID=0;
  transID=0;
@@ -35,12 +36,6 @@ const fs=require('fs')
  contents_queue=0;
  trans_queue=0;
  detail_queue=0;
-
- entry_id=[];
- entry_form=[];
- entry_pronunciation=[];
- entry_tags=[];
- entry_char=[];
 }
 
 {//ショートカットpa
@@ -113,20 +108,22 @@ function tag_show(){
     for(let i=0; i<tags_queue_dictionary;i++){//タグの表示
         var tag=createElement('span');
         tag.className="tag";
-        tag.id="tag:"+dictionary.tags[i].id;
+        tag.id="tag"+dictionary.tags[i].id;
         tag_value=document.createTextNode(dictionary.tags[i].name);
         tag.appendChild(tag_value);
         tag.setAttribute("onclick","tag_switch("+i+")")
         tagBox.appendChild(tag);
+        tagID++
     }
 }
 
 function entry_load(customID,i){
-    var element=createElement('form');//form要素
+    var element=createElement('div');//form要素
+
 
     var column_value=createElement('input');//窓
     column_value.type="text";
-    column_value.name="content";
+
     element.appendChild(column_value);
 
     var remove=createElement('input');//-ボタン
@@ -136,10 +133,13 @@ function entry_load(customID,i){
 
     switch(customID){
         case 1:
-            remove.setAttribute("onclick","remove('spell"+spellID+"')")
+            remove.setAttribute("onclick","remove('spell"+spellID+"Box')")
             element.appendChild(remove);
+
+            element.id="spell"+spellID+"Box"
             element.className="input-1";
-            element.name=element.id="spell"+spellID;
+            column_value.id="spell"+spellID;
+            column_value.className="large";
             formBox.appendChild(element);
 
             if(i!=-1){
@@ -149,10 +149,13 @@ function entry_load(customID,i){
             break;
 
         case 2:
-            remove.setAttribute("onclick","remove('pronun"+pronunID+"')")
+            remove.setAttribute("onclick","remove('pronun"+pronunID+"Box')")
             element.appendChild(remove);
+
+            element.id="pronun"+spellID+"Box"
             element.className="input-1";
-            element.name=element.id="pronun"+pronunID;
+            column_value.id="pronun"+pronunID;
+            column_value.className="large";
             pronunBox.appendChild(element);
 
             if(i!=-1){
@@ -162,11 +165,21 @@ function entry_load(customID,i){
             break;
 
         case 3:
-            remove.setAttribute("onclick","remove('char"+charID+"')")
-            element.appendChild(remove);
-            element.className="input-1";
-            element.name=element.id="char"+charID;
-            column_value.name="char_content";
+            remove.setAttribute("onclick","remove('char"+charID+"Box')")
+
+            element.id="char"+charID+"Box"
+            element.className="char"
+            column_value.id="char"+charID;
+            column_value.className="char_value";
+
+            var small_value_div=createElement('div');
+            small_value_div.appendChild(column_value);
+            element.appendChild(small_value_div)
+
+            var small_remove_div=createElement('div');
+            small_remove_div.appendChild(remove);
+            element.appendChild(small_remove_div);
+
             charBox.appendChild(element);
             if(i!=-1){
                 column_value.value=entry.char[i];
@@ -178,7 +191,7 @@ function entry_load(customID,i){
 
 //tagIDがiのタグがデータにマッチするかを検査
 function tag_load(i){
-    var tag_target=document.getElementById("tag:"+i);
+    var tag_target=document.getElementById("tag"+i);
 
     for(let j=0;j<tags_queue;j++){
         if(entry.tags[j]==i){
@@ -190,11 +203,12 @@ function tag_load(i){
             tag_target.setAttribute("style","background-color:gray;")
         }
     }
+
 }
 
 //タグ状態の変更。(これそのうちtag_loadに一本化できるかも)
 function tag_switch(i){
-    var tag_target=document.getElementById("tag:"+i);
+    var tag_target=document.getElementById("tag"+i);
     tag_target_flag=tag_target.getAttribute("flag")
     if(tag_target_flag=="true"){
         tag_target.setAttribute("flag","false");
@@ -261,7 +275,7 @@ function contents_load(i){
         var trans_value=createElement('input');//窓
         trans_value.type="text";
         trans_value.className="large";
-        trans_value.name="content"+contentID+"trans"+transID;
+        trans_value.id="content"+contentID+"trans"+transID;
         if(i!=-1){
             trans_value.value=contents[i].trans[j]
         }
@@ -414,7 +428,7 @@ function add_trans(targetBox,i){
     var trans_value=createElement('input');//窓
     trans_value.type="text";
     trans_value.className="large";
-    trans_value.name="content"+contentID_current+"trans"+transID_current;
+    trans_value.id="content"+contentID_current+"trans"+transID_current;
     if(i!=-1){
         trans_value.value=contents[i].trans[j]
     }
@@ -496,11 +510,45 @@ function add_detail(targetBox,i){
 }
 
 function agree(){//保存処理
-    var modify_pack={
-        "save_flag":0,
-        "target_number":target_number
-    };
-    ipcRenderer.send('close_signal',modify_pack)
+
+    entry.id=target_number;//これは何も起きないはず
+    entry.form=[];//form初期化
+    for(let i=0;i<spellID;i++){//spellループ
+        var spelling_value=document.getElementById("spell"+i)
+        if(spelling_value){if(spelling_value.value){
+                entry.form.push(spelling_value.value);
+            }}
+    }console.log(entry.form)
+
+    entry.pronunciation=[];//pronun初期化
+    for(let i=0;i<pronunID;i++){//pronunループ
+        var pronun_value=document.getElementById("pronun"+i)
+        if(pronun_value){if(pronun_value.value){
+            entry.pronunciation.push(pronun_value.value);
+        }}
+    }console.log(entry.pronunciation)
+
+    entry.tags=[];//tags初期化
+    for(let i=0;i<tagID;i++){//tagsループ
+        var tag_element=document.getElementById("tag"+i)
+        if(tag_element){if(tag_element.getAttribute("flag")){
+            if(tag_element=="true"){
+                entry.tags.push(1);
+            }
+        }}
+    }console.log(entry.tags)
+
+
+
+
+
+    console.log(entry);
+
+    // var modify_pack={
+    //     "save_flag":0,
+    //     "target_number":target_number
+    // };
+    // ipcRenderer.send('close_signal',modify_pack)
 }
 function disagree(){
     var modify_pack={

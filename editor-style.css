@@ -59,20 +59,21 @@ div#tagBox{
 	min-width: 6em;
 }
 
-div#charBox{
+.charBox{
 	display: grid;
 	grid-template-columns: repeat(auto-fill,minmax(150px,1fr));
-	gap: 5px;
+	gap: 7px;
 	margin: 2px;
 }
-
-input[name="content"]{
-	font-size:large;
+.char{
+	display: grid;
+	grid-template-columns: 1fr 27px;
+	gap: 2px;
 }
-
-input[name="char_content"]{
-	font-size:large;
-	max-width: 120px;
+.char_value{
+	font-size: large;
+	width: 100%;
+	box-sizing: border-box;
 }
 
 input[name="add"]{
