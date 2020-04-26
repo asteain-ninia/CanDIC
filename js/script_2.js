@@ -531,12 +531,15 @@ function agree(){//保存処理
     entry.tags=[];//tags初期化
     for(let i=0;i<tagID;i++){//tagsループ
         var tag_element=document.getElementById("tag"+i)
-        if(tag_element){if(tag_element.getAttribute("flag")){
-            if(tag_element=="true"){
-                entry.tags.push(1);
+        if(tag_element){
+            if(tag_element.getAttribute("flag")){
+                if(tag_element.getAttribute("flag")=="true"){
+                    entry.tags.push(i);
+                }
             }
-        }}
-    }console.log(entry.tags)
+        }
+    }
+    console.log(entry.tags)
 
 
 
