@@ -238,6 +238,7 @@ function contents_load(i){
 
     var class_selecion=createElement('select');
     class_selecion.className="large"
+    class_selecion.id="class"+contentID
 
     for(j=0;j<classes_queue_dictionary;j++){//class設定ループ
         var option=createElement('option')
@@ -548,10 +549,25 @@ function agree(){//保存処理
         }}
     }console.log(entry.char);
 
+    for (let i=0;i<contentID;i++){//contentsループ
+        var class_value=document.getElementById("class"+i)
+        contents[i].class=[];//class初期化
+        contents[i].class=class_value.selectedIndex
+        console.log(contents[i].class)
+
+
+
+        console.log(contents[i])
+    }
+
+
+
+
 
 
 
     console.log(entry);
+    console.log(contents);
 
     // var modify_pack={
     //     "save_flag":0,
