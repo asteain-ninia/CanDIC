@@ -2,6 +2,8 @@ const electron = require('electron');
 const {ipcRenderer}=electron;
 const fs=require('fs')
 {//宣言pa
+ target_path=null;
+
  entry=null;
  dictionary=null;
  contents=null
@@ -44,7 +46,7 @@ const fs=require('fs')
 
 ipcRenderer.on('target',(event,arg)=>{
     target_number=arg.number;
-    var target_path=arg.path;
+    target_path=arg.path;
 
     var data = fs.readFileSync(target_path, 'utf8') //pathの向こうにあるファイルをテキストで読む
     json = JSON.parse(data); //jsonでパース(ここ二行scrpt_1と共通)
@@ -571,7 +573,7 @@ function agree(){//保存処理
                 if(detail_text_value){if(detail_text_value.value){
 
                     var detail_cash={
-                        class:detail_select_value.value,
+                        title:detail_select_value.value,
                         text:detail_text_value.value,
                     };
                     contents[i].detail[j]=detail_cash;
@@ -580,10 +582,10 @@ function agree(){//保存処理
             }}
         }
     }
-
-
     console.log(entry);
     console.log(contents);
+
+    fs.writeFileSync(target_path, JSON.stringify(json), 'utf8')
 
     // var modify_pack={
     //     "save_flag":0,
