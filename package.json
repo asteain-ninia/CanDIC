@@ -6,10 +6,6 @@
 	"main": "main.js",
 	"license": "MIT",
 	"dependencies": {
-		"about-window": "^1.13.2",
-		"bootstrap": "^4.4.1",
-		"electron": "^8.1.1",
-		"electron-about-window": "^1.13.2",
-		"minimist": "^1.2.2"
+		"electron": "^8.1.1"
 	}
 }
