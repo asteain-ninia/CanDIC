@@ -55,7 +55,7 @@ function addElement(json, i) {
     var word_shelf = document.createElement('div');
     word_shelf.id = "word" + i;
     word_shelf.className="word_shelf"
-    word_shelf.setAttribute('onclick',"OpenEdit("+i+")")
+    word_shelf.setAttribute('ondblclick',"OpenEdit("+i+")")
 
     //entryiesをdiv要素として生成、この中にform要素とpronun要素・tag要素が入る
     var entries = document.createElement('div');
@@ -196,7 +196,7 @@ function debugButton() {
 function OpenEdit(targetID) {
     var editword ={
         "number":targetID,
-        "path":path,//ここには開いているファイルのデータが入る予定
+        "path":path,
     }
     console.log(editword);
     ipcRenderer.send('editor_signal', editword)

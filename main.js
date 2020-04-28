@@ -24,9 +24,7 @@ function createWindow()
 
   index.on('closed', () => {
     index = null;
-    if(editor){
-      editor.close();
-    }
+    app.quit();
   });
 }
 
