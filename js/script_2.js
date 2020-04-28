@@ -57,6 +57,7 @@ function load_word(target_number){
         tags_queue_dictionary=dictionary.tags.length;
         classes_queue_dictionary=dictionary.classes.length;
         titles_queue_dictionary=dictionary.titles.length
+    console.log(json);
 
     if(target_number!=-1){
         wordID.innerHTML="ID:"+target_number;
@@ -328,14 +329,13 @@ function contents_load(i){
             var titleID=contents[i].detail[j].title;
         }
 
-        console.log(titleID);
-
         var titleBox=createElement('div');
         titleBox.id="titleBox";
         titleBox.className="selectionBox";
     
         var title_selecion=createElement('select');
         title_selecion.className="large"
+        title_selecion.id="content"+contentID+"detail"+detailID+"select"
 
         for(k=0;k<titles_queue_dictionary;k++){//title設定ループ
 
@@ -458,18 +458,13 @@ function add_detail(targetBox,i){
     detail_column.id="content"+contentID_current+"detail"+detailID_current;
     detail_column.className="contents_border"
 
-    if(i!=-1){
-        var titleID=contents[i].detail[j].title;
-    }
-
-    console.log(titleID);
-
     var titleBox=createElement('div');
     titleBox.id="titleBox";
     titleBox.className="selectionBox";
 
     var title_selecion=createElement('select');
     title_selecion.className="large"
+    title_selecion.id="content"+contentID_current+"detail"+detailID_current+"select"
 
     for(k=0;k<titles_queue_dictionary;k++){//title設定ループ
 
@@ -477,11 +472,7 @@ function add_detail(targetBox,i){
         option.value=dictionary.titles[k].id;//value設定
         option.appendChild(document.createTextNode(dictionary.titles[k].name))//表示名設定
         title_selecion.appendChild(option);
-        if(i!=-1){
-            if(classID==dictionary.classes[k].id){
-                title_selecion.selectedIndex=titleID
-            }
-        }
+        
     }
     titleBox.appendChild(title_selecion);
 
@@ -497,10 +488,6 @@ function add_detail(targetBox,i){
     var textBox=createElement('textarea');
     textBox.id="content"+contentID_current+"detail"+detailID_current+"text"
     textBox.className="textBox"
-    if(i!=-1){
-        textBox.value=contents[i].detail[j].text;
-    }
-
 
     detail_column.appendChild(textBox);
     detail_column.appendChild(createElement('hr'));
@@ -565,23 +552,36 @@ function agree(){//保存処理
         }console.log(contents[i].trans);
 
 
-        console.log(contents[i])
+        var detail_save_queue=document.getElementById("content"+i+"detailBox").getAttribute("detailid")
+        
+        for(let j=0;j<detail_save_queue;j++){//detailループ
+
+            contents[i].detail[j]=null;
+            var detail_select_value=document.getElementById("content"+i+"detail"+j+"select");
+            if(detail_select_value){if(detail_select_value.value){
+                var detail_text_value=document.getElementById("content"+i+"detail"+j+"text");
+                if(detail_text_value){if(detail_text_value.value){
+
+                    var detail_cash={
+                        class:detail_select_value.value,
+                        text:detail_text_value.value,
+                    };
+                    contents[i].detail[j]=detail_cash;
+
+                }}
+            }}
+        }
     }
-
-
-
-
-
 
 
     console.log(entry);
     console.log(contents);
 
-    // var modify_pack={
-    //     "save_flag":0,
-    //     "target_number":target_number
-    // };
-    // ipcRenderer.send('close_signal',modify_pack)
+    var modify_pack={
+        "save_flag":0,
+        "target_number":target_number
+    };
+    ipcRenderer.send('close_signal',modify_pack)
 }
 function disagree(){
     var modify_pack={
