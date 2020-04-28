@@ -90,6 +90,12 @@ input[name="remove"]{
 .large{
 	font-size: large;
 }
+.content{
+	border-left: solid 3px gray;
+	margin: 3px;
+	margin-bottom: 15px;
+}
+
 .contents_border{
 	border-left: solid 3px gray;
 	margin: 3px;

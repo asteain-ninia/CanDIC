@@ -223,8 +223,7 @@ function tag_switch(i){
 function contents_load(i){
     console.log("contentID:"+contentID);
     var contents_column=createElement('div')
-    contents_column.id="contents"+contentID;
-    contents_column.className="contents_border"
+    contents_column.className="content"
 
     //データの読み込み(iが-1でなければ)
     if(i!=-1){
@@ -537,6 +536,15 @@ function agree(){//保存処理
     }console.log(entry.char);
 
     for (let i=0;i<contentID;i++){//contentsループ
+
+        if(!contents[i]){//データがない時、デフォルトをぶち込む
+            contents[i]={
+                    "class": 0,
+                    "trans": [],
+                    "detail":[]
+                }
+        }
+
         var class_value=document.getElementById("class"+i)
         contents[i].class=[];//class初期化
         contents[i].class=class_value.selectedIndex//class取得
@@ -577,11 +585,11 @@ function agree(){//保存処理
     console.log(entry);
     console.log(contents);
 
-    var modify_pack={
-        "save_flag":0,
-        "target_number":target_number
-    };
-    ipcRenderer.send('close_signal',modify_pack)
+    // var modify_pack={
+    //     "save_flag":0,
+    //     "target_number":target_number
+    // };
+    // ipcRenderer.send('close_signal',modify_pack)
 }
 function disagree(){
     var modify_pack={
