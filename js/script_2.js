@@ -271,7 +271,7 @@ function contents_load(i){
     for(let j=0;j<trans_queue;j++){//trans読み込みループ
         var trans_form=createElement('form');//form要素
         trans_form.className="input-1"
-        trans_form.id="content"+contentID+"trans"+transID;
+        trans_form.id="content"+contentID+"trans"+transID+"Box";
 
         var trans_value=createElement('input');//窓
         trans_value.type="text";
@@ -285,7 +285,7 @@ function contents_load(i){
         remove.type="button";
         remove.name="remove";
         remove.value="-";
-        remove.setAttribute("onclick","remove('content"+contentID+"trans"+transID+"')")
+        remove.setAttribute("onclick","remove('content"+contentID+"trans"+transID+"Box')")
 
         trans_form.appendChild(trans_value);
         trans_form.appendChild(remove);
@@ -424,7 +424,7 @@ function add_trans(targetBox,i){
     
     var trans_form=createElement('form');//form要素
     trans_form.className="input-1"
-    trans_form.id="content"+contentID_current+"trans"+transID_current
+    trans_form.id="content"+contentID_current+"trans"+transID_current+"Box"
 
     var trans_value=createElement('input');//窓
     trans_value.type="text";
@@ -438,7 +438,7 @@ function add_trans(targetBox,i){
     remove.type="button";
     remove.name="remove";
     remove.value="-";
-    remove.setAttribute("onclick","remove('content"+contentID_current+"trans"+transID_current+"')")
+    remove.setAttribute("onclick","remove('content"+contentID_current+"trans"+transID_current+"Box')")
 
     trans_form.appendChild(trans_value);
     trans_form.appendChild(remove);
@@ -552,9 +552,17 @@ function agree(){//保存処理
     for (let i=0;i<contentID;i++){//contentsループ
         var class_value=document.getElementById("class"+i)
         contents[i].class=[];//class初期化
-        contents[i].class=class_value.selectedIndex
+        contents[i].class=class_value.selectedIndex//class取得
         console.log(contents[i].class)
 
+        contents[i].trans=[];//trans初期化
+        var trans_save_queue=document.getElementById("content"+i+"transBox").getAttribute("transid")
+        for(let j=0;j<trans_save_queue;j++){//transループ
+            var trans_value=document.getElementById("content"+i+"trans"+j);
+            if(trans_value){if(trans_value.value){
+                contents[i].trans.push(trans_value.value);
+            }}
+        }console.log(contents[i].trans);
 
 
         console.log(contents[i])
