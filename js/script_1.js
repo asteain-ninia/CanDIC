@@ -11,7 +11,7 @@ var json = null;
 
 ipcRenderer.on('4', function(event, arg) {
     console.log("filePath TNN Reserved!")
-    var path = arg[0]; //argを受け取ってpathに入れ込む
+    path = arg[0]; //argを受け取ってpathに入れ込む
     console.log(path)
     ReadDictionary(path);
 })
@@ -53,10 +53,9 @@ function addElement(json, i) {
     //        https://www.sejuku.net/blog/30970
     //word_shelfをdiv要素として作成・idを設定(TNNの単語IDに一致)
     var word_shelf = document.createElement('div');
-    word_shelf.id = "wordNo." + i;
-    word_shelf.setAttribute("style",
-        "border-bottom:solid 2px gray;border-left:solid 2px gray;border-right:solid 2px gray;padding:5px;"
-    )
+    word_shelf.id = "word" + i;
+    word_shelf.className="word_shelf"
+    word_shelf.setAttribute('onclick',"OpenEdit("+i+")")
 
     //entryiesをdiv要素として生成、この中にform要素とpronun要素・tag要素が入る
     var entries = document.createElement('div');
@@ -197,7 +196,7 @@ function debugButton() {
 function OpenEdit(targetID) {
     var editword ={
         "number":targetID,
-        "path":"datas/sample.json",//ここには開いているファイルのデータが入る予定
+        "path":path,//ここには開いているファイルのデータが入る予定
     }
     console.log(editword);
     ipcRenderer.send('editor_signal', editword)
@@ -214,5 +213,5 @@ function OpenEditDEV(targetID){
 }
 ipcRenderer.on('modify_signal',(event,arg)=>{//単語編集時の処理
     console.log(arg.target_number)
-    
+
 })

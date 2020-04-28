@@ -499,8 +499,30 @@ function add_detail(targetBox,i){
 }
 
 function agree(){//保存処理
+    if(target_number==-1){
 
-    entry.id=target_number;//これは何も起きないはず
+        var newID=json.words.length
+        console.log(newID)
+        var new_word={
+                    "entry": {
+                        "id":newID,
+                        "form": [],
+                        "pronunciation": [],
+                        "tags": [],
+                        "char": []
+                    },
+                    "contents": [],
+                    "variations": [],
+                    "relations": []
+                }
+        json.words.push(new_word);
+        console.log(json)
+
+        target_number=newID;
+    }
+    entry=json.words[target_number].entry;
+    contents=json.words[target_number].contents;
+
     entry.form=[];//form初期化
     for(let i=0;i<spellID;i++){//spellループ
         var spelling_value=document.getElementById("spell"+i);
@@ -587,11 +609,11 @@ function agree(){//保存処理
 
     fs.writeFileSync(target_path, JSON.stringify(json), 'utf8')
 
-    // var modify_pack={
-    //     "save_flag":0,
-    //     "target_number":target_number
-    // };
-    // ipcRenderer.send('close_signal',modify_pack)
+    var modify_pack={
+        "save_flag":0,
+        "target_number":target_number
+    };
+    ipcRenderer.send('close_signal',modify_pack)
 }
 function disagree(){
     var modify_pack={

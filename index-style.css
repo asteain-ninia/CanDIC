@@ -12,6 +12,13 @@ html,body{
     margin: 8px;
 }
 
+.word_shelf{
+    border-bottom:solid 2px gray;
+    border-left:solid 2px gray;
+    border-right:solid 2px gray;
+    padding:5px;
+}
+
 .search{
     height: 30px;
     background-color:whitesmoke;
