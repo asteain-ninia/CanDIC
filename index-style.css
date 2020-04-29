@@ -1,7 +1,9 @@
+
 html,body{
     background-color: lightgray;
     height: 99vh;
     overflow: hidden;
+    user-select: none;
 }
 
 .container {
