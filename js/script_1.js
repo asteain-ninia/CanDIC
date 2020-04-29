@@ -190,7 +190,8 @@ function constElement(i){
     word_shelf.appendChild(entries)
     word_shelf.appendChild(contents)
 
-    return word_shelf}
+    return word_shelf
+}
 
 
 
@@ -227,8 +228,10 @@ ipcRenderer.on('modify_signal',(event,arg)=>{//単語編集時の処理
     ReadDictionaryTNN(arg.target_path);
     var reload=constElement(arg.target_number);
     var reload_target=document.getElementById("word"+arg.target_number)
-    var reload_target_next=document.getElementById("word"+(arg.target_number+1))
+    var reload_target_next=reload_target.nextElementSibling;
+
     console.log(reload_target_next)
+
     if(reload_target){
         console.log("reload:"+arg.target_number)
         reload_target.parentNode.removeChild(reload_target);
@@ -240,5 +243,3 @@ ipcRenderer.on('modify_signal',(event,arg)=>{//単語編集時の処理
         }
     }
 })
-
-

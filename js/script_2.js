@@ -4,6 +4,8 @@ const fs=require('fs')
 {//宣言pa
  target_path=null;
 
+ words_queue=0;
+
  entry=null;
  dictionary=null;
  contents=null
@@ -62,16 +64,24 @@ function load_word(target_number){
     console.log(json);
 
     if(target_number!=-1){
+
+        var targetIndex=0;
+        words_queue=json.words.length;
+        for(let i=0;i<words_queue;i++){
+            if(json.words[i].entry.id===target_number){
+                targetIndex=i;
+            }
+        }
         wordID.innerHTML="ID:"+target_number;
 
-        entry=json.words[target_number].entry;
+        entry=json.words[targetIndex].entry;
         //各データの長さチェック
         forms_queue=entry.form.length;
         pronuns_queue=entry.pronunciation.length;
         tags_queue=entry.tags.length;
         chars_queue=entry.char.length;
         
-        contents=json.words[target_number].contents
+        contents=json.words[targetIndex].contents
         contents_queue=contents.length
 
         tag_show()
@@ -501,7 +511,7 @@ function add_detail(targetBox,i){
 function agree(){//保存処理
     if(target_number==-1){
 
-        var newID=json.words.length
+        var newID=json.words[json.words.length-1].entry.id+1;
         console.log(newID)
         var new_word={
                     "entry": {
@@ -520,8 +530,18 @@ function agree(){//保存処理
 
         target_number=newID;
     }
-    entry=json.words[target_number].entry;
-    contents=json.words[target_number].contents;
+    console.log("try to save"+target_number);
+    console.log(json.words[target_number])//target_numberにはIDが入る
+
+    words_queue=json.words.length;
+    for(let i=0;i<words_queue;i++){
+        if(json.words[i].entry.id===target_number){
+            targetIndex=i;
+        }
+    }
+
+    entry=json.words[targetIndex].entry//targetIDには配列の順位が入る
+    contents=json.words[targetIndex].contents;
 
     entry.form=[];//form初期化
     for(let i=0;i<spellID;i++){//spellループ
