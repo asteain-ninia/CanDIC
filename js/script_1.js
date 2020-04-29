@@ -60,9 +60,9 @@ function constElement(i){
     //        https://www.sejuku.net/blog/30970
     //word_shelfをdiv要素として作成・idを設定(TNNの単語IDに一致)
     var word_shelf = document.createElement('div');
-    word_shelf.id = "word" + i;
+    word_shelf.id = "word" + json.words[i].entry.id;
     word_shelf.className="word_shelf"
-    word_shelf.setAttribute('ondblclick',"OpenEdit("+i+")")
+    word_shelf.setAttribute('ondblclick',"OpenEdit("+json.words[i].entry.id+")")
 
 
     //entryiesをdiv要素として生成、この中にform要素とpronun要素・tag要素が入る
