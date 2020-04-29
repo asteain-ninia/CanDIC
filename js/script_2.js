@@ -588,7 +588,7 @@ function agree(){//保存処理
         
         for(let j=0;j<detail_save_queue;j++){//detailループ
 
-            contents[i].detail[j]=null;
+            contents[i].detail=[];
             var detail_select_value=document.getElementById("content"+i+"detail"+j+"select");
             if(detail_select_value){if(detail_select_value.value){
                 var detail_text_value=document.getElementById("content"+i+"detail"+j+"text");

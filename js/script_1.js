@@ -97,14 +97,14 @@ function constElement(i){
     //tagをspan要素としていっぱい生成。すこし小さく、かつ囲んで表示する。
     var tags = document.createElement('span') //tagの入るspan
     var tags_queue = json.words[i].entry.tags.length; //tag数の取得
-    for (let m = 0; m < tags_queue; m++) {
+    for (let j = 0; j < tags_queue; j++) {
         var tag = document.createElement('span') //tagのspan
-        var tagID = json.words[i].entry.tags[m];
+        var tagID = json.words[i].entry.tags[j];
         var tag_queue = json.dictionary.tags.length;
         //forを回してtags.idが一致する物を探す
-        for (let n = 0; n < tag_queue; n++) {
-            if (json.dictionary.tags[n].id == tagID) {
-                var tagName = json.dictionary.tags[n].name;
+        for (let k = 0; k < tag_queue; k++) {
+            if (json.dictionary.tags[k].id == tagID) {
+                var tagName = json.dictionary.tags[k].name;
             }
         };
         var tagDisplay = document.createTextNode(tagName);
@@ -132,24 +132,24 @@ function constElement(i){
 
     var trans_queue = json.words[i].contents.length; //この値が持っている品詞の数
 
-    for (let k = 0; k < trans_queue; k++) {
+    for (let j = 0; j < trans_queue; j++) {
         var Kthcontent = document.createElement('div') //K番目のdiv要素
 
         var class_column = document.createElement('span'); //品詞と訳が入る見出しのspan
         class_column.setAttribute("style", "border-bottom:solid 1px lightgray;")
 
         //品詞名の取り出し
-        var classID = json.words[i].contents[k].class;
+        var classID = json.words[i].contents[j].class;
         var classes_queue = json.dictionary.classes.length;
-        for (let l = 0; l < classes_queue; l++) { //forを回してclasses.idが一致する物を探す
-            if (json.dictionary.classes[l].id == classID) {
-                var className = json.dictionary.classes[l].name;
+        for (let k = 0; k < classes_queue; k++) { //forを回してclasses.idが一致する物を探す
+            if (json.dictionary.classes[k].id == classID) {
+                var className = json.dictionary.classes[k].name;
             }
         };
 
         Kthcontent.id = className;
 
-        var classDisplay = document.createTextNode(className + "：" + json.words[i].contents[k].trans);
+        var classDisplay = document.createTextNode(className + "：" + json.words[i].contents[j].trans);
         class_column.appendChild(classDisplay); //classesの完成
 
         //-------------------------------------------------//
@@ -158,15 +158,15 @@ function constElement(i){
         content_column.setAttribute("style", "border-left:solid 2px darkgray;margin-left:3px;padding:3px;")
         content_column.id = "content_column";
 
-        var content_queue = json.words[i].contents[k].detail.length;
-        for (let o = 0; o < content_queue; o++) {
+        var content_queue = json.words[i].contents[j].detail.length;
+        for (let k = 0; k < content_queue; k++) {
             var title = document.createElement('span');
-            title.setAttribute("style", "border-bottom: solid 1px gray")
-            var titleID = json.words[i].contents[k].detail[o].title;
+            title.setAttribute("style", "border-bottom: solid 1px gray");
+            var titleID = json.words[i].contents[j].detail[k].title;
             var title_queue = json.dictionary.titles.length;
-            for (let p = 0; p < title_queue; p++) {
-                if (json.dictionary.titles[p].id == titleID) {
-                    var titleName = json.dictionary.titles[p].name;
+            for (let l = 0; l < title_queue; l++) {
+                if (json.dictionary.titles[l].id == titleID) {
+                    var titleName = json.dictionary.titles[l].name;
                 }
             }
             var titleDisplay = document.createTextNode(titleName);
@@ -176,7 +176,7 @@ function constElement(i){
             var contentBox = document.createElement('div')
             contentBox.id = "contentBox";
             var contentDisplay = document.createTextNode(
-                json.words[i].contents[k].detail[o].text)
+                json.words[i].contents[j].detail[k].text)
             contentBox.appendChild(contentDisplay);
             content_column.appendChild(contentBox);
         }
