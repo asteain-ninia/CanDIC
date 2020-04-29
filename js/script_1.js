@@ -7,23 +7,15 @@ const fs = require('fs')
 const editor = document.getElementById('editor');
 const dictionary = document.getElementById('dictionary')
 
-var json = null;
-
 ipcRenderer.on('4', function(event, arg) {
     console.log("filePath TNN Reserved!")
     path = arg[0]; //argを受け取ってpathに入れ込む
     console.log(path)
 
-    // if(json.dictionar.type=="TNN"){
+    // if(json.dictionary.type=="TNN"){
     //   //つくりかけ、OTM対応の布石
     //   //まずJSONであることを判定しなければいけないのでは？
     // }
-    
-    //参考：https://qiita.com/kouh/items/dfc14d25ccb4e50afe89
-    //dictionary欄内の掃除
-    while (dictionary.firstChild) {
-        dictionary.removeChild(dictionary.firstChild);
-    }
 
     ReadDictionaryTNN(path);
     load_words();
@@ -38,6 +30,9 @@ function ReadDictionaryTNN(path) {
 }
 
 function load_words(){
+    while (dictionary.firstChild) {//dictionary欄内の掃除
+        dictionary.removeChild(dictionary.firstChild);
+    }
     //単語欄の上下境
     var word_cap = document.createElement('div')
     word_cap.setAttribute("style", "height:0px;border-top:solid 2px gray;");
@@ -46,16 +41,17 @@ function load_words(){
     //forをぶん回して単語欄を生成する
     var word_queue = word_count;
     for (let i = 0; i < word_queue; i++) {
-        addElement(i);
+        addElement(json,i);
     }
 }
 
-function addElement(i) {
-    var result=constElement(i);
+function addElement(json,i) {
+
+    var result=constElement(json,i);
     dictionary.appendChild(result); //最終工程：word_shelfをdictionary窓にぶち込む
 }
 
-function constElement(i){
+function constElement(json,i){
     //参考:    https://www.sejuku.net/blog/49970
     //        https://www.sejuku.net/blog/30970
     //word_shelfをdiv要素として作成・idを設定(TNNの単語IDに一致)
@@ -226,7 +222,7 @@ function OpenEditDEV(targetID){
 ipcRenderer.on('modify_signal',(event,arg)=>{//単語編集時の処理
 
     ReadDictionaryTNN(arg.target_path);
-    var reload=constElement(arg.target_number);
+    var reload=constElement(json,arg.target_number);
     var reload_target=document.getElementById("word"+arg.target_number)
     var reload_target_next=reload_target.nextElementSibling;
 
@@ -243,3 +239,42 @@ ipcRenderer.on('modify_signal',(event,arg)=>{//単語編集時の処理
         }
     }
 })
+
+
+function dic_search(){
+    search_target= document.getElementById("search").value;
+    console.log(search_target)
+    var resultJSON={words:[]};
+    var word_queue_search=json.words.length;
+    for(let i=0;i<word_queue_search;i++){
+        var trans_queue_search=json.words[i].entry.form.length;
+        for(let j=0;j<trans_queue_search;j++){
+            var trans_target_search=json.words[i].entry.form[j]
+            if(trans_target_search.includes(search_target)){
+                console.log("found!!");
+                resultJSON.words.push(json.words[i]);
+                break;
+            }
+        }
+    }
+    if(search_target.length==0){
+        resultJSON=json;
+    }
+    resultJSON.dictionary=json.dictionary
+    resultJSON.CanDIC=json.CanDIC
+
+    while (dictionary.firstChild) {//dictionary欄内の掃除
+        dictionary.removeChild(dictionary.firstChild);
+    }
+    //単語欄の上下境
+    var word_cap = document.createElement('div')
+    word_cap.setAttribute("style", "height:0px;border-top:solid 2px gray;");
+    dictionary.appendChild(word_cap);
+
+    //forをぶん回して単語欄を生成する
+    var word_queue = resultJSON.words.length;
+    for (let i=0;i<word_queue;i++) {
+        addElement(resultJSON,i);
+    }
+    console.log(resultJSON);
+}
