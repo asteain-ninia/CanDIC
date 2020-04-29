@@ -13,27 +13,31 @@ ipcRenderer.on('4', function(event, arg) {
     console.log("filePath TNN Reserved!")
     path = arg[0]; //argを受け取ってpathに入れ込む
     console.log(path)
-    ReadDictionary(path);
-})
 
-function ReadDictionary(path) {
-    var data = fs.readFileSync(path, 'utf8') //pathの向こうにあるファイルをテキストで読む
-    json = JSON.parse(data); //jsonでパース
-
+    // if(json.dictionar.type=="TNN"){
+    //   //つくりかけ、OTM対応の布石
+    //   //まずJSONであることを判定しなければいけないのでは？
+    // }
+    
     //参考：https://qiita.com/kouh/items/dfc14d25ccb4e50afe89
     //dictionary欄内の掃除
     while (dictionary.firstChild) {
         dictionary.removeChild(dictionary.firstChild);
     }
 
-    // if(json.dictionar.type=="TNN"){
-    //   //つくりかけ、OTM対応の布石
-    //   //まずJSONであることを判定しなければいけないのでは？
-    // }
+    ReadDictionaryTNN(path);
+    load_words();
+})
 
-    var word_count = json.words.length //単語数をカウント
+function ReadDictionaryTNN(path) {
+    var data = fs.readFileSync(path, 'utf8') //pathの向こうにあるファイルをテキストで読む
+    json = JSON.parse(data); //jsonでパース
+
+    word_count = json.words.length //単語数をカウント
     console.log("単語数" + word_count);
+}
 
+function load_words(){
     //単語欄の上下境
     var word_cap = document.createElement('div')
     word_cap.setAttribute("style", "height:0px;border-top:solid 2px gray;");
@@ -42,13 +46,16 @@ function ReadDictionary(path) {
     //forをぶん回して単語欄を生成する
     var word_queue = word_count;
     for (let i = 0; i < word_queue; i++) {
-        addElement(json, i);
+        addElement(i);
     }
 }
 
+function addElement(i) {
+    var result=constElement(i);
+    dictionary.appendChild(result); //最終工程：word_shelfをdictionary窓にぶち込む
+}
 
-
-function addElement(json, i) {
+function constElement(i){
     //参考:    https://www.sejuku.net/blog/49970
     //        https://www.sejuku.net/blog/30970
     //word_shelfをdiv要素として作成・idを設定(TNNの単語IDに一致)
@@ -56,6 +63,7 @@ function addElement(json, i) {
     word_shelf.id = "word" + i;
     word_shelf.className="word_shelf"
     word_shelf.setAttribute('ondblclick',"OpenEdit("+i+")")
+
 
     //entryiesをdiv要素として生成、この中にform要素とpronun要素・tag要素が入る
     var entries = document.createElement('div');
@@ -122,9 +130,6 @@ function addElement(json, i) {
     var contents = document.createElement('div');
     contents.id = "contents";
 
-
-
-
     var trans_queue = json.words[i].contents.length; //この値が持っている品詞の数
 
     for (let k = 0; k < trans_queue; k++) {
@@ -185,12 +190,18 @@ function addElement(json, i) {
     word_shelf.appendChild(entries)
     word_shelf.appendChild(contents)
 
-    dictionary.appendChild(word_shelf); //最終工程：word_shelfをdictionary窓にぶち込む
-}
+    return word_shelf}
+
+
+
 
 function debugButton() {
+    while (dictionary.firstChild) {
+        dictionary.removeChild(dictionary.firstChild);
+    }
     path = "datas/sample.json";
-    ReadDictionary(path);
+    ReadDictionaryTNN(path);
+    load_words();
 }
 
 function OpenEdit(targetID) {
@@ -212,6 +223,22 @@ function OpenEditDEV(targetID){
     ipcRenderer.send('editor_signal', editword)
 }
 ipcRenderer.on('modify_signal',(event,arg)=>{//単語編集時の処理
-    console.log(arg.target_number)
 
+    ReadDictionaryTNN(arg.target_path);
+    var reload=constElement(arg.target_number);
+    var reload_target=document.getElementById("word"+arg.target_number)
+    var reload_target_next=document.getElementById("word"+(arg.target_number+1))
+    console.log(reload_target_next)
+    if(reload_target){
+        console.log("reload:"+arg.target_number)
+        reload_target.parentNode.removeChild(reload_target);
+
+        if(reload_target_next){
+            dictionary.insertBefore(reload,reload_target_next);
+        }else{
+            dictionary.appendChild(reload)
+        }
+    }
 })
+
+

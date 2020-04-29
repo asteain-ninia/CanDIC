@@ -611,14 +611,16 @@ function agree(){//保存処理
 
     var modify_pack={
         "save_flag":0,
-        "target_number":target_number
+        "target_number":target_number,
+        "target_path":target_path,
     };
     ipcRenderer.send('close_signal',modify_pack)
 }
 function disagree(){
     var modify_pack={
         "save_flag":1,
-        "target_number":target_number
+        "target_number":target_number,
+        "target_path":target_path,
     };
     ipcRenderer.send('close_signal',modify_pack)
 }
