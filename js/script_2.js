@@ -235,6 +235,7 @@ function tag_switch(i){
 function contents_load(i){
     console.log("contentID:"+contentID);
     var contents_column=createElement('div')
+    contents_column.id="contents"+contentID
     contents_column.className="content"
 
     //データの読み込み(iが-1でなければ)
@@ -581,47 +582,53 @@ function agree(){//保存処理
 
     for (let i=0;i<contentID;i++){//contentsループ
 
-        if(!contents[i]){//データがない時、デフォルトをぶち込む
-            contents[i]={
-                    "class": 0,
-                    "trans": [],
-                    "detail":[]
-                }
-        }
+        if(!class_value){if(!class_value.value){
+            console.log("からっぽの要素を捕捉："+i)
 
+        }}
+
+        contents[i]={
+            "class": 0,
+            "trans": [],
+            "detail":[]
+            }
         var class_value=document.getElementById("class"+i)
-        contents[i].class=[];//class初期化
-        contents[i].class=class_value.selectedIndex//class取得
-        console.log(contents[i].class)
+        if(class_value){if(class_value.value){
 
-        contents[i].trans=[];//trans初期化
-        var trans_save_queue=document.getElementById("content"+i+"transBox").getAttribute("transid")
-        for(let j=0;j<trans_save_queue;j++){//transループ
-            var trans_value=document.getElementById("content"+i+"trans"+j);
-            if(trans_value){if(trans_value.value){
-                contents[i].trans.push(trans_value.value);
-            }}
-        }console.log(contents[i].trans);
+            contents[i].class=[];//class初期化
+            contents[i].class=class_value.selectedIndex//class取得
+            console.log(contents[i].class)
 
-
-        var detail_save_queue=document.getElementById("content"+i+"detailBox").getAttribute("detailid")
-        
-        for(let j=0;j<detail_save_queue;j++){//detailループ
-
-            contents[i].detail=[];
-            var detail_select_value=document.getElementById("content"+i+"detail"+j+"select");
-            if(detail_select_value){if(detail_select_value.value){
-                var detail_text_value=document.getElementById("content"+i+"detail"+j+"text");
-                if(detail_text_value){if(detail_text_value.value){
-
-                    var detail_cash={
-                        title:detail_select_value.value,
-                        text:detail_text_value.value,
-                    };
-                    contents[i].detail[j]=detail_cash;
-
+            contents[i].trans=[];//trans初期化
+            var trans_save_queue=document.getElementById("content"+i+"transBox").getAttribute("transid")
+            for(let j=0;j<trans_save_queue;j++){//transループ
+                var trans_value=document.getElementById("content"+i+"trans"+j);
+                if(trans_value){if(trans_value.value){
+                    contents[i].trans.push(trans_value.value);
                 }}
-            }}
+            }console.log(contents[i].trans);
+
+            var detail_save_queue=document.getElementById("content"+i+"detailBox").getAttribute("detailid")
+            for(let j=0;j<detail_save_queue;j++){//detailループ
+
+                contents[i].detail=[];
+                var detail_select_value=document.getElementById("content"+i+"detail"+j+"select");
+                if(detail_select_value){if(detail_select_value.value){
+                    var detail_text_value=document.getElementById("content"+i+"detail"+j+"text");
+                    if(detail_text_value){if(detail_text_value.value){
+
+                        var detail_cash={
+                            title:detail_select_value.value,
+                            text:detail_text_value.value,
+                        };
+                        contents[i].detail[j]=detail_cash;
+
+                    }}
+                }}
+            }
+        }
+        }else{
+
         }
     }
     console.log(entry);
@@ -634,7 +641,9 @@ function agree(){//保存処理
         "target_number":target_number,
         "target_path":target_path,
     };
-    ipcRenderer.send('close_signal',modify_pack)
+
+    // ipcRenderer.send('close_signal',modify_pack)
+    
 }
 function disagree(){
     var modify_pack={
@@ -642,9 +651,6 @@ function disagree(){
         "target_number":target_number,
         "target_path":target_path,
     };
+
     ipcRenderer.send('close_signal',modify_pack)
 }
-
-ipcRenderer.on('1',function(event, arg) {
-    console.log(arg)
-})
