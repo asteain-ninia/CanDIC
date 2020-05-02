@@ -583,7 +583,6 @@ function agree(){//保存処理
 
     var content_deleted=[];
 
-
     for (let i=0;i<contentID;i++){//contentsループ
         contents[i]={
             "class": 0,
@@ -628,12 +627,43 @@ function agree(){//保存処理
         }else{
             console.log("からっぽの要素を捕捉："+i)
             content_deleted.push(i);
-            delete contents[content_deleted[i]]
+            delete contents[i]
         }
     }
-    console.log(entry);
-    console.log(contents);
 
+    // // console.log(content_deleted);
+    // // for(let i=0;i<content_deleted.length;i++){
+    // //     delete contents[content_deleted[i]]
+    // // }
+    // var new_contents=[];
+    // var contents_save_queue=contents.length
+    // for(let i=0;i<contents_save_queue;i++){
+    //     if(contents[i]){
+    //         new_contents.push(contents[i]);
+    //     }
+    // }
+    // console.log(new_contents);
+    // contents=new_contents;
+    // console.log(contents)
+
+    // function removeNull(input){
+    //     return(input!=null||undefined)
+    // }
+
+    // contents.filter(removeNull);
+
+
+    function removeNull(value){
+            if(value !== false || value !== null || value !== 0 || value !== "") {
+                return value;
+        }
+    }
+    console.log(json.words[targetIndex].contents);
+    json.words[targetIndex].contents=json.words[targetIndex].contents.filter(removeNull);
+    // console.log(entry);
+    console.log(json.words[targetIndex].contents);
+
+    console.log(json)
     fs.writeFileSync(target_path, JSON.stringify(json), 'utf8')
 
     var modify_pack={
@@ -642,7 +672,7 @@ function agree(){//保存処理
         "target_path":target_path,
     };
 
-    ipcRenderer.send('close_signal',modify_pack)
+    // ipcRenderer.send('close_signal',modify_pack)
     
 }
 function disagree(){
