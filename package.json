@@ -1,6 +1,6 @@
-{
+﻿{
 	"name": "candic",
-	"version": "DEV 1.0.0",
+	"version": "1.0.0",
 	"repository": {
 		"type": "git",
 		"url": "git@github.com:asteain-ninia/CanDIC"
@@ -12,6 +12,7 @@
 		"electron": "^8.1.1"
 	},
 	"devDependencies": {
-		"minimist": ">=1.2.3"
+		"minimist": ">=1.2.3",
+		"electron":"^8.1.1"
 	}
 }

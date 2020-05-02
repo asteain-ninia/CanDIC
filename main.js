@@ -170,13 +170,13 @@ function initWindowMenu(){
   },
   {label: '開発',submenu:
     [
-      {
-        label:'サンプル読み込み',
-        click(){
-          var result =["datas/sample.json"]
-          index.webContents.send('4',result);
-        }
-      },
+    //   {
+    //     label:'サンプル読み込み',
+    //     click(){
+    //       var result =["datas/sample.json"]
+    //       index.webContents.send('4',result);
+    //     }
+    //   },
 
       {
         label: '再読み込み',
