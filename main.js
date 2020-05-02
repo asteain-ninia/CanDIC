@@ -84,7 +84,7 @@ function createAbout(){
   about = new BrowserWindow(
     {
       title:'About CanDIC',
-      width:200,
+      width:400,
       height:200,
       useContentSize:true,
       icon: './images/icon.png',
@@ -92,7 +92,7 @@ function createAbout(){
     }
   );
   about.setMenu(null);
-  about.webContents.openDevTools();
+  //about.webContents.openDevTools();
   about.loadURL(`file://${__dirname}/about.html`);
 
   about.webContents.on('did-finish-load', ()=>{
