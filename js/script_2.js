@@ -580,13 +580,11 @@ function agree(){//保存処理
         }}
     }console.log(entry.char);
 
+
+    var content_deleted=[];
+
+
     for (let i=0;i<contentID;i++){//contentsループ
-
-        if(!class_value){if(!class_value.value){
-            console.log("からっぽの要素を捕捉："+i)
-
-        }}
-
         contents[i]={
             "class": 0,
             "trans": [],
@@ -628,7 +626,9 @@ function agree(){//保存処理
             }
         }
         }else{
-
+            console.log("からっぽの要素を捕捉："+i)
+            content_deleted.push(i);
+            delete contents[content_deleted[i]]
         }
     }
     console.log(entry);
@@ -642,7 +642,7 @@ function agree(){//保存処理
         "target_path":target_path,
     };
 
-    // ipcRenderer.send('close_signal',modify_pack)
+    ipcRenderer.send('close_signal',modify_pack)
     
 }
 function disagree(){
