@@ -4,12 +4,12 @@ const {app,BrowserWindow,dialog,ipcMain}=electron
 const Menu = electron.Menu;
 
 let index;
-function createWindow()
-{
+function createWindow(){
   index = new BrowserWindow(
     {
       title:'CanDIC',
-      width: 1200+500,
+      //width: 1200+500,
+      width:1200,
       height: 750,
       useContentSize:true,
       icon: './images/icon.png',
@@ -20,7 +20,7 @@ function createWindow()
   initWindowMenu();
   
   index.loadURL(`file://${__dirname}/index.html`);
-  index.webContents.openDevTools();
+  //index.webContents.openDevTools();
 
   index.on('closed', () => {
     index = null;
@@ -33,8 +33,10 @@ let editor;
 function createEditor(){
   editor=new BrowserWindow({
     title:'CanDICEditor',
-    width: 600+500,
-    minWidth:300+500,
+    // width: 600+500, ﾃﾞﾊﾞｯｸﾞ用の大きさ
+    //minWidth:300+500,
+    width:600,
+    minWidth:300,
     height: 750,
     useContentSize:true,
     webPreferences: {nodeIntegration: true}
@@ -43,7 +45,7 @@ function createEditor(){
   editor.setMenu(null);
 
   editor.loadURL(`file://${__dirname}/editor.html`);
-  editor.webContents.openDevTools();
+  //editor.webContents.openDevTools();
 
   editor.webContents.on('did-finish-load', ()=>{
     editor.webContents.send('target',requiredID);
@@ -75,6 +77,29 @@ ipcMain.on('close_signal',(event,arg)=>{
     index.webContents.send('modify_signal',arg);
   }
 });
+
+let about;
+function createAbout(){
+  
+  about = new BrowserWindow(
+    {
+      title:'About CanDIC',
+      width:200,
+      height:200,
+      useContentSize:true,
+      icon: './images/icon.png',
+      webPreferences: {nodeIntegration: true}
+    }
+  );
+  about.setMenu(null);
+  about.webContents.openDevTools();
+  about.loadURL(`file://${__dirname}/about.html`);
+
+  about.webContents.on('did-finish-load', ()=>{
+    about.webContents.send('about_load',1);
+  });
+}
+
 
 app.on('ready', createWindow);
 
@@ -137,7 +162,9 @@ function initWindowMenu(){
       },
       {
         label:'CanDICについて',
-        enebled:false,
+        click(){
+          createAbout();
+        }
       }
     ]
   },

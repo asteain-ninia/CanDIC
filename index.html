@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>CanDIC dev</title>
+    <title>CanDIC dev Index</title>
 
 </head>
 <body topmargin=0 leftmargin=0 rightmargin=0>
@@ -12,7 +12,7 @@
         <div class="viewer">
             <div class="search">
                 <form name="search" class="a">
-                    <input id="search" type=text placeholder="unenabled" onkeyup="dic_search()">
+                    <input id="search" type=text placeholder="検索設定は未実装。検索は出来る。" onkeyup="dic_search()">
                     <select>
                         <option value=0>語形検索</option>
                         <option value=1>訳語検索</option>
@@ -29,11 +29,15 @@
         </div>
 
         <div class="editor" id="editor">
-            ここで編集をする
+            ここにはテキストエディタ状の機能が載る予定。    <br>
+            そのうち辞書のデータからunicodeの入力・表示が出来るようになる。
+            <!--
+
             <input type="button" onclick="debugButton()" value="デバッグ用：sample.jsonを開く"/>
             <br>
             <input type="button" onclick="OpenEditDEV(0)" value="デバッグ用：編集windowの表示-ID0"/>
             <input type="button" onclick="OpenEditDEV(-1)" value="デバッグ用：編集windowの表示-新規単語"/>
+            -->
         </div>
     </div>
 
