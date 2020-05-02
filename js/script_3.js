@@ -18,7 +18,7 @@ ipcRenderer.on('about_load',(event,arg)=>{//単語編集時の処理
     var author=document.createTextNode("制作:asteain-ninia");
 
     var electron=document.createTextNode("electron:"+json.dependencies.electron);
-    var version=document.createTextNode("版"+json.version);
+    var version=document.createTextNode("版："+json.version);
     var date=document.createTextNode("完成：R0205XX")
     var git=document.createTextNode("GitHub:"+json.repository.url)
 
