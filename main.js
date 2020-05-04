@@ -179,7 +179,17 @@ function initWindowMenu(){
       },
       {
         label:'名前を付けて複製を保存',
-        enabled:false,
+        click(){
+          var save_result=dialog.showSaveDialogSync(
+            {
+              filters: [
+                { name: 'JSON形式辞書', extensions: ['json'] },
+                { name: '無拡張子', extensions: ['*'] }
+              ],
+            }
+          );
+          index.webContents.send('DICsaveAS',save_result);
+        }
       },
     ]
   },

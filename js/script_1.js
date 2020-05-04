@@ -34,11 +34,6 @@ var DefaultJSON=
         }
     }
 
-
-
-
-
-
 const editor = document.getElementById('editor');
 const dictionary = document.getElementById('dictionary')
 
@@ -347,11 +342,21 @@ function dic_search(){
 }
 
 ipcRenderer.on("creareDIC",function(event,arg){
-    console.log(arg[0])
-    fs.writeFileSync(arg[0], JSON.stringify(DefaultJSON), 'utf8')
+    console.log(arg)
+    fs.writeFileSync(arg, JSON.stringify(DefaultJSON), 'utf8')
 
     ReadDictionaryTNN(arg);
     load_words();
+})
+
+ipcRenderer.on("DICsaveAS",function(event,arg){
+    console.log(arg)
+    if(json!==null){
+        fs.writeFileSync(arg, JSON.stringify(json), 'utf8')
+
+        ReadDictionaryTNN(arg);
+        load_words();
+    }
 })
 
 ipcRenderer.on("debug",function(event, arg) {

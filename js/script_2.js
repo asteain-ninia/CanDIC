@@ -61,7 +61,7 @@ function load_word(target_number){
         tags_queue_dictionary=dictionary.tags.length;
         classes_queue_dictionary=dictionary.classes.length;
         titles_queue_dictionary=dictionary.titles.length
-    console.log(json);
+        console.log(json);
 
     if(target_number!=-1){
 
