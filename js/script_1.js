@@ -343,8 +343,9 @@ function dic_search(){
 
 ipcRenderer.on("creareDIC",function(event,arg){
     console.log(arg)
-    fs.writeFileSync(arg, JSON.stringify(DefaultJSON), 'utf8')
+    fs.writeFileSync(arg, JSON.stringify(DefaultJSON), 'utf8');
 
+    path=arg;
     ReadDictionaryTNN(arg);
     load_words();
 })
@@ -352,8 +353,9 @@ ipcRenderer.on("creareDIC",function(event,arg){
 ipcRenderer.on("DICsaveAS",function(event,arg){
     console.log(arg)
     if(json!==null){
-        fs.writeFileSync(arg, JSON.stringify(json), 'utf8')
+        fs.writeFileSync(arg, JSON.stringify(json), 'utf8');
 
+        path=arg;
         ReadDictionaryTNN(arg);
         load_words();
     }
