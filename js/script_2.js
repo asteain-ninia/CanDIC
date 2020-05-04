@@ -531,8 +531,6 @@ function agree(){//保存処理
 
         target_number=newID;
     }
-    console.log("try to save"+target_number);
-    console.log(json.words[target_number])//target_numberにはIDが入る
 
     words_queue=json.words.length;
     for(let i=0;i<words_queue;i++){
@@ -625,33 +623,9 @@ function agree(){//保存処理
             }
         }
         }else{
-            console.log("からっぽの要素を捕捉："+i)
-            content_deleted.push(i);
             delete contents[i]
         }
     }
-
-    // // console.log(content_deleted);
-    // // for(let i=0;i<content_deleted.length;i++){
-    // //     delete contents[content_deleted[i]]
-    // // }
-    // var new_contents=[];
-    // var contents_save_queue=contents.length
-    // for(let i=0;i<contents_save_queue;i++){
-    //     if(contents[i]){
-    //         new_contents.push(contents[i]);
-    //     }
-    // }
-    // console.log(new_contents);
-    // contents=new_contents;
-    // console.log(contents)
-
-    // function removeNull(input){
-    //     return(input!=null||undefined)
-    // }
-
-    // contents.filter(removeNull);
-
 
     function removeNull(value){
             if(value !== false || value !== null || value !== 0 || value !== "") {

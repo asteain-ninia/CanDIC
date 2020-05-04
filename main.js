@@ -2,6 +2,7 @@
 const electron = require('electron');
 const {app,BrowserWindow,dialog,ipcMain}=electron
 const Menu = electron.Menu;
+const fs = require('fs')
 
 let index;
 function createWindow(){
@@ -73,7 +74,7 @@ ipcMain.on('close_signal',(event,arg)=>{
         type:'warning',
         title:'警告',
         message:'単語編集を保存せず終了します。よろしいですか。',
-        buttons:['終了', 'とりやめ',]
+        buttons:['ok', 'cancel',]
       })
       if(choise==0){
         editor.close();
@@ -88,7 +89,28 @@ ipcMain.on('close_signal',(event,arg)=>{
         buttons:['削除', 'とりやめ',]
       })
       if(choise==0){
+
+        var data = fs.readFileSync(arg.target_path, 'utf8') //pathの向こうにあるファイルをテキストで読む
+        var json = JSON.parse(data); //jsonでパース
+        let targetIndex
+        var words_queue=json.words.length;
+        for(let i=0;i<words_queue;i++){
+            if(json.words[i].entry.id===arg.target_number){
+                targetIndex=i;
+            }
+        }
+        delete json.words[targetIndex];
+        
+        function removeNull(value){
+          if(value !== false || value !== null || value !== 0 || value !== "") {
+              return value;
+          }
+        }
+        json.words=json.words.filter(removeNull);
+
+        fs.writeFileSync(arg.target_path, JSON.stringify(json), 'utf8')
         editor.close();
+        index.webContents.send('modify_signal',arg);
       }
       break
   }

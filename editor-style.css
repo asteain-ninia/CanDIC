@@ -20,13 +20,14 @@ textarea{
 }
 
 form#submitBox{
-
 	display: grid;
-	grid-template-columns: 1fr 60px 60px 60px;
+	grid-template-columns: 1fr 60px 10px 60px 60px;
 	gap: 2px;
 	margin: 2px;
 }
-
+.delete_button{
+	color: red;
+}
 .input-1{
 	display: grid;
 	grid-template-columns: 1fr 27px 27px;

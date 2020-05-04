@@ -221,22 +221,36 @@ function OpenEditDEV(targetID){
 }
 ipcRenderer.on('modify_signal',(event,arg)=>{//単語編集時の処理
 
-    ReadDictionaryTNN(arg.target_path);
-    var reload=constElement(json,arg.target_number);
-    var reload_target=document.getElementById("word"+arg.target_number)
-    var reload_target_next=reload_target.nextElementSibling;
+    switch(arg.save_flag){
+        case 0:
+            ReadDictionaryTNN(arg.target_path);
+            var reload=constElement(json,arg.target_number);
+            var reload_target=document.getElementById("word"+arg.target_number)
+            var reload_target_next=reload_target.nextElementSibling;
 
-    console.log(reload_target_next)
+            console.log(reload_target_next)
 
-    if(reload_target){
-        console.log("reload:"+arg.target_number)
-        reload_target.parentNode.removeChild(reload_target);
+            if(reload_target){
+                console.log("reload:"+arg.target_number)
+                reload_target.parentNode.removeChild(reload_target);
 
-        if(reload_target_next){
-            dictionary.insertBefore(reload,reload_target_next);
-        }else{
-            dictionary.appendChild(reload)
-        }
+                if(reload_target_next){
+                    dictionary.insertBefore(reload,reload_target_next);
+                }else{
+                    dictionary.appendChild(reload)
+                }
+            }
+            break
+
+        case 1:
+        //ここ、つかわないはずなのでエラーアラートとか出したいけどめんどくさい
+            break
+        case 2:
+            var reload_target=document.getElementById("word"+arg.target_number)
+            console.log("delete:"+arg.target_number)
+            reload_target.parentNode.removeChild(reload_target);
+
+            break
     }
 })
 

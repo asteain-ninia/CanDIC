@@ -19,8 +19,8 @@ ipcRenderer.on('about_load',(event,arg)=>{//単語編集時の処理
     var author=document.createTextNode("制作:asteain-ninia");
 
     var electron=document.createTextNode("electron:8.1.1");
-    var version=document.createTextNode("版 dev 1.0.0");
-    var date=document.createTextNode("完成：R020502")
+    var version=document.createTextNode("版 dev 1.0.1");
+    var date=document.createTextNode("完成：R0205XX")
     var git=document.createTextNode("GitHub:github.com/asteain-ninia/CanDIC")
 
     container.appendChild(name);
