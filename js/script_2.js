@@ -672,7 +672,7 @@ function agree(){//保存処理
         "target_path":target_path,
     };
 
-    // ipcRenderer.send('close_signal',modify_pack)
+    ipcRenderer.send('close_signal',modify_pack)
     
 }
 function disagree(){
@@ -684,3 +684,15 @@ function disagree(){
 
     ipcRenderer.send('close_signal',modify_pack)
 }
+
+function delete_word(){
+    var modify_pack={
+        "save_flag":2,
+        "target_number":target_number,
+        "target_path":target_path,
+    };
+
+    ipcRenderer.send('close_signal',modify_pack)
+}
+
+

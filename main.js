@@ -8,8 +8,8 @@ function createWindow(){
   index = new BrowserWindow(
     {
       title:'CanDIC',
-      //width: 1200+500,
-      width:1200,
+      width: 1200+500,
+      //width:1200,
       height: 750,
       useContentSize:true,
       icon: './images/icon.png',
@@ -20,7 +20,7 @@ function createWindow(){
   initWindowMenu();
   
   index.loadURL(`file://${__dirname}/index.html`);
-  //index.webContents.openDevTools();
+  index.webContents.openDevTools();
 
   index.on('closed', () => {
     index = null;
@@ -33,10 +33,10 @@ let editor;
 function createEditor(){
   editor=new BrowserWindow({
     title:'CanDICEditor',
-    // width: 600+500, ﾃﾞﾊﾞｯｸﾞ用の大きさ
-    //minWidth:300+500,
-    width:600,
-    minWidth:300,
+    width: 600+500,
+    minWidth:300+500,
+    // width:600,
+    // minWidth:300,
     height: 750,
     useContentSize:true,
     webPreferences: {nodeIntegration: true}
@@ -45,7 +45,7 @@ function createEditor(){
   editor.setMenu(null);
 
   editor.loadURL(`file://${__dirname}/editor.html`);
-  //editor.webContents.openDevTools();
+  editor.webContents.openDevTools();
 
   editor.webContents.on('did-finish-load', ()=>{
     editor.webContents.send('target',requiredID);
@@ -60,21 +60,37 @@ ipcMain.on('editor_signal',(event,arg)=>{
 });
 
 ipcMain.on('close_signal',(event,arg)=>{
-  if(arg.save_flag==1){
-    var choise=dialog.showMessageBoxSync(editor,{
-      type:'warning',
-      title:'警告',
-      message:'単語編集を保存せず終了します。よろしいですか。',
-      buttons:['OK', 'Cancel',]
-    })
-    if(choise==0){
+
+  switch(arg.save_flag){
+
+    case 0:
       editor.close();
-    }else{
-      //何もしないをする
-    }
-  }else{
-    editor.close();
-    index.webContents.send('modify_signal',arg);
+      index.webContents.send('modify_signal',arg);
+      break
+
+    case 1:
+      var choise=dialog.showMessageBoxSync(editor,{
+        type:'warning',
+        title:'警告',
+        message:'単語編集を保存せず終了します。よろしいですか。',
+        buttons:['終了', 'とりやめ',]
+      })
+      if(choise==0){
+        editor.close();
+      }
+      break
+
+    case 2:
+      var choise=dialog.showMessageBoxSync(editor,{
+        type:'warning',
+        title:'警告',
+        message:'単語を削除します。この操作は復元不能です。本当によろしいですか。',
+        buttons:['削除', 'とりやめ',]
+      })
+      if(choise==0){
+        editor.close();
+      }
+      break
   }
 });
 

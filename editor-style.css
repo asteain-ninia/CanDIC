@@ -22,7 +22,7 @@ textarea{
 form#submitBox{
 
 	display: grid;
-	grid-template-columns: 1fr 60px 60px;
+	grid-template-columns: 1fr 60px 60px 60px;
 	gap: 2px;
 	margin: 2px;
 }
