@@ -39,22 +39,26 @@ function load_words(){
     dictionary.appendChild(word_cap);
 
     //forをぶん回して単語欄を生成する
-    var word_queue = word_count;
+    var word_queue = json.words.length;
     for (let i = 0; i < word_queue; i++) {
-        addElement(json,i);
+        addElement(json,i,word_queue);
     }
 }
 
-function addElement(json,i) {
+function addElement(json,i,word_queue) {
+
+    var targetIndex
 
     var result=constElement(json,i);
     dictionary.appendChild(result); //最終工程：word_shelfをdictionary窓にぶち込む
+    
 }
 
 function constElement(json,i){
     //参考:    https://www.sejuku.net/blog/49970
     //        https://www.sejuku.net/blog/30970
     //word_shelfをdiv要素として作成・idを設定(TNNの単語IDに一致)
+    console.log(i)
     var word_shelf = document.createElement('div');
     word_shelf.id = "word" + json.words[i].entry.id;
     word_shelf.className="word_shelf"
@@ -224,13 +228,25 @@ ipcRenderer.on('modify_signal',(event,arg)=>{//単語編集時の処理
     switch(arg.save_flag){
         case 0:
             ReadDictionaryTNN(arg.target_path);
-            var reload=constElement(json,arg.target_number);
-            var reload_target=document.getElementById("word"+arg.target_number)
-            var reload_target_next=reload_target.nextElementSibling;
+            console.log(arg)
+            console.log(json)
+            var targetIndex=0;
+            for(let i =0;i<json.words.length;i++){
+                if(json.words[i].entry.id==arg.target_number){
+                    targetIndex=i
+                    break;
+                }
+            }
+            console.log("targetNumber:"+arg.target_number);
+            console.log("targetIndex:"+targetIndex);
 
-            console.log(reload_target_next)
-
+            var reload=constElement(json,targetIndex);
+            console.log("constElement:"+reload)
+            var reload_target=document.getElementById("word"+arg.target_number);
             if(reload_target){
+                var reload_target_next=reload_target.nextElementSibling;
+                console.log(reload_target_next)
+
                 console.log("reload:"+arg.target_number)
                 reload_target.parentNode.removeChild(reload_target);
 
@@ -239,6 +255,8 @@ ipcRenderer.on('modify_signal',(event,arg)=>{//単語編集時の処理
                 }else{
                     dictionary.appendChild(reload)
                 }
+            }else{
+                dictionary.appendChild(reload)
             }
             break
 

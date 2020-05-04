@@ -532,10 +532,10 @@ function agree(){//保存処理
         target_number=newID;
     }
 
-    words_queue=json.words.length;
-    for(let i=0;i<words_queue;i++){
-        if(json.words[i].entry.id===target_number){
+    for(let i=0;i<json.words.length;i++){
+        if(json.words[i].entry.id==target_number){
             targetIndex=i;
+            break;
         }
     }
 
@@ -628,7 +628,7 @@ function agree(){//保存処理
     }
 
     function removeNull(value){
-            if(value !== false || value !== null || value !== 0 || value !== "") {
+            if(value !== null) {
                 return value;
         }
     }

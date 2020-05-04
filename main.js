@@ -100,9 +100,9 @@ ipcMain.on('close_signal',(event,arg)=>{
             }
         }
         delete json.words[targetIndex];
-        
+
         function removeNull(value){
-          if(value !== false || value !== null || value !== 0 || value !== "") {
+          if(value !== null) {
               return value;
           }
         }
