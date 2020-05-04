@@ -157,13 +157,25 @@ function initWindowMenu(){
         label:'辞書を開く',
         click(){
           //参考：https://qiita.com/stupid_student2/items/f25c2b8c3d0ca5cdc89e
-          var result = dialog.showOpenDialogSync({properties: ['openFile']});
-          index.webContents.send('4',result);
+          var load_result = dialog.showOpenDialogSync(
+            {properties: ['openFile']}
+            );
+          index.webContents.send('4',load_result);
         }
       },
       {
         label:'辞書を作る',
-        enabled:false,
+        click(){
+          var save_result=dialog.showSaveDialogSync(
+            {
+              filters: [
+                { name: 'JSON形式辞書', extensions: ['json'] },
+                { name: '無拡張子', extensions: ['*'] }
+              ],
+            }
+          );
+          index.webContents.send('creareDIC',save_result);
+        }
       },
       {
         label:'名前を付けて複製を保存',
@@ -208,14 +220,6 @@ function initWindowMenu(){
   },
   {label: '開発',submenu:
     [
-    //   {
-    //     label:'サンプル読み込み',
-    //     click(){
-    //       var result =["datas/sample.json"]
-    //       index.webContents.send('4',result);
-    //     }
-    //   },
-
       {
         label: '再読み込み',
         accelerator: 'CmdOrCtrl+R',

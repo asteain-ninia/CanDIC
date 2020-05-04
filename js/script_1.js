@@ -4,6 +4,41 @@ const {
 } = electron;
 const fs = require('fs')
 
+var DefaultJSON=
+    {
+        "words": [
+            {
+                "entry": {
+                    "id": 0,
+                    "form": [],
+                    "pronunciation": [],
+                    "tags": [],
+                    "char": []
+                },
+                "contents": [],
+                "variations": [],
+                "relations": []
+            },
+        ],
+        "dictionary": {
+            "type": "TNN",
+            "version": "beta 1",
+            "language": "",
+            "classes": [],
+            "titles": [],
+            "tags": []
+        },
+        "CanDIC": {
+            "alphabet": "",
+            "font": ""
+        }
+    }
+
+
+
+
+
+
 const editor = document.getElementById('editor');
 const dictionary = document.getElementById('dictionary')
 
@@ -310,3 +345,15 @@ function dic_search(){
     }
     console.log(resultJSON);
 }
+
+ipcRenderer.on("creareDIC",function(event,arg){
+    console.log(arg[0])
+    fs.writeFileSync(arg[0], JSON.stringify(DefaultJSON), 'utf8')
+
+    ReadDictionaryTNN(arg);
+    load_words();
+})
+
+ipcRenderer.on("debug",function(event, arg) {
+    console.log(arg)
+})
