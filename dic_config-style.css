@@ -1,0 +1,10 @@
+html,body{
+	background-color: lightgray;
+	height: 99vh;
+	overflow: hidden;
+}
+.container {
+	background-color:whitesmoke;
+	height: 100%;
+	margin: 8px;
+}

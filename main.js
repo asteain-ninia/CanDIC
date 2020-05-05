@@ -55,6 +55,32 @@ function createEditor(){
   editor.on('closed', () => {editor = null;});
 }
 
+let dic_config;
+function createDICconfig(){
+  dic_config=new BrowserWindow({
+    title:'CanDIC DICconfig',
+    width: 600+500,
+    minWidth:300+500,
+    // width:600,
+    // minWidth:300,
+    height: 750,
+    useContentSize:true,
+    webPreferences: {nodeIntegration: true}
+  });
+
+  dic_config.setMenu(null);
+
+  dic_config.loadURL(`file://${__dirname}/dic_config.html`);
+  dic_config.webContents.openDevTools();
+
+  dic_config.webContents.on('did-finish-load', ()=>{
+    dic_config.webContents.send('target',);
+  });
+
+  dic_config.on('closed', () => {dic_config = null;});
+}
+
+
 ipcMain.on('editor_signal',(event,arg)=>{
   requiredID=arg;
   createEditor();
@@ -205,8 +231,10 @@ function initWindowMenu(){
     label:'辞書',submenu:
     [
       {
-        label:"番号",
-        enabled:false,
+        label:"辞書設定",
+        click(){
+          createDICconfig();
+        }
       }
     ]
   },
