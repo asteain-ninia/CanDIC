@@ -74,73 +74,11 @@ function createDICconfig(){
   dic_config.webContents.openDevTools();
 
   dic_config.webContents.on('did-finish-load', ()=>{
-    dic_config.webContents.send('target',);
+    index.webContents.send('beacon');
   });
 
   dic_config.on('closed', () => {dic_config = null;});
 }
-
-
-ipcMain.on('editor_signal',(event,arg)=>{
-  requiredID=arg;
-  createEditor();
-});
-
-ipcMain.on('close_signal',(event,arg)=>{
-
-  switch(arg.save_flag){
-
-    case 0:
-      editor.close();
-      index.webContents.send('modify_signal',arg);
-      break
-
-    case 1:
-      var choise=dialog.showMessageBoxSync(editor,{
-        type:'warning',
-        title:'警告',
-        message:'単語編集を保存せず終了します。よろしいですか。',
-        buttons:['ok', 'cancel',]
-      })
-      if(choise==0){
-        editor.close();
-      }
-      break
-
-    case 2:
-      var choise=dialog.showMessageBoxSync(editor,{
-        type:'warning',
-        title:'警告',
-        message:'単語を削除します。この操作は復元不能です。本当によろしいですか。',
-        buttons:['削除', 'とりやめ',]
-      })
-      if(choise==0){
-
-        var data = fs.readFileSync(arg.target_path, 'utf8') //pathの向こうにあるファイルをテキストで読む
-        var json = JSON.parse(data); //jsonでパース
-        let targetIndex
-        var words_queue=json.words.length;
-        for(let i=0;i<words_queue;i++){
-            if(json.words[i].entry.id===arg.target_number){
-                targetIndex=i;
-            }
-        }
-        delete json.words[targetIndex];
-
-        function removeNull(value){
-          if(value !== null) {
-              return value;
-          }
-        }
-        json.words=json.words.filter(removeNull);
-
-        fs.writeFileSync(arg.target_path, JSON.stringify(json), 'utf8')
-        editor.close();
-        index.webContents.send('modify_signal',arg);
-      }
-      break
-  }
-});
 
 let about;
 function createAbout(){
@@ -164,15 +102,6 @@ function createAbout(){
   });
 }
 
-
-app.on('ready', createWindow);
-
-app.on('window-all-closed', () => {if(process.platform !== 'darwin') {app.quit();}});
-
-app.on('activate', () => {if (index === null) {createWindow();}});
-
-app.on('before-quit',function(e){forceQuit=true;});
-app.on('will-quit',function(){index=null;});
 
 function initWindowMenu(){
   const template =
@@ -233,7 +162,11 @@ function initWindowMenu(){
       {
         label:"辞書設定",
         click(){
-          createDICconfig();
+          if(!dic_config){
+            createDICconfig();
+          }else{
+            dic_config.focus();
+          }
         }
       }
     ]
@@ -275,3 +208,75 @@ function initWindowMenu(){
 const menu = Menu.buildFromTemplate(template)
 Menu.setApplicationMenu(menu)
 }
+
+
+ipcMain.on('editor_signal',(event,arg)=>{
+  requiredID=arg;
+  createEditor();
+});
+
+ipcMain.on('close_signal',(event,arg)=>{
+  switch(arg.save_flag){
+
+    case 0:
+      editor.close();
+      index.webContents.send('modify_signal',arg);
+      break
+
+    case 1:
+      var choise=dialog.showMessageBoxSync(editor,{
+        type:'warning',
+        title:'警告',
+        message:'単語編集を保存せず終了します。よろしいですか。',
+        buttons:['ok', 'cancel',]
+      })
+      if(choise==0){
+        editor.close();
+      }
+      break
+
+    case 2:
+      var choise=dialog.showMessageBoxSync(editor,{
+        type:'warning',
+        title:'警告',
+        message:'単語を削除します。この操作は復元不能です。本当によろしいですか。',
+        buttons:['削除', 'とりやめ',]
+      })
+      if(choise==0){
+
+        var data = fs.readFileSync(arg.target_path, 'utf8') //pathの向こうにあるファイルをテキストで読む
+        var json = JSON.parse(data); //jsonでパース
+        let targetIndex
+        var words_queue=json.words.length;
+        for(let i=0;i<words_queue;i++){
+            if(json.words[i].entry.id===arg.target_number){
+                targetIndex=i;
+            }
+        }
+        delete json.words[targetIndex];
+
+        function removeNull(value){
+          if(value !== null) {
+              return value;
+          }
+        }
+        json.words=json.words.filter(removeNull);
+
+        fs.writeFileSync(arg.target_path, JSON.stringify(json), 'utf8')
+        editor.close();
+        index.webContents.send('modify_signal',arg);
+      }
+      break
+  }
+});
+
+ipcMain.on('config',(event,arg)=>{
+  dic_config.webContents.send("target",arg);
+});
+
+
+app.on('ready', createWindow);
+app.on('window-all-closed', () => {if(process.platform !== 'darwin') {app.quit();}});
+app.on('activate', () => {if (index === null) {createWindow();}});
+app.on('before-quit',function(e){forceQuit=true;});
+app.on('will-quit',function(){index=null;});

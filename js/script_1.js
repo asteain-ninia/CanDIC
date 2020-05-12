@@ -359,6 +359,14 @@ ipcRenderer.on("DICsaveAS",function(event,arg){
     }
 })
 
+ipcRenderer.on("beacon",function(event,arg){
+    if(path){
+        ipcRenderer.send("config",path);
+    }else{
+        ipcRenderer.send("config",null);
+    }
+})
+
 ipcRenderer.on("debug",function(event, arg) {
     console.log(arg)
 })
