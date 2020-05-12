@@ -1,1 +1,148 @@
-{"words":[{"entry":{"id":0,"form":["Ho:","Ho"],"pronunciation":["ho:","ho"],"tags":[1,2,4],"char":["U+FFFF","U+FFFA"]},"contents":[{"class":1,"trans":["自分","自己"],"detail":[]},{"class":2,"trans":["私"],"detail":[{"title":"2","text":"最初に制定された単語。R03XXXX"}]}],"variations":[{"title":"","form":""}],"relations":[]},{"entry":{"id":1,"form":["Yu","Yit"],"pronunciation":["ju:","jit"],"tags":[1,2],"char":[]},"contents":[{"class":2,"trans":["貴方"],"detail":[{"title":"2","text":"最古級。"}]}],"variations":[],"relations":[]}],"dictionary":{"type":"TNN","version":"beta 1","language":"ena","classes":[{"id":0,"name":"不明"},{"id":1,"name":"名詞"},{"id":2,"name":"代名詞"}],"titles":[{"id":0,"name":"無題"},{"id":1,"name":"語法"},{"id":2,"name":"造語"}],"tags":[{"id":0,"name":"無題のタグ"},{"id":1,"name":"レベル：１"},{"id":2,"name":"基礎語"},{"id":3,"name":"無題のタグ2"},{"id":4,"name":"無題のタグ3"}]},"CanDIC":{"alphabet":"","font":""}}
+{
+	"words": [
+		{
+			"entry": {
+				"id": 0,
+				"form": [
+					"Ho:",
+					"Ho"
+				],
+				"pronunciation": [
+					"ho:",
+					"ho"
+				],
+				"tags": [
+					1,
+					2,
+					4
+				],
+				"char": [
+					"U+FFFF",
+					"U+FFFA"
+				]
+			},
+			"contents": [
+				{
+					"class": 1,
+					"trans": [
+						"自分",
+						"自己"
+					],
+					"detail": []
+				},
+				{
+					"class": 2,
+					"trans": [
+						"私"
+					],
+					"detail": [
+						{
+							"title": "2",
+							"text": "最初に制定された単語。R03XXXX"
+						}
+					]
+				}
+			],
+			"variations": [
+				{
+					"title": "",
+					"form": ""
+				}
+			],
+			"relations": []
+		},
+		{
+			"entry": {
+				"id": 1,
+				"form": [
+					"Yu",
+					"Yit"
+				],
+				"pronunciation": [
+					"ju:",
+					"jit"
+				],
+				"tags": [
+					1,
+					2
+				],
+				"char": []
+			},
+			"contents": [
+				{
+					"class": 2,
+					"trans": [
+						"貴方"
+					],
+					"detail": [
+						{
+							"title": "2",
+							"text": "最古級。"
+						}
+					]
+				}
+			],
+			"variations": [],
+			"relations": []
+		}
+	],
+	"dictionary": {
+		"type": "TNN",
+		"version": "beta 1.1",
+		"language": "ena",
+		"tags": [
+			{
+				"id": 0,
+				"name": "無題のタグ"
+			},
+			{
+				"id": 1,
+				"name": "レベル：１"
+			},
+			{
+				"id": 2,
+				"name": "基礎語"
+			},
+			{
+				"id": 3,
+				"name": "無題のタグ2"
+			},
+			{
+				"id": 4,
+				"name": "無題のタグ3"
+			}
+		],
+		"classes": [
+			{
+				"id": 0,
+				"name": "不明"
+			},
+			{
+				"id": 1,
+				"name": "名詞"
+			},
+			{
+				"id": 2,
+				"name": "代名詞"
+			}
+		],
+		"titles": [
+			{
+				"id": 0,
+				"name": "無題"
+			},
+			{
+				"id": 1,
+				"name": "語法"
+			},
+			{
+				"id": 2,
+				"name": "造語"
+			}
+		]
+	},
+	"CanDIC": {
+		"alphabet": "",
+		"font": ""
+	}
+}
