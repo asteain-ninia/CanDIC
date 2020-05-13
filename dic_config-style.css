@@ -3,8 +3,26 @@ html,body{
 	height: 99vh;
 	overflow: hidden;
 }
+hr{
+	margin: 0px;
+}
+span{
+	font-size: large;
+}
 .container {
 	background-color:whitesmoke;
 	height: 100%;
 	margin: 8px;
+}
+.WindowTitle{
+	font-size: large;
+}
+.large{
+	font-size: large;
+}
+.input-1{
+	display: grid;
+	grid-template-columns: 1fr 27px 27px;
+	gap: 2px;
+	margin: 2px;
 }

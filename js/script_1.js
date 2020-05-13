@@ -34,9 +34,10 @@ var DefaultJSON=
 
 const editor = document.getElementById('editor');
 const dictionary = document.getElementById('dictionary')
+let path=null;
 
 ipcRenderer.on('4', function(event, arg) {
-    console.log("filePath TNN Reserved!")
+    console.log("filePath TNN Reserved")
     path = arg[0]; //argを受け取ってpathに入れ込む
     console.log(path)
 
@@ -69,17 +70,13 @@ function load_words(){
     //forをぶん回して単語欄を生成する
     var word_queue = json.words.length;
     for (let i = 0; i < word_queue; i++) {
-        addElement(json,i,word_queue);
+        addElement(json,i);
     }
 }
 
-function addElement(json,i,word_queue) {
-
-    var targetIndex
-
+function addElement(json,i) {
     var result=constElement(json,i);
     dictionary.appendChild(result); //最終工程：word_shelfをdictionary窓にぶち込む
-    
 }
 
 function constElement(json,i){
