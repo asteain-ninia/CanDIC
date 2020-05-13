@@ -7,6 +7,7 @@ function createTextNode(value){return document.createTextNode(value);}
 
 let dictionary
 let language=document.getElementById("language")
+let tags=document.getElementById("tags")
 
 ipcRenderer.on('target',function(event,arg){
 	if(arg){
@@ -30,7 +31,9 @@ function show_edit_forms(path){
 	if(dictionary.type=="TNN"){
 		console.log("filepath TNN reserved")
 		createform(1);//language欄
-		createform(2);//tags欄
+		for(let i=0;i<dictionary.tags.length;i++){
+			createform(2,i);//tags欄
+		}
 	}else{
 		var Err_message=document.createTextNode("対応していない辞書形式のようです")
 		var Err_element=document.createElement("div")
@@ -39,12 +42,9 @@ function show_edit_forms(path){
 	}
 }
 
-function createform(customID){
+function createform(customID,i){
 	var element=createElement('div');//form要素
 	element.className="input-1";
-
-	var label=createElement('span')
-
 
 	var column_value=createElement('input');//窓
 	column_value.type="text";
@@ -54,11 +54,12 @@ function createform(customID){
 
 	var remove=createElement('input');//-ボタン
 	remove.type="button";
-	remove.name="remove";
+	remove.className="large";
 	remove.value="-"
 
 	switch(customID){
 		case 1://language欄
+			var label=createElement('span')
 			label.appendChild(createTextNode("言語名"))
 			language.appendChild(label);
 
@@ -68,6 +69,9 @@ function createform(customID){
 			language.appendChild(element);
 			break;
 		case 2://タグ欄
+		column_value.value=dictionary.tags[i].name
+		element.appendChild(remove);
+		tags.appendChild(element);
 			break;
 	}
 }
