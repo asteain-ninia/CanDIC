@@ -14,6 +14,9 @@ span{
 	height: 100%;
 	margin: 8px;
 }
+.editor{
+	overflow: auto;
+}
 .WindowTitle{
 	font-size: large;
 }

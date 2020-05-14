@@ -8,38 +8,50 @@
 <body topmargin=0 leftmargin=0 rightmargin=0>
 
 	<div class="container" id="container">
-		<div class="WindowTitle">辞書設定</div><hr>
-		<div id="language">	
-			<span>
-				辞書が開かれていないようです！
-			</span>
-		</div><hr>
-		<div id="tags">
-			<span>タグ</span>
+		<div class="editor">
+			<div class="WindowTitle">辞書設定</div><hr>
+			<div id="language">	
+				<span>
+					辞書が開かれていないようです！
+				</span>
+			</div><hr>
+			<div id="tags">
+				<span>タグ</span>
+			</div>
+			<div class="input-1">
+				<a></a>
+				<a></a>
+				<input type="button" class="large" value="+" onclick=""/>
+			</div><hr>
+			<div id="classes">
+				<span>品詞</span>
+			</div>
+			<div class="input-1">
+				<a></a>
+				<a></a>
+				<input type="button" class="large" value="+" onclick=""/>
+			</div><hr>
+			<div id="titles">
+				<span>詳細題目</span>
+			</div>
+			<div class="input-1">
+				<a></a>
+				<a></a>
+				<input type="button" class="large" value="+" onclick=""/>
+			</div><hr>
+			<div id="meta">
+			</div>
 		</div>
-		<div class="input-1">
-			<a></a>
-			<a></a>
-			<input type="button" class="large" value="+" onclick=""/>
-		</div><hr>
-		<div id="classes">
-			<span>品詞</span>
-		</div>
-		<div class="input-1">
-			<a></a>
-			<a></a>
-			<input type="button" class="large" value="+" onclick=""/>
-		</div><hr>
-		<div id="titles">
-			<span>詳細題目</span>
-		</div>
-		<div class="input-1">
-			<a></a>
-			<a></a>
-			<input type="button" class="large" value="+" onclick=""/>
-		</div><hr>
+
 	</div>
-	
+		<div id="submit" class="submit">
+		<hr>
+		<div id="submitBox" class="input-1">
+			<a></a>
+			<input type="button" value=破棄 onclick="disagree()">
+			<input type="button" value=確定 onclick="agree()">
+		</div>
+	</div>
 	<link rel="stylesheet" href="./dic_config-style.css">
 	<script src = "js/script_4.js"></script>
 </body>
