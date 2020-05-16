@@ -4,21 +4,26 @@ const fs = require('fs')
 
 function createElement(type){return document.createElement(type);}
 function createTextNode(value){return document.createTextNode(value);}
+function getElementById(target){return document.getElementById(target);}
+
+let target_path=null;
 
 let tagsID=0;
 let classesID=0;
-let titleID=0;
+let titlesID=0;
 
 let dictionary
-let language=document.getElementById("language")
-let tags=document.getElementById("tags")
-let classes=document.getElementById("classes")
-let titles=document.getElementById("titles")
-let meta=document.getElementById("meta")
+let language=getElementById("language_column")
+let tags=getElementById("tags")
+let classes=getElementById("classes")
+let titles=getElementById("titles")
+let meta=getElementById("meta")
 
 ipcRenderer.on('target',function(event,arg){
 	if(arg){
+		console.log(event)
 		console.log(arg)
+		target_path=arg;
 		show_edit_forms(arg);
 	}else{
 		console.log("ファイルパスにnullを受け取りました")
@@ -52,8 +57,8 @@ function show_edit_forms(path){
 		}
 		show_meta_info();
 	}else{
-		var Err_message=document.createTextNode("対応していない辞書形式のようです")
-		var Err_element=document.createElement("div")
+		var Err_message=createTextNode("対応していない辞書形式のようです")
+		var Err_element=createElement("div")
 		Err_element.appendChild(Err_message)
 		language.appendChild(Err_element)
 	}
@@ -89,8 +94,9 @@ function createform(customID,i){
 		case 2://tags欄
 			element.id="tag"+tagsID+"Box"
 			column_value.id="tag"+tagsID
-			column_value.value=dictionary.tags[i].name
-
+			if(i!=-1){
+				column_value.value=dictionary.tags[i].name
+			}
 			remove.setAttribute("onclick","remove('tag"+tagsID+"Box')")
 			element.appendChild(remove);
 
@@ -100,7 +106,9 @@ function createform(customID,i){
 		case 3://classes欄
 			element.id="class"+classesID+"Box"
 			column_value.id="class"+classesID
-			column_value.value=dictionary.classes[i].name
+			if(i!=-1){
+				column_value.value=dictionary.classes[i].name
+			}
 
 			remove.setAttribute("onclick","remove('class"+classesID+"Box')")
 			element.appendChild(remove);
@@ -109,30 +117,124 @@ function createform(customID,i){
 			classesID++
 			break;
 		case 4://titles欄
-			element.id="title"+titleID+"Box"
-			column_value.id="title"+titleID
-			column_value.value=dictionary.titles[i].name
+			element.id="title"+titlesID+"Box"
+			column_value.id="title"+titlesID
+			if(i!=-1){
+				column_value.value=dictionary.titles[i].name
+			}
 
-			remove.setAttribute("onclick","remove('title"+titleID+"Box')")
+			remove.setAttribute("onclick","remove('title"+titlesID+"Box')")
 			element.appendChild(remove);
 
 			titles.appendChild(element);
-			titleID++
+			titlesID++
 			break;
 	}
 }
+
 function show_meta_info(){
 	var meta_label=createTextNode("辞書情報");
 	var type_info=createTextNode(dictionary.type+"："+dictionary.version);
-	
+
 	meta.appendChild(meta_label)
 	meta.appendChild(createElement("br"))
 	meta.appendChild(type_info);
 }
 
-
 function remove(target){
     console.log("removed:"+target)
-    var remove_target=document.getElementById(target)
+	var remove_target=getElementById(target)
     remove_target.parentNode.removeChild(remove_target);
+}
+function form_add(target){
+	var target_element=getElementById(target);
+	switch(target){
+		case "tags":
+			createform(2,-1);
+			break;
+		case "classes":
+			createform(3,-1);
+		break;
+		case "titles":
+			createform(4,-1);
+			break;
+	}
+}
+function disagree(){
+	if(target_path==null){
+		var modify_pack={
+			"save_flag":2,
+		};
+		ipcRenderer.send('close_signal_dic',modify_pack)
+	}else{
+		var modify_pack={
+		"save_flag":1,
+		"target_path":target_path,
+    	};
+    	ipcRenderer.send('close_signal_dic',modify_pack)
+	}
+}
+function agree(){
+	if(target_path==null){
+		var modify_pack={
+			"save_flag":2,
+		};
+		ipcRenderer.send('close_signal_dic',modify_pack)
+	}else{
+		var modify_pack={
+			"save_flag":3,
+		};
+		ipcRenderer.send('close_signal_dic',modify_pack)
+		save_dictionary_TNN();
+	}
+}
+
+function save_dictionary_TNN(){
+	var new_dictionary={
+		"type":dictionary.type,
+		"version":dictionary.version,
+		"language":"",
+		"tags": [
+		],
+		"classes": [
+		],
+		"titles": [
+		]
+	}
+	var delete_queue={
+		tags:[],
+		classes:[],
+		titles:[]
+	}
+	new_dictionary.language=getElementById("language").value;
+	for(i=0;i<tagsID;i++){
+		if(getElementById("tag"+i)){
+			var pack={
+				"id":i,
+				"name":getElementById("tag"+i).value
+			}
+			new_dictionary.tags.push(pack);
+		}else{delete_queue.tags.push(i)}
+	}
+	for(i=0;i<classesID;i++){
+		if(getElementById("class"+i)){
+			var pack={
+				"id":i,
+				"name":getElementById("class"+i).value
+			}
+			new_dictionary.classes.push(pack);
+		}else{delete_queue.classes.push(i)}
+	}
+	for(i=0;i<titlesID;i++){
+		if(getElementById("title"+i)){
+			var pack={
+				"id":i,
+				"name":getElementById("title"+i).value
+			}
+			new_dictionary.titles.push(pack);
+		}else{delete_queue.titles.push(i)}
+	}
+	console.log(delete_queue)
+	console.log(new_dictionary)
+	console.log(dictionary)
 }

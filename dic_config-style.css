@@ -13,6 +13,9 @@ span{
 	background-color:whitesmoke;
 	height: 100%;
 	margin: 8px;
+	display: grid;
+	grid-template-rows: 1fr 40px;
+	background-blend-mode:multiply;
 }
 .editor{
 	overflow: auto;
@@ -26,6 +29,12 @@ span{
 .input-1{
 	display: grid;
 	grid-template-columns: 1fr 27px 27px;
+	gap: 2px;
+	margin: 2px;
+}
+.submitBox{
+	display: grid;
+	grid-template-columns: 1fr 60px 60px;
 	gap: 2px;
 	margin: 2px;
 }

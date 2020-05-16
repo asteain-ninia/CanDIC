@@ -221,7 +221,7 @@ ipcMain.on('close_signal',(event,arg)=>{
     case 0:
       editor.close();
       index.webContents.send('modify_signal',arg);
-      break
+      break;
 
     case 1:
       var choise=dialog.showMessageBoxSync(editor,{
@@ -233,7 +233,7 @@ ipcMain.on('close_signal',(event,arg)=>{
       if(choise==0){
         editor.close();
       }
-      break
+      break;
 
     case 2:
       var choise=dialog.showMessageBoxSync(editor,{
@@ -255,11 +255,7 @@ ipcMain.on('close_signal',(event,arg)=>{
         }
         delete json.words[targetIndex];
 
-        function removeNull(value){
-          if(value !== null) {
-              return value;
-          }
-        }
+
         json.words=json.words.filter(removeNull);
 
         fs.writeFileSync(arg.target_path, JSON.stringify(json), 'utf8')
@@ -269,9 +265,50 @@ ipcMain.on('close_signal',(event,arg)=>{
       break
   }
 });
+function removeNull(value){
+  if(value !== null) {
+      return value;
+  }
+}
 
 ipcMain.on('config',(event,arg)=>{
   dic_config.webContents.send("target",arg);
+});
+
+ipcMain.on('close_signal_dic',(event,arg)=>{
+  switch(arg.save_flag){
+
+    case 0:
+      editor.close();
+      index.webContents.send('modify_signal_dic');
+
+      var choise=dialog.showMessageBoxSync(dic_config,{
+        type:'warning',
+        title:'警告',
+        message:'使用されている題目が削除された場合、単語内の情報は無に置換されます。この操作は復元不能です。本当によろしいですか。',
+        buttons:['ok', 'cancel',]
+      })
+      if(choise==0){
+        dic_config.webContents.send('save')
+      }
+
+      break;
+
+    case 1:
+      var choise=dialog.showMessageBoxSync(dic_config,{
+        type:'warning',
+        title:'警告',
+        message:'編集を保存せず終了します。よろしいですか。',
+        buttons:['ok', 'cancel',]
+      })
+      if(choise==0){
+        dic_config.close();
+      }
+      break;
+    case 2:
+      dic_config.close();
+      break;
+  }
 });
 
 

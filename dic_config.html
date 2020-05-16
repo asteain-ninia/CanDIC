@@ -10,7 +10,7 @@
 	<div class="container" id="container">
 		<div class="editor">
 			<div class="WindowTitle">辞書設定</div><hr>
-			<div id="language">	
+			<div id="language_column">	
 				<span>
 					辞書が開かれていないようです！
 				</span>
@@ -21,7 +21,7 @@
 			<div class="input-1">
 				<a></a>
 				<a></a>
-				<input type="button" class="large" value="+" onclick=""/>
+				<input type="button" class="large" value="+" onclick="form_add('tags')"/>
 			</div><hr>
 			<div id="classes">
 				<span>品詞</span>
@@ -29,7 +29,7 @@
 			<div class="input-1">
 				<a></a>
 				<a></a>
-				<input type="button" class="large" value="+" onclick=""/>
+				<input type="button" class="large" value="+" onclick="form_add('classes')"/>
 			</div><hr>
 			<div id="titles">
 				<span>詳細題目</span>
@@ -37,19 +37,18 @@
 			<div class="input-1">
 				<a></a>
 				<a></a>
-				<input type="button" class="large" value="+" onclick=""/>
+				<input type="button" class="large" value="+" onclick="form_add('titles')"/>
 			</div><hr>
 			<div id="meta">
 			</div>
 		</div>
-
-	</div>
 		<div id="submit" class="submit">
-		<hr>
-		<div id="submitBox" class="input-1">
-			<a></a>
-			<input type="button" value=破棄 onclick="disagree()">
-			<input type="button" value=確定 onclick="agree()">
+			<hr>
+			<div id="submitBox" class="submitBox">
+				<a></a>
+				<input type="button" value=破棄 onclick="disagree()">
+				<input type="button" value=確定 onclick="agree()">
+			</div>
 		</div>
 	</div>
 	<link rel="stylesheet" href="./dic_config-style.css">
