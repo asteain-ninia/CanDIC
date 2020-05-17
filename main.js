@@ -64,6 +64,8 @@ function createDICconfig(){
     // width:600,
     // minWidth:300,
     height: 750,
+    modal:true,
+    parent:index,
     useContentSize:true,
     webPreferences: {nodeIntegration: true}
   });
@@ -216,6 +218,8 @@ ipcMain.on('editor_signal',(event,arg)=>{
 });
 
 ipcMain.on('close_signal',(event,arg)=>{
+  editor=BrowserWindow.getFocusedWindow();
+
   switch(arg.save_flag){
 
     case 0:

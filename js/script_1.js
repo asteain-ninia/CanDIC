@@ -253,8 +253,8 @@ ipcRenderer.on('modify_signal',(event,arg)=>{//単語編集時の処理
     switch(arg.save_flag){
         case 0:
             ReadDictionaryTNN(arg.target_path);
-            console.log(arg)
-            console.log(json)
+            //console.log(arg)
+            //console.log(json)
             var targetIndex=0;
             for(let i =0;i<json.words.length;i++){
                 if(json.words[i].entry.id==arg.target_number){
@@ -262,15 +262,15 @@ ipcRenderer.on('modify_signal',(event,arg)=>{//単語編集時の処理
                     break;
                 }
             }
-            console.log("targetNumber:"+arg.target_number);
-            console.log("targetIndex:"+targetIndex);
+            //console.log("targetNumber:"+arg.target_number);
+            //console.log("targetIndex:"+targetIndex);
 
             var reload=constElement(json,targetIndex);
-            console.log("constElement:"+reload)
+            //console.log("constElement:"+reload)
             var reload_target=document.getElementById("word"+arg.target_number);
             if(reload_target){
                 var reload_target_next=reload_target.nextElementSibling;
-                console.log(reload_target_next)
+                //console.log(reload_target_next)
 
                 console.log("reload:"+arg.target_number)
                 reload_target.parentNode.removeChild(reload_target);
@@ -333,7 +333,7 @@ function dic_search(){
     for (let i=0;i<word_queue;i++) {
         addElement(resultJSON,i);
     }
-    console.log(resultJSON);
+    //console.log(resultJSON);
 }
 
 ipcRenderer.on("creareDIC",function(event,arg){
