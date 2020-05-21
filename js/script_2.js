@@ -49,6 +49,9 @@ const fs=require('fs')
 ipcRenderer.on('target',(event,arg)=>{
     target_number=arg.number;
     target_path=arg.path;
+    if(!arg.path){
+        ipcRenderer.send('editor_notOpend')
+    }
 
     var data = fs.readFileSync(target_path, 'utf8') //pathの向こうにあるファイルをテキストで読む
     json = JSON.parse(data); //jsonでパース(ここ二行scrpt_1と共通)

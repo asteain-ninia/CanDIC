@@ -92,25 +92,26 @@ function createform(customID,i){
 			language.appendChild(element);
 			break;
 		case 2://tags欄
-			element.id="tag"+tagsID+"Box"
-			column_value.id="tag"+tagsID
 			if(i!=-1){
 				column_value.value=dictionary.tags[i].name
 			}
-			remove.setAttribute("onclick","remove('tag"+tagsID+"Box')")
+				element.id="tag"+tagsID+"Box"
+				column_value.id="tag"+tagsID
+				remove.setAttribute("onclick","remove('tag"+tagsID+"Box')")
+			
 			element.appendChild(remove);
 
 			tags.appendChild(element);
 			tagsID++
 			break;
 		case 3://classes欄
-			element.id="class"+classesID+"Box"
-			column_value.id="class"+classesID
 			if(i!=-1){
 				column_value.value=dictionary.classes[i].name
 			}
-
-			remove.setAttribute("onclick","remove('class"+classesID+"Box')")
+				element.id="class"+classesID+"Box"
+				column_value.id="class"+classesID
+				remove.setAttribute("onclick","remove('class"+classesID+"Box')")
+			
 			element.appendChild(remove);
 
 			classes.appendChild(element);
@@ -177,12 +178,12 @@ function disagree(){
 function agree(){
 	if(target_path==null){
 		var modify_pack={
-			"save_flag":2,
+			"save_flag":1,
 		};
 		ipcRenderer.send('close_signal_dic',modify_pack)
 	}else{
 		var modify_pack={
-			"save_flag":3,
+			"save_flag":0,
 		};
 		ipcRenderer.send('close_signal_dic',modify_pack)
 		save_dictionary_TNN();
@@ -209,29 +210,35 @@ function save_dictionary_TNN(){
 	new_dictionary.language=getElementById("language").value;
 	for(i=0;i<tagsID;i++){
 		if(getElementById("tag"+i)){
-			var pack={
-				"id":i,
-				"name":getElementById("tag"+i).value
+			if(getElementById("tag"+i).value){
+				var pack={
+					"id":i,
+					"name":getElementById("tag"+i).value
+				}
+				new_dictionary.tags.push(pack);
 			}
-			new_dictionary.tags.push(pack);
 		}else{delete_queue.tags.push(i)}
 	}
 	for(i=0;i<classesID;i++){
-		if(getElementById("class"+i)){
-			var pack={
-				"id":i,
-				"name":getElementById("class"+i).value
+		if(getElementById("class"+i)){		
+			if(getElementById("class"+i).value){
+				var pack={
+					"id":i,
+					"name":getElementById("class"+i).value
+				}
+				new_dictionary.classes.push(pack);
 			}
-			new_dictionary.classes.push(pack);
 		}else{delete_queue.classes.push(i)}
 	}
 	for(i=0;i<titlesID;i++){
 		if(getElementById("title"+i)){
-			var pack={
-				"id":i,
-				"name":getElementById("title"+i).value
+			if(getElementById("title"+i).value){
+				var pack={
+					"id":i,
+					"name":getElementById("title"+i).value
+				}
+				new_dictionary.titles.push(pack);
 			}
-			new_dictionary.titles.push(pack);
 		}else{delete_queue.titles.push(i)}
 	}
 	console.log(delete_queue)

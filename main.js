@@ -4,6 +4,8 @@ const {app,BrowserWindow,dialog,ipcMain}=electron
 const Menu = electron.Menu;
 const fs = require('fs')
 
+function getFocusedWindow(window){return BrowserWindow.getFocusedWindow(window);}
+
 let index;
 function createWindow(){
   index = new BrowserWindow(
@@ -211,6 +213,14 @@ const menu = Menu.buildFromTemplate(template)
 Menu.setApplicationMenu(menu)
 }
 
+ipcMain.on('editor_notOpend',(event,arg)=>{
+  dialog.showMessageBoxSync(editor,{
+    type:'warning',
+    title:'',
+    message:'辞書が開いていません！　辞書を開いてから単語を作成してください',
+  });
+  BrowserWindow.getFocusedWindow().close();
+})
 
 ipcMain.on('editor_signal',(event,arg)=>{
   requiredID=arg;
@@ -280,12 +290,10 @@ ipcMain.on('config',(event,arg)=>{
 });
 
 ipcMain.on('close_signal_dic',(event,arg)=>{
+  dic_config=getFocusedWindow();
   switch(arg.save_flag){
 
     case 0:
-      editor.close();
-      index.webContents.send('modify_signal_dic');
-
       var choise=dialog.showMessageBoxSync(dic_config,{
         type:'warning',
         title:'警告',
@@ -295,7 +303,6 @@ ipcMain.on('close_signal_dic',(event,arg)=>{
       if(choise==0){
         dic_config.webContents.send('save')
       }
-
       break;
 
     case 1:
@@ -311,6 +318,7 @@ ipcMain.on('close_signal_dic',(event,arg)=>{
       break;
     case 2:
       dic_config.close();
+      index.webContents.send('modify_signal_dic');
       break;
   }
 });
