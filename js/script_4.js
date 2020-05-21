@@ -94,14 +94,20 @@ function createform(customID,i){
 		case 2://tags欄
 			if(i!=-1){
 				column_value.value=dictionary.tags[i].name
+				element.id="tag"+dictionary.tags[i].id+"Box"
+				column_value.id="tag"+dictionary.tags[i].id
+				remove.setAttribute("onclick","remove('tag"+dictionary.tags[i].id+"Box')")
+				lasttagID=dictionary.tags[i].id
+			}else{
+				element.id="tag"+lasttagID+1+"Box"
+				column_value.id="tag"+lasttagID+1
+				remove.setAttribute("onclick","remove('tag"+lasttagID+1+"Box')")
+				lasttagID++
 			}
-				element.id="tag"+tagsID+"Box"
-				column_value.id="tag"+tagsID
-				remove.setAttribute("onclick","remove('tag"+tagsID+"Box')")
-			
 			element.appendChild(remove);
 
 			tags.appendChild(element);
+
 			tagsID++
 			break;
 		case 3://classes欄
@@ -244,4 +250,15 @@ function save_dictionary_TNN(){
 	console.log(delete_queue)
 	console.log(new_dictionary)
 	console.log(dictionary)
+
+	for(let i=0;i<json.words.length;i++){
+		for(let j=0;j<json.words[i].entry.tags.length;j++){
+			for(let l=0;l<delete_queue.tags.length;l++){
+				if(json.words[i].entry.tags[j]==delete_queue.tags[l]){
+					json.words[i].entry.tags.splice(j,1);
+				}
+			}
+		}
+	}
+	console.log(json)
 }

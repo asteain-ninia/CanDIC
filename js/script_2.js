@@ -631,10 +631,9 @@ function agree(){//保存処理
     }
 
     function removeNull(value){
-            if(value !== null) {
-                return value;
-        }
+        if(value !== null) {return value;}
     }
+    
     console.log(json.words[targetIndex].contents);
     json.words[targetIndex].contents=json.words[targetIndex].contents.filter(removeNull);
     // console.log(entry);
