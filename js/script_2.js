@@ -17,6 +17,8 @@ const fs=require('fs')
  charID=0;
  tagID=0;
 
+ lastTagID=0
+
  contentID=0;
  transID=0;
 
@@ -127,7 +129,7 @@ function tag_show(){
         tag.id="tag"+dictionary.tags[i].id;
         tag_value=document.createTextNode(dictionary.tags[i].name);
         tag.appendChild(tag_value);
-        tag.setAttribute("onclick","tag_switch("+i+")")
+        tag.setAttribute("onclick","tag_switch("+dictionary.tags[i].id+")")
         tagBox.appendChild(tag);
         tagID++
     }
@@ -210,16 +212,18 @@ function tag_load(i){
     var tag_target=document.getElementById("tag"+i);
 
     for(let j=0;j<tags_queue;j++){
-        if(entry.tags[j]==i){
-            tag_target.setAttribute("flag","true");
-            tag_target.setAttribute("style","background-color:white;")
-            break;
-        }else{
-            tag_target.setAttribute("flag","false");
-            tag_target.setAttribute("style","background-color:gray;")
+        if(tag_target){
+            if(entry.tags[j]==i){
+                tag_target.setAttribute("flag","true");
+                tag_target.setAttribute("style","background-color:white;")
+                break;
+            }else{
+                tag_target.setAttribute("flag","false");
+                tag_target.setAttribute("style","background-color:gray;")
+            }
         }
     }
-
+    lastTagID++
 }
 
 //タグ状態の変更。(これそのうちtag_loadに一本化できるかも)
