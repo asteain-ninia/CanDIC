@@ -252,13 +252,17 @@ function save_dictionary_TNN(){
 	console.log(dictionary)
 
 	for(let i=0;i<json.words.length;i++){
-		for(let j=0;j<json.words[i].entry.tags.length;j++){
-			for(let l=0;l<delete_queue.tags.length;l++){
-				if(json.words[i].entry.tags[j]==delete_queue.tags[l]){
-					json.words[i].entry.tags.splice(j,1);
-				}
+		tag_deleter(i,delete_queue);
+	}
+	console.log(json)
+}
+
+function tag_deleter(i,delete_queue){
+	for(let j=0;j<json.words[i].entry.tags.length;j++){
+		for(let l=0;l<delete_queue.tags.length;l++){
+			if(json.words[i].entry.tags[j]==delete_queue.tags[l]){
+				json.words[i].entry.tags.splice(j,1);
 			}
 		}
 	}
-	console.log(json)
 }

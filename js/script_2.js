@@ -102,7 +102,9 @@ function load_word(target_number){
         }
 
         //タグの読み込み
-        for(let i=0; i<tags_queue_dictionary;i++){
+        //for(let i=0; i<tags_queue_dictionary;i++){
+        for(let i=0; i<=lastTagID;i++){
+            console.log("i:"+i+" vs lastTagID:"+lastTagID)
             tag_load(i);
         }
 
@@ -130,8 +132,14 @@ function tag_show(){
         tag_value=document.createTextNode(dictionary.tags[i].name);
         tag.appendChild(tag_value);
         tag.setAttribute("onclick","tag_switch("+dictionary.tags[i].id+")")
+
+        //tag.setAttribute("flag","false");
+        tag.setAttribute("style","background-color:gray;")
+
         tagBox.appendChild(tag);
         tagID++
+        lastTagID=dictionary.tags[i].id;
+        console.log("lastTagID="+lastTagID)
     }
 }
 
@@ -210,25 +218,27 @@ function entry_load(customID,i){
 //tagIDがiのタグがデータにマッチするかを検査
 function tag_load(i){
     var tag_target=document.getElementById("tag"+i);
+    console.log("i="+i)//これが本来i=6まで行くはずなんだけど、なぜか4までしかいかない
+    console.log("<--------->")
+    if(tag_target){
+        for(let j=0;j<tags_queue;j++){
+            console.log("---------")
+            console.log("entry.tags="+entry.tags[j])
 
-    for(let j=0;j<tags_queue;j++){
-        if(tag_target){
             if(entry.tags[j]==i){
                 tag_target.setAttribute("flag","true");
-                tag_target.setAttribute("style","background-color:white;")
-                break;
+                tag_target.setAttribute("style","background-color:white;");
             }else{
                 tag_target.setAttribute("flag","false");
-                tag_target.setAttribute("style","background-color:gray;")
+                // tag_target.setAttribute("style","background-color:gray;");
             }
         }
     }
-    lastTagID++
 }
 
 //タグ状態の変更。(これそのうちtag_loadに一本化できるかも)
-function tag_switch(i){
-    var tag_target=document.getElementById("tag"+i);
+function tag_switch(tag_targetID){
+    var tag_target=document.getElementById("tag"+tag_targetID);
     tag_target_flag=tag_target.getAttribute("flag")
     if(tag_target_flag=="true"){
         tag_target.setAttribute("flag","false");
@@ -241,9 +251,9 @@ function tag_switch(i){
 
 function contents_load(i){
     console.log("contentID:"+contentID);
-    var contents_column=createElement('div')
-    contents_column.id="contents"+contentID
-    contents_column.className="content"
+    var contents_column=createElement('div');
+    contents_column.id="contents"+contentID;
+    contents_column.className="content";
 
     //データの読み込み(iが-1でなければ)
     if(i!=-1){
