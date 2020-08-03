@@ -47,24 +47,27 @@ ipcRenderer.on('4', function(event, arg) {
 })
 
 function receiveData(arg){
-    Filepath = arg[0]; //argを受け取ってFilepathに入れ込む
+    Filepath = arg[0]; //argを受け取って変数Filepathに入れ込む
     console.log("目標："+Filepath);
-    if(json.dictionary.type=="TNN"){
-        //つくりかけ、OTM対応の布石
-        //まずJSONであることを判定しなければいけないのでは？
-        ReadDictionaryTNN(Filepath);
-        console.log("認識："+json.dictionary.type+" "+json.dictionary.version)
-        load_words();
+    console.log("形式確認："+path.extname(Filepath));
+    if(path.extname(Filepath)==".json"){//jsonであることを判定
+        ReadDictionaryJSON(Filepath);
+        if(json.dictionary.type=="TNN"){//jsonはjsonでもTNNであることを確認
+            console.log("認識　TNN-JSON："+json.dictionary.version)
+            word_count = json.words.length //単語数をカウント
+            console.log("単語数：" + word_count);
+            load_words();
+        }else{
+            console.log("読み込み失敗：JSONであるが、TNNでない。")
+        }
     }else{
-        console.log("読み込み失敗：不明なファイルタイプです")
-    }}
+        console.log("読み込み失敗：JSONでない。")
+    }
+}
 
-function ReadDictionaryTNN(Filepath) {
+function ReadDictionaryJSON(Filepath) {
     var data = fs.readFileSync(Filepath, 'utf8') //Filepathにあるファイルをテキストで読む
     json = JSON.parse(data); //jsonでパース
-
-    word_count = json.words.length //単語数をカウント
-    console.log("単語数：" + word_count);
 }
 
 function load_words(){
@@ -257,7 +260,7 @@ ipcRenderer.on('modify_signal',(event,arg)=>{//単語編集時の処理
 
     switch(arg.save_flag){
         case 0:
-            ReadDictionaryTNN(arg.target_path);
+            ReadDictionaryJSON(arg.target_path);
             //console.log(arg)
             //console.log(json)
             var targetIndex=0;
@@ -346,7 +349,7 @@ ipcRenderer.on("creareDIC",function(event,arg){
     fs.writeFileSync(arg, JSON.stringify(DefaultJSON), 'utf8');
 
     //Filepath=arg;
-    ReadDictionaryTNN(arg);
+    ReadDictionaryJSON(arg);
     load_words();
 })
 
@@ -356,7 +359,7 @@ ipcRenderer.on("DICsaveAS",function(event,arg){
         fs.writeFileSync(arg, JSON.stringify(json), 'utf8');
 
         Filepath=arg;
-        ReadDictionaryTNN(arg);
+        ReadDictionaryJSON(arg);
         load_words();
     }
 })
