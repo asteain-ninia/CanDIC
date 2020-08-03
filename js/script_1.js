@@ -32,22 +32,27 @@ var DefaultJSON=
         }
     }
 
-const editor = document.getElementById('editor');
-const dictionary = document.getElementById('dictionary')
+const editor = getElementById('editor');
+const dictionary = getElementById('dictionary')
 let path=null;
 
+function createElement(type){return document.createElement(type);}
+function createTextNode(value){return document.createTextNode(value);}
+function getElementById(target){return document.getElementById(target);}
+
+
 ipcRenderer.on('4', function(event, arg) {
-    console.log("filePath TNN Reserved")
-    path = arg[0]; //argを受け取ってpathに入れ込む
-    console.log(path)
-
-    // if(json.dictionary.type=="TNN"){
-    //   //つくりかけ、OTM対応の布石
-    //   //まずJSONであることを判定しなければいけないのでは？
-    // }
-
-    ReadDictionaryTNN(path);
-    load_words();
+    if(json.dictionary.type=="TNN"){
+        //つくりかけ、OTM対応の布石
+        //まずJSONであることを判定しなければいけないのでは？
+        path = arg[0]; //argを受け取ってpathに入れ込む
+        console.log("目標："+path);
+        ReadDictionaryTNN(path);
+        console.log("認識："+json.dictionary.type+" "+json.dictionary.version)
+        load_words();
+    }else{
+        console.log("読み込み失敗：不明なファイルタイプです")
+    }
 })
 
 function ReadDictionaryTNN(path) {
@@ -55,7 +60,7 @@ function ReadDictionaryTNN(path) {
     json = JSON.parse(data); //jsonでパース
 
     word_count = json.words.length //単語数をカウント
-    console.log("単語数" + word_count);
+    console.log("単語数：" + word_count);
 }
 
 function load_words(){
@@ -63,7 +68,7 @@ function load_words(){
         dictionary.removeChild(dictionary.firstChild);
     }
     //単語欄の上下境
-    var word_cap = document.createElement('div')
+    var word_cap = createElement('div')
     word_cap.setAttribute("style", "height:0px;border-top:solid 2px gray;");
     dictionary.appendChild(word_cap);
 
@@ -76,91 +81,94 @@ function load_words(){
 
 function addElement(json,i) {
     var result=constElement(json,i);
-    dictionary.appendChild(result); //最終工程：word_shelfをdictionary窓にぶち込む
+    dictionary.appendChild(result); //word_shelfをdictionary窓にぶち込む
 }
 
 function constElement(json,i){
     //参考:    https://www.sejuku.net/blog/49970
-    //        https://www.sejuku.net/blog/30970
+    //         https://www.sejuku.net/blog/30970
     //word_shelfをdiv要素として作成・idを設定(TNNの単語IDに一致)
-    console.log(i)
-    var word_shelf = document.createElement('div');
+    console.log("単語欄生成:"+i);
+    var word_shelf = createElement('div');
     word_shelf.id = "word" + json.words[i].entry.id;
-    word_shelf.className="word_shelf"
-    word_shelf.setAttribute('ondblclick',"OpenEdit("+json.words[i].entry.id+")")
-
+    word_shelf.className="word_shelf";
+    word_shelf.setAttribute('ondblclick',"OpenEdit("+json.words[i].entry.id+")");
 
     //entryiesをdiv要素として生成、この中にform要素とpronun要素・tag要素が入る
-    var entries = document.createElement('div');
+    var entries = createElement('div');
     entries.id = "entries";
 
     //formをspan要素として生成。ここに語形が入る
-    var form = document.createElement('span');
-    form.setAttribute("style", "font-size:18px;")
+    var form = createElement('span');
+    form.setAttribute("style", "font-size:18px;");
+
     //語形の列挙
-    var forms = document.createTextNode(" " + json.words[i].entry.form + " ");
+    var forms = createTextNode(" " + json.words[i].entry.form + " ");
     form.appendChild(forms); //formの完成
 
-    //pronunをspan要素として生成。すこし小さく表示する。
-    var pronun = document.createElement('span')
-    pronun.setAttribute("style", "font-size:13px;")
+    //pronunsをspan要素として生成。すこし小さく表示する。
+    var pronuns = createElement('span')
+    pronuns.setAttribute("style", "font-size:13px;")
 
     //発音の列挙
     //始端の空白
-    var pronuns = document.createTextNode("　");
-    pronun.appendChild(pronuns)
+    var pronun_space = createTextNode("　");
+    pronuns.appendChild(pronun_space)
     //forを回して発音を//に挟んで列挙
     var pronun_queue = json.words[i].entry.pronunciation.length;
     for (let j = 0; j < pronun_queue; j++) {
-        pronuns = document.createTextNode(" /" + json.words[i].entry.pronunciation[j] + "/");
-        pronun.appendChild(pronuns);
+        var pronun = createTextNode(" /" + json.words[i].entry.pronunciation[j] + "/");
+        pronuns.appendChild(pronun);
     };
     //終端の空白
-    pronuns = document.createTextNode("　");
-    pronun.appendChild(pronuns) //pronunの完成
+    pronuns.appendChild(pronun_space) //pronunsの完成
 
-    //tagをspan要素としていっぱい生成。すこし小さく、かつ囲んで表示する。
-    var tags = document.createElement('span') //tagの入るspan
+    //tagsをspan要素として生成。これがいっぱいのtagをかかえる。
+    var tags = createElement('span') //tagの入るspan
+
     var tags_queue = json.words[i].entry.tags.length; //tag数の取得
     for (let j = 0; j < tags_queue; j++) {
-        var tag = document.createElement('span') //tagのspan
+        //tagをspan要素としていっぱい生成。すこし小さく、かつ囲んで表示する。
+        var tag = createElement('span') //tagのspan
+
+        //forを回してtags.idがtagデータに一致する物を探す
         var tagID = json.words[i].entry.tags[j];
         var tag_queue = json.dictionary.tags.length;
-        //forを回してtags.idが一致する物を探す
         for (let k = 0; k < tag_queue; k++) {
             if (json.dictionary.tags[k].id == tagID) {
                 var tagName = json.dictionary.tags[k].name;
             }
         };
-        var tagDisplay = document.createTextNode(tagName);
+        var tagDisplay = createTextNode(tagName);
+
         tag.appendChild(tagDisplay);
-        tag.setAttribute("style", "font-size:13px;border:solid 1px black")
+        tag.setAttribute("style", "font-size:13px;border:solid 1px black");
         tags.appendChild(tag);
     }
     //tagの完成
 
-    var HR = document.createElement('hr');
+    var HR = createElement('hr');//語形末の線
     HR.setAttribute("style", "margin:0px;")
 
-    //entriesへの登録とword_shelfへの登録
+    //entriesへの登録
     entries.appendChild(form)
-    entries.appendChild(pronun)
+    entries.appendChild(pronuns)
     entries.appendChild(tags)
     entries.appendChild(HR) //entriesの完成
 
 
     //----------------------------------------------------------//
-    //次から語義などの部分
+    //語義などの部分
     //contentsをdiv要素として生成。
-    var contents = document.createElement('div');
+    var contents = createElement('div');
     contents.id = "contents";
 
-    var trans_queue = json.words[i].contents.length; //この値が持っている品詞の数
+    var trans_queue = json.words[i].contents.length; //持っている品詞の数
 
     for (let j = 0; j < trans_queue; j++) {
-        var Kthcontent = document.createElement('div') //K番目のdiv要素
+        var Kthcontent = createElement('div') //K番目のdiv要素
 
-        var class_column = document.createElement('span'); //品詞と訳が入る見出しのspan
+        var class_column = createElement('span'); //品詞と訳が入る見出しのspan
         class_column.setAttribute("style", "border-bottom:solid 1px lightgray;")
 
         //品詞名の取り出し
@@ -174,18 +182,18 @@ function constElement(json,i){
 
         Kthcontent.id = className;
 
-        var classDisplay = document.createTextNode(className + "：" + json.words[i].contents[j].trans);
+        var classDisplay = createTextNode(className + "：" + json.words[i].contents[j].trans);
         class_column.appendChild(classDisplay); //classesの完成
 
         //-------------------------------------------------//
         //語義などcontent部分の実装
-        var content_column = document.createElement('div');
+        var content_column = createElement('div');
         content_column.setAttribute("style", "border-left:solid 2px darkgray;margin-left:3px;padding:3px;")
         content_column.id = "content_column";
 
         var content_queue = json.words[i].contents[j].detail.length;
         for (let k = 0; k < content_queue; k++) {
-            var title = document.createElement('span');
+            var title = createElement('span');
             title.setAttribute("style", "border-bottom: solid 1px gray");
             var titleID = json.words[i].contents[j].detail[k].title;
             var title_queue = json.dictionary.titles.length;
@@ -194,13 +202,13 @@ function constElement(json,i){
                     var titleName = json.dictionary.titles[l].name;
                 }
             }
-            var titleDisplay = document.createTextNode(titleName);
+            var titleDisplay = createTextNode(titleName);
             title.appendChild(titleDisplay);
             content_column.appendChild(title);
 
-            var contentBox = document.createElement('div')
+            var contentBox = createElement('div')
             contentBox.id = "contentBox";
-            var contentDisplay = document.createTextNode(
+            var contentDisplay = createTextNode(
                 json.words[i].contents[j].detail[k].text)
             contentBox.appendChild(contentDisplay);
             content_column.appendChild(contentBox);
@@ -267,7 +275,7 @@ ipcRenderer.on('modify_signal',(event,arg)=>{//単語編集時の処理
 
             var reload=constElement(json,targetIndex);
             //console.log("constElement:"+reload)
-            var reload_target=document.getElementById("word"+arg.target_number);
+            var reload_target=getElementById("word"+arg.target_number);
             if(reload_target){
                 var reload_target_next=reload_target.nextElementSibling;
                 //console.log(reload_target_next)
@@ -289,7 +297,7 @@ ipcRenderer.on('modify_signal',(event,arg)=>{//単語編集時の処理
         //ここ、つかわないはずなのでエラーアラートとか出したいけどめんどくさい
             break
         case 2:
-            var reload_target=document.getElementById("word"+arg.target_number)
+            var reload_target=getElementById("word"+arg.target_number)
             console.log("delete:"+arg.target_number)
             reload_target.parentNode.removeChild(reload_target);
 
@@ -299,7 +307,7 @@ ipcRenderer.on('modify_signal',(event,arg)=>{//単語編集時の処理
 
 
 function dic_search(){
-    search_target= document.getElementById("search").value;
+    search_target= getElementById("search").value;
     console.log(search_target)
     var resultJSON={words:[]};
     var word_queue_search=json.words.length;
@@ -324,7 +332,7 @@ function dic_search(){
         dictionary.removeChild(dictionary.firstChild);
     }
     //単語欄の上下境
-    var word_cap = document.createElement('div')
+    var word_cap = createElement('div')
     word_cap.setAttribute("style", "height:0px;border-top:solid 2px gray;");
     dictionary.appendChild(word_cap);
 
