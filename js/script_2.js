@@ -50,8 +50,8 @@ const fs=require('fs')
 
 ipcRenderer.on('target',(event,arg)=>{
     target_number=arg.number;
-    target_path=arg.path;
-    if(!arg.path){
+    target_path=arg.Filepath;
+    if(!arg.Filepath){
         ipcRenderer.send('editor_notOpend')
     }
 

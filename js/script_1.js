@@ -1,6 +1,7 @@
 const electron = require('electron');
 const {ipcRenderer} = electron;
-const fs = require('fs')
+const fs = require('fs');
+const path = require('path');
 
 var DefaultJSON=
     {
@@ -34,7 +35,7 @@ var DefaultJSON=
 
 const editor = getElementById('editor');
 const dictionary = getElementById('dictionary')
-let path=null;
+let Filepath=null;
 
 function createElement(type){return document.createElement(type);}
 function createTextNode(value){return document.createTextNode(value);}
@@ -42,21 +43,24 @@ function getElementById(target){return document.getElementById(target);}
 
 
 ipcRenderer.on('4', function(event, arg) {
+    receiveData(arg);
+})
+
+function receiveData(arg){
+    Filepath = arg[0]; //argを受け取ってFilepathに入れ込む
+    console.log("目標："+Filepath);
     if(json.dictionary.type=="TNN"){
         //つくりかけ、OTM対応の布石
         //まずJSONであることを判定しなければいけないのでは？
-        path = arg[0]; //argを受け取ってpathに入れ込む
-        console.log("目標："+path);
-        ReadDictionaryTNN(path);
+        ReadDictionaryTNN(Filepath);
         console.log("認識："+json.dictionary.type+" "+json.dictionary.version)
         load_words();
     }else{
         console.log("読み込み失敗：不明なファイルタイプです")
-    }
-})
+    }}
 
-function ReadDictionaryTNN(path) {
-    var data = fs.readFileSync(path, 'utf8') //pathの向こうにあるファイルをテキストで読む
+function ReadDictionaryTNN(Filepath) {
+    var data = fs.readFileSync(Filepath, 'utf8') //Filepathにあるファイルをテキストで読む
     json = JSON.parse(data); //jsonでパース
 
     word_count = json.words.length //単語数をカウント
@@ -166,7 +170,7 @@ function constElement(json,i){
     var trans_queue = json.words[i].contents.length; //持っている品詞の数
 
     for (let j = 0; j < trans_queue; j++) {
-        var Kthcontent = createElement('div') //K番目のdiv要素
+        var content = createElement('div') //K番目のdiv要素
 
         var class_column = createElement('span'); //品詞と訳が入る見出しのspan
         class_column.setAttribute("style", "border-bottom:solid 1px lightgray;")
@@ -180,7 +184,7 @@ function constElement(json,i){
             }
         };
 
-        Kthcontent.id = className;
+        content.id = className;
 
         var classDisplay = createTextNode(className + "：" + json.words[i].contents[j].trans);
         class_column.appendChild(classDisplay); //classesの完成
@@ -195,6 +199,7 @@ function constElement(json,i){
         for (let k = 0; k < content_queue; k++) {
             var title = createElement('span');
             title.setAttribute("style", "border-bottom: solid 1px gray");
+
             var titleID = json.words[i].contents[j].detail[k].title;
             var title_queue = json.dictionary.titles.length;
             for (let l = 0; l < title_queue; l++) {
@@ -208,16 +213,15 @@ function constElement(json,i){
 
             var contentBox = createElement('div')
             contentBox.id = "contentBox";
-            var contentDisplay = createTextNode(
-                json.words[i].contents[j].detail[k].text)
+            var contentDisplay = createTextNode(json.words[i].contents[j].detail[k].text)
             contentBox.appendChild(contentDisplay);
             content_column.appendChild(contentBox);
         }
 
-        //Kthcontentへの登録とcontentsへの登録
-        Kthcontent.appendChild(class_column);
-        Kthcontent.appendChild(content_column);
-        contents.appendChild(Kthcontent)
+        //contentへの登録とcontentsへの登録
+        content.appendChild(class_column);
+        content.appendChild(content_column);
+        contents.appendChild(content)
     }
 
     word_shelf.appendChild(entries)
@@ -226,22 +230,15 @@ function constElement(json,i){
     return word_shelf
 }
 
-
-
-
 function debugButton() {
-    while (dictionary.firstChild) {
-        dictionary.removeChild(dictionary.firstChild);
-    }
-    path = "datas/sample.json";
-    ReadDictionaryTNN(path);
-    load_words();
+    var arg=["datas/sample.json"];
+    receiveData(arg);
 }
 
 function OpenEdit(targetID) {
     var editword ={
         "number":targetID,
-        "path":path,
+        "Filepath":Filepath,
     }
     console.log(editword);
     ipcRenderer.send('editor_signal', editword)
@@ -250,7 +247,7 @@ function OpenEdit(targetID) {
 function OpenEditDEV(targetID){
     var editword ={
         "number":targetID,
-        "path":"datas/sample.json",
+        "Filepath":"datas/sample.json",
     }
 
     console.log(editword);
@@ -348,7 +345,7 @@ ipcRenderer.on("creareDIC",function(event,arg){
     console.log(arg)
     fs.writeFileSync(arg, JSON.stringify(DefaultJSON), 'utf8');
 
-    path=arg;
+    //Filepath=arg;
     ReadDictionaryTNN(arg);
     load_words();
 })
@@ -358,15 +355,15 @@ ipcRenderer.on("DICsaveAS",function(event,arg){
     if(json!==null){
         fs.writeFileSync(arg, JSON.stringify(json), 'utf8');
 
-        path=arg;
+        Filepath=arg;
         ReadDictionaryTNN(arg);
         load_words();
     }
 })
 
 ipcRenderer.on("beacon",function(event,arg){
-    if(path){
-        ipcRenderer.send("config",path);
+    if(Filepath){
+        ipcRenderer.send("config",Filepath);
     }else{
         ipcRenderer.send("config",null);
     }
