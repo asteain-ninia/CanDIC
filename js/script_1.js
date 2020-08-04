@@ -57,10 +57,10 @@ function receiveData(arg){
             word_count = json.words.length //単語数をカウント
             console.log("単語数：" + word_count);
             load_words();
-        }else{
+        }else{//jsonであってもTNNでない場合
             console.log("読み込み失敗：JSONであるが、TNNでない。")
         }
-    }else{
+    }else{//jsonでない場合
         console.log("読み込み失敗：JSONでない。")
     }
 }
