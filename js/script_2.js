@@ -1,6 +1,8 @@
 const electron = require('electron');
 const {ipcRenderer}=electron;
 const fs=require('fs')
+const path = require('path');
+
 {//宣言pa
  target_path=null;
 
@@ -54,14 +56,29 @@ ipcRenderer.on('target',(event,arg)=>{
 
 function receiveData(arg){
     target_number=arg.number;
-    target_path=arg.Filepath;
+    Filepath=arg.Filepath;
     if(!arg.Filepath){
         ipcRenderer.send('editor_notOpend')
+    }    console.log("目標："+Filepath);
+    console.log("形式確認："+path.extname(Filepath));
+    if(path.extname(Filepath)==".json"){//jsonであることを判定
+        ReadDictionaryJSON(Filepath);
+        if(json.dictionary.type=="TNN"){//jsonはjsonでもTNNであることを確認
+            console.log("認識　TNN-JSON："+json.dictionary.version)
+            word_count = json.words.length //単語数をカウント
+            console.log("単語数：" + word_count);
+            load_word(target_number);
+        }else{//jsonであってもTNNでない場合
+            console.log("読み込み失敗：JSONであるが、TNNでない。")
+        }
+    }else{//jsonでない場合
+        console.log("読み込み失敗：JSONでない。")
     }
+}
 
-    var data = fs.readFileSync(target_path, 'utf8') //pathの向こうにあるファイルをテキストで読む
-    json = JSON.parse(data); //jsonでパース(ここ二行scrpt_1と共通)
-    load_word(target_number);
+function ReadDictionaryJSON(Filepath) {
+     var data = fs.readFileSync(Filepath, 'utf8') //Filepathにあるファイルをテキストで読む
+    json = JSON.parse(data); //jsonでパース
 }
 
 function load_word(target_number){
@@ -70,7 +87,8 @@ function load_word(target_number){
         tags_queue_dictionary=dictionary.tags.length;//ショートカット作成
         classes_queue_dictionary=dictionary.classes.length;//ショートカット作成
         titles_queue_dictionary=dictionary.titles.length//ショートカット作成
-        console.log("読み込み情報全容："+json);
+        console.log("読み込み情報全容：");
+        console.log(json)
 
     if(target_number!=-1){
 
