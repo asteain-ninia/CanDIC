@@ -23,13 +23,13 @@ const fs=require('fs')
  transID=0;
 
 
- wordID=document.getElementById("wordID");
- formBox=document.getElementById("formBox");
- pronunBox=document.getElementById('pronunBox');
- tagBox=document.getElementById("tagBox");
- charBox=document.getElementById("charBox");
+ wordID=getElementById("wordID");
+ formBox=getElementById("formBox");
+ pronunBox=getElementById('pronunBox');
+ tagBox=getElementById("tagBox");
+ charBox=getElementById("charBox");
 
- contentsBox=document.getElementById('contentsBox')
+ contentsBox=getElementById('contentsBox')
 
  tags_queue_dictionary=0;
 
@@ -44,11 +44,15 @@ const fs=require('fs')
  detail_queue=0;
 }
 
-{//ショートカットpa
- function createElement(x){return document.createElement(x)}
-}
+function createElement(type){return document.createElement(type);}
+function createTextNode(value){return document.createTextNode(value);}
+function getElementById(target){return document.getElementById(target);}
 
 ipcRenderer.on('target',(event,arg)=>{
+    receiveData(arg);
+});
+
+function receiveData(arg){
     target_number=arg.number;
     target_path=arg.Filepath;
     if(!arg.Filepath){
@@ -58,15 +62,15 @@ ipcRenderer.on('target',(event,arg)=>{
     var data = fs.readFileSync(target_path, 'utf8') //pathの向こうにあるファイルをテキストで読む
     json = JSON.parse(data); //jsonでパース(ここ二行scrpt_1と共通)
     load_word(target_number);
-});
+}
 
 function load_word(target_number){
-        dictionary=json.dictionary;
+        dictionary=json.dictionary;//ショートカット作成
 
-        tags_queue_dictionary=dictionary.tags.length;
-        classes_queue_dictionary=dictionary.classes.length;
-        titles_queue_dictionary=dictionary.titles.length
-        console.log(json);
+        tags_queue_dictionary=dictionary.tags.length;//ショートカット作成
+        classes_queue_dictionary=dictionary.classes.length;//ショートカット作成
+        titles_queue_dictionary=dictionary.titles.length//ショートカット作成
+        console.log("読み込み情報全容："+json);
 
     if(target_number!=-1){
 
@@ -129,7 +133,7 @@ function tag_show(){
         var tag=createElement('span');
         tag.className="tag";
         tag.id="tag"+dictionary.tags[i].id;
-        tag_value=document.createTextNode(dictionary.tags[i].name);
+        tag_value=createTextNode(dictionary.tags[i].name);
         tag.appendChild(tag_value);
         tag.setAttribute("onclick","tag_switch("+dictionary.tags[i].id+")")
 
@@ -217,7 +221,7 @@ function entry_load(customID,i){
 
 //tagIDがiのタグがデータにマッチするかを検査
 function tag_load(i){
-    var tag_target=document.getElementById("tag"+i);
+    var tag_target=getElementById("tag"+i);
     console.log("i="+i)//これが本来i=6まで行くはずなんだけど、なぜか4までしかいかない
     console.log("<--------->")
     if(tag_target){
@@ -238,7 +242,7 @@ function tag_load(i){
 
 //タグ状態の変更。(これそのうちtag_loadに一本化できるかも)
 function tag_switch(tag_targetID){
-    var tag_target=document.getElementById("tag"+tag_targetID);
+    var tag_target=getElementById("tag"+tag_targetID);
     tag_target_flag=tag_target.getAttribute("flag")
     if(tag_target_flag=="true"){
         tag_target.setAttribute("flag","false");
@@ -273,7 +277,7 @@ function contents_load(i){
     for(j=0;j<classes_queue_dictionary;j++){//class設定ループ
         var option=createElement('option')
         option.value=dictionary.classes[j].id;//value設定
-        option.appendChild(document.createTextNode(dictionary.classes[j].name))//表示名設定
+        option.appendChild(createTextNode(dictionary.classes[j].name))//表示名設定
         class_selecion.appendChild(option);
         if(i!=-1){
             if(classID==dictionary.classes[j].id){
@@ -370,7 +374,7 @@ function contents_load(i){
 
             var option=createElement('option')
             option.value=dictionary.titles[k].id;//value設定
-            option.appendChild(document.createTextNode(dictionary.titles[k].name))//表示名設定
+            option.appendChild(createTextNode(dictionary.titles[k].name))//表示名設定
             title_selecion.appendChild(option);
             if(i!=-1){
                 if(classID==dictionary.classes[k].id){
@@ -434,7 +438,7 @@ function contents_load(i){
 //どの窓がremoveを行ったかを受け取って、それをですとろーい
 function remove(target){
     console.log("removed:"+target)
-    var remove_target=document.getElementById(target)
+    var remove_target=getElementById(target)
     remove_target.parentNode.removeChild(remove_target);
 }
 
@@ -446,7 +450,7 @@ function add_button(customID){
 }
 
 function add_trans(targetBox,i){
-    target=document.getElementById(targetBox)
+    target=getElementById(targetBox)
     
     var contentID_current=target.getAttribute("contentid");
     var transID_current=target.getAttribute("transid");
@@ -478,7 +482,7 @@ function add_trans(targetBox,i){
 }
 
 function add_detail(targetBox,i){
-    target=document.getElementById(targetBox)
+    target=getElementById(targetBox)
 
     var contentID_current=target.getAttribute("contentid");
     var detailID_current=target.getAttribute("detailid");
@@ -499,7 +503,7 @@ function add_detail(targetBox,i){
 
         var option=createElement('option')
         option.value=dictionary.titles[k].id;//value設定
-        option.appendChild(document.createTextNode(dictionary.titles[k].name))//表示名設定
+        option.appendChild(createTextNode(dictionary.titles[k].name))//表示名設定
         title_selecion.appendChild(option);
         
     }
@@ -561,7 +565,7 @@ function agree(){//保存処理
 
     entry.form=[];//form初期化
     for(let i=0;i<spellID;i++){//spellループ
-        var spelling_value=document.getElementById("spell"+i);
+        var spelling_value=getElementById("spell"+i);
         if(spelling_value){if(spelling_value.value){
                 entry.form.push(spelling_value.value);
             }}
@@ -569,7 +573,7 @@ function agree(){//保存処理
 
     entry.pronunciation=[];//pronun初期化
     for(let i=0;i<pronunID;i++){//pronunループ
-        var pronun_value=document.getElementById("pronun"+i);
+        var pronun_value=getElementById("pronun"+i);
         if(pronun_value){if(pronun_value.value){
             entry.pronunciation.push(pronun_value.value);
         }}
@@ -577,7 +581,7 @@ function agree(){//保存処理
 
     entry.tags=[];//tags初期化
     for(let i=0;i<tagID;i++){//tagsループ
-        var tag_element=document.getElementById("tag"+i);
+        var tag_element=getElementById("tag"+i);
         if(tag_element){
             if(tag_element.getAttribute("flag")){
                 if(tag_element.getAttribute("flag")=="true"){
@@ -589,7 +593,7 @@ function agree(){//保存処理
 
     entry.char=[];//char初期化
     for(let i=0;i<charID;i++){//charループ
-        var char_value=document.getElementById("char"+i);
+        var char_value=getElementById("char"+i);
         if(char_value){if(char_value.value){
             entry.char.push(char_value.value);
         }}
@@ -604,7 +608,7 @@ function agree(){//保存処理
             "trans": [],
             "detail":[]
             }
-        var class_value=document.getElementById("class"+i)
+        var class_value=getElementById("class"+i)
         if(class_value){if(class_value.value){
 
             contents[i].class=[];//class初期化
@@ -612,21 +616,21 @@ function agree(){//保存処理
             console.log(contents[i].class)
 
             contents[i].trans=[];//trans初期化
-            var trans_save_queue=document.getElementById("content"+i+"transBox").getAttribute("transid")
+            var trans_save_queue=getElementById("content"+i+"transBox").getAttribute("transid")
             for(let j=0;j<trans_save_queue;j++){//transループ
-                var trans_value=document.getElementById("content"+i+"trans"+j);
+                var trans_value=getElementById("content"+i+"trans"+j);
                 if(trans_value){if(trans_value.value){
                     contents[i].trans.push(trans_value.value);
                 }}
             }console.log(contents[i].trans);
 
-            var detail_save_queue=document.getElementById("content"+i+"detailBox").getAttribute("detailid")
+            var detail_save_queue=getElementById("content"+i+"detailBox").getAttribute("detailid")
             for(let j=0;j<detail_save_queue;j++){//detailループ
 
                 contents[i].detail=[];
-                var detail_select_value=document.getElementById("content"+i+"detail"+j+"select");
+                var detail_select_value=getElementById("content"+i+"detail"+j+"select");
                 if(detail_select_value){if(detail_select_value.value){
-                    var detail_text_value=document.getElementById("content"+i+"detail"+j+"text");
+                    var detail_text_value=getElementById("content"+i+"detail"+j+"text");
                     if(detail_text_value){if(detail_text_value.value){
 
                         var detail_cash={
