@@ -82,43 +82,41 @@ function ReadDictionaryJSON(Filepath) {
 }
 
 function load_word(target_number){
-        dictionary=json.dictionary;//ショートカット作成
+    dictionary=json.dictionary;//ショートカット作成
+    //辞書メタ情報のショートカット
+    tags_queue_dictionary=dictionary.tags.length;//ショートカット作成
+    classes_queue_dictionary=dictionary.classes.length;//ショートカット作成
+    titles_queue_dictionary=dictionary.titles.length//ショートカット作成
+    console.log("読み込み情報全容：");
+    console.log(json)
 
-        tags_queue_dictionary=dictionary.tags.length;//ショートカット作成
-        classes_queue_dictionary=dictionary.classes.length;//ショートカット作成
-        titles_queue_dictionary=dictionary.titles.length//ショートカット作成
-        console.log("読み込み情報全容：");
-        console.log(json)
-
-    if(target_number!=-1){
-
-        var targetIndex=0;
+    if(target_number!=-1){//単語が新規作成でないとき
         words_queue=json.words.length;
-        for(let i=0;i<words_queue;i++){
+        for(let i=0;i<words_queue;i++){//単語のインデックス番号を取得
             if(json.words[i].entry.id===target_number){
-                targetIndex=i;
+                var targetIndex=i;
             }
         }
-        wordID.innerHTML="ID:"+target_number;
+        wordID.innerHTML="ID："+target_number;//ID表示
 
-        entry=json.words[targetIndex].entry;
+        entry=json.words[targetIndex].entry;//entryへのショートカット
         //各データの長さチェック
         forms_queue=entry.form.length;
         pronuns_queue=entry.pronunciation.length;
         tags_queue=entry.tags.length;
         chars_queue=entry.char.length;
         
-        contents=json.words[targetIndex].contents
+        contents=json.words[targetIndex].contents//contentsへのショートカット
         contents_queue=contents.length
 
-        tag_show()
+        tag_show()//tagsに応じた要素の設置
 
-        customID=1;//語形の読み込み
+        customID=1;//formsの読み込み
         for(let i=0; i<forms_queue; i++){
             entry_load(customID,i);
         }
 
-        customID=2;//撥音の読み込み
+        customID=2;//pronunの読み込み
         for(let i=0; i<pronuns_queue;i++){
             entry_load(customID,i);
         }
@@ -140,7 +138,7 @@ function load_word(target_number){
             contents_load(i);
         }
 
-    }else{//新規作成時の画面
+    }else{//単語が新規作成であるとき
         wordID.innerHTML="NEW WORD";
         tag_show()
     }
@@ -151,11 +149,10 @@ function tag_show(){
         var tag=createElement('span');
         tag.className="tag";
         tag.id="tag"+dictionary.tags[i].id;
-        tag_value=createTextNode(dictionary.tags[i].name);
-        tag.appendChild(tag_value);
+        tag.appendChild(createTextNode(dictionary.tags[i].name));
         tag.setAttribute("onclick","tag_switch("+dictionary.tags[i].id+")")
 
-        //tag.setAttribute("flag","false");
+        tag.setAttribute("flag","false");
         tag.setAttribute("style","background-color:gray;")
 
         tagBox.appendChild(tag);
@@ -261,7 +258,7 @@ function tag_load(i){
 //タグ状態の変更。(これそのうちtag_loadに一本化できるかも)
 function tag_switch(tag_targetID){
     var tag_target=getElementById("tag"+tag_targetID);
-    tag_target_flag=tag_target.getAttribute("flag")
+    var tag_target_flag=tag_target.getAttribute("flag")
     if(tag_target_flag=="true"){
         tag_target.setAttribute("flag","false");
         tag_target.setAttribute("style","background-color:gray;")
