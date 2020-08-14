@@ -24,7 +24,6 @@ const path = require('path');
  contentID=0;
  transID=0;
 
-
  wordID=getElementById("wordID");
  formBox=getElementById("formBox");
  pronunBox=getElementById('pronunBox');
@@ -55,11 +54,12 @@ ipcRenderer.on('target',(event,arg)=>{
 });
 
 function receiveData(arg){
-    target_number=arg.number;
+    target_number=arg.number;//目標単語番号
     Filepath=arg.Filepath;
     if(!arg.Filepath){
         ipcRenderer.send('editor_notOpend')
-    }    console.log("目標："+Filepath);
+    }
+    console.log("目標："+Filepath);
     console.log("形式確認："+path.extname(Filepath));
     if(path.extname(Filepath)==".json"){//jsonであることを判定
         ReadDictionaryJSON(Filepath);
@@ -67,6 +67,7 @@ function receiveData(arg){
             console.log("認識　TNN-JSON："+json.dictionary.version)
             word_count = json.words.length //単語数をカウント
             console.log("単語数：" + word_count);
+            console.log("単語番号："+target_number)
             load_word(target_number);
         }else{//jsonであってもTNNでない場合
             console.log("読み込み失敗：JSONであるが、TNNでない。")
@@ -84,9 +85,9 @@ function ReadDictionaryJSON(Filepath) {
 function load_word(target_number){
     dictionary=json.dictionary;//ショートカット作成
     //辞書メタ情報のショートカット
-    tags_queue_dictionary=dictionary.tags.length;//ショートカット作成
-    classes_queue_dictionary=dictionary.classes.length;//ショートカット作成
-    titles_queue_dictionary=dictionary.titles.length//ショートカット作成
+    tags_queue_dictionary       =dictionary.tags.length;//ショートカット作成
+    classes_queue_dictionary    =dictionary.classes.length;//ショートカット作成
+    titles_queue_dictionary     =dictionary.titles.length//ショートカット作成
     console.log("読み込み情報全容：");
     console.log(json)
 
@@ -95,6 +96,7 @@ function load_word(target_number){
         for(let i=0;i<words_queue;i++){//単語のインデックス番号を取得
             if(json.words[i].entry.id===target_number){
                 var targetIndex=i;
+                console.log("目録番号："+targetIndex)
             }
         }
         wordID.innerHTML="ID："+target_number;//ID表示
@@ -156,7 +158,7 @@ function tag_show(){
         tag.setAttribute("style","background-color:gray;")
 
         tagBox.appendChild(tag);
-        tagID++
+        //tagID++
         lastTagID=dictionary.tags[i].id;
         console.log("lastTagID="+lastTagID)
     }
@@ -164,7 +166,6 @@ function tag_show(){
 
 function entry_load(customID,i){
     var element=createElement('div');//form要素
-
 
     var column_value=createElement('input');//窓
     column_value.type="text";
