@@ -78,7 +78,7 @@ function receiveData(arg){
 }
 
 function ReadDictionaryJSON(Filepath) {
-     var data = fs.readFileSync(Filepath, 'utf8') //Filepathにあるファイルをテキストで読む
+    var data = fs.readFileSync(Filepath, 'utf8') //Filepathにあるファイルをテキストで読む
     json = JSON.parse(data); //jsonでパース
 }
 
