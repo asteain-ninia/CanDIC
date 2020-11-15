@@ -37,19 +37,12 @@
 					],
 					"detail": [
 						{
-							"title": "2",
+							"title": 2,
 							"text": "最初に制定された単語。R03XXXX"
 						}
 					]
 				}
-			],
-			"variations": [
-				{
-					"title": "",
-					"form": ""
-				}
-			],
-			"relations": []
+			]
 		},
 		{
 			"entry": {
@@ -76,19 +69,17 @@
 					],
 					"detail": [
 						{
-							"title": "2",
+							"title": 2,
 							"text": "最古級。"
 						}
 					]
 				}
-			],
-			"variations": [],
-			"relations": []
+			]
 		}
 	],
 	"dictionary": {
 		"type": "TNN",
-		"version": "beta 1.1",
+		"version": 0.3,
 		"language": "ena",
 		"tags": [
 			{
