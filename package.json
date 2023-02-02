@@ -9,7 +9,7 @@
 	"main": "main.js",
 	"license": "わからない",
 	"dependencies": {
-		"jszip": "^3.5.0"
+		"jszip": "^3.8.0"
 	},
 	"devDependencies": {
 		"electron": "^8.5.3",
